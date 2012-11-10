@@ -1,0 +1,21 @@
+application: site
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: false
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: "msmcyc.settings"
+
+libraries:
+- name: django
+  version: "1.4"
+
+handlers:
+- url: /static
+  static_dir: static
+- url: /(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png)
+  static_files: static/\1 #sync those alternations
+  upload: static/(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png)
+- url: .*
+  script: main.py
