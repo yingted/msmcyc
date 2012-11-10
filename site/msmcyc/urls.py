@@ -9,11 +9,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'msmcyc.views.home', name='home'),
     # url(r'^msmcyc/', include('msmcyc.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^add_event',views.add_event),
+    url(r'^contact',views.contact),
+    url(r'^events',views.events),
     url(r'',views.index),
 )

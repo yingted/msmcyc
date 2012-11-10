@@ -2,27 +2,31 @@
 {% block title %}Events{% endblock %}
 {% block description %},events{% endblock %}
 {% block content %}
-                <article>
-                    <header>
-                        <h1>events</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec.</p>
-                    </header>
-                    <section>
-                        <h2>article section h2</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
-                    </section>
-                    <section>
-                        <h2>article section h2</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
-                    </section>
-                    <footer>
-                        <h3>article footer h3</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
-                    </footer>
-                </article>
-
-                <aside>
-                    <h3>aside</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices.</p>
-                </aside>
+	<article>
+		<header>
+			<h1>events</h1>
+			<p>Sign up! Please?</p>
+		</header>
+		{% for event in events %}
+			<section>
+				<h2><a href="{{ event.link }}">{{ event.name }}</a></h2>
+				<p>{{ event.html }}</p>
+				<h3><a href="{{ event.signup }}">Sign up for {{ event.name }}</a></h3>
+				{% if event.stats %}
+					<h3>Signup stats</h3>
+					<p>{{ event.stats }}</p>
+				{% endif %}
+			</section>
+		{% empty %}
+			<section>
+				<h2>Sorry</h2>
+				<p>There are no events in the near future.</p>
+			</section>
+		{% endfor %}
+		<footer>
+			<h3>check back regularly</h3>
+			<p>we may post more stuff</p>
+		</footer>
+	</article>
 {% endblock %}
+{# vim: set ts=4 sw=4: #}
