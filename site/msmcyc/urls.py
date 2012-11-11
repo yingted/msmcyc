@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'msmcyc.views.home', name='home'),
     # url(r'^msmcyc/', include('msmcyc.foo.urls')),
-    url(r'^add_event',views.add_event),
+    url(r'^add_(event|update)',views.add_entity),
     url(r'^contact',views.contact),
     url(r'^events',views.events),
     url(r'',views.index),
