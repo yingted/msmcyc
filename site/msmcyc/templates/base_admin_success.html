@@ -1,0 +1,14 @@
+{% extends "base_home.html" %}
+{% block title %}{{ success }}{% endblock %}
+{% block content %}
+	<article>
+		<header>
+			<h1>{{ success }}</h1>
+			<h2>Submitted form:</h2>
+			<form>
+				{{ form.as_p }}
+			</form>
+		</header>
+	</article>
+{% endblock %}
+{# vim: set ts=4 sw=4: #}
