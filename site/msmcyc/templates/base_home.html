@@ -33,8 +33,8 @@
 			</header>
 		</div>
 
-		<div class="main-container">
-			<div class="main wrapper clearfix">
+		<div class="main-container wrapper">
+			<div class="main clearfix">
 				{% block content %}
 					<article>
 						<header>
@@ -55,15 +55,18 @@
 						</footer>
 					</article>
 				{% endblock %}
-{% include "base_updates.html" %}
+				{% include "base_updates.html" %}
 			</div> <!-- #main -->
+			<div class="footer-push"></div>
 		</div> <!-- #main-container -->
 
 		<div class="footer-container">
 			<footer class="wrapper">
-				{% block footer %}
-					<h3>footer</h3>
-				{% endblock %}
+				<div class="fall">
+					{% block footer %}
+						<h3>footer</h3>
+					{% endblock %}
+				</div>
 			</footer>
 		</div>
 

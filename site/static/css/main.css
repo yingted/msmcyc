@@ -1,6 +1,7 @@
 /* ==========================================================================
    HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
    ========================================================================== */
+/* TODO optimize to direct-descendant */
 
 html,
 button,
@@ -77,19 +78,41 @@ body{
 	border-bottom:20px solid #909093;
 }
 
-.footer-container,
+.main{
+	background:url("/static/img/header.png");
+	background-position:center top;
+	background-repeat:no-repeat;
+}
+
 .main aside{
 	border-top:20px solid #909093;
 }
 
 .header-container,
-.footer-container,
 .main aside{
 	background:#dd060b;
 }
 
 .title{
 	color:white;
+}
+
+/* ===================
+	ALL:header/footer
+   =================== */
+
+body,html{
+	height:100%;
+}
+div.main-container{
+	min-height:100%;
+	height:auto!important;
+	height:100%;
+	margin:0 auto -161px;
+}
+div.footer-container,.footer-push{
+	height:161px;
+	position:relative;
 }
 
 /* ==============
@@ -111,6 +134,8 @@ nav a{
 	font-weight:bold;
 
 	color:white;
+}
+nav a:hover{
 	background:#909093;
 }
 
@@ -141,8 +166,17 @@ nav a:hover{
 }
 
 .footer-container footer{
+	background:url("/static/img/footer.png");
+	background-position:center bottom;
+	background-repeat:no-repeat;
 	color:white;
 	padding:20px 0;
+	height:121px;
+	position:relative;
+}
+.fall{
+	position:absolute;
+	bottom:0;
 }
 
 /* ===============
@@ -222,6 +256,11 @@ nav a:hover{
 		   -moz-box-shadow:0 5px 10px #aaa;
 				box-shadow:0 5px 10px #aaa;
 	}
+	.main-container{
+		-webkit-box-shadow:0 7px 5px 2px #aaa;
+		   -moz-box-shadow:0 7px 5px 2px #aaa;
+				box-shadow:0 7px 5px 2px #aaa;
+	}
 
 /* ============
 	WIDE:Menu
@@ -248,6 +287,11 @@ nav a:hover{
 	.main aside{
 		float:right;
 		width:28%;
+	}
+	.fall,
+	.main{
+		padding-left:20px;
+		padding-right:20px;
 	}
 }
 
