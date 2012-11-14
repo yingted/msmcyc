@@ -209,6 +209,9 @@ ul.errorlist{
 		padding:10px 0;
 		font-size:.7em;
 	}
+	.header-container>header a>img{
+		max-height:24px;
+	}
 }
 
 @media only screen and (min-width:480px){
@@ -230,6 +233,9 @@ ul.errorlist{
 
 	nav li:last-child a{
 		margin-right:0;
+	}
+	.header-container>header>h1{
+		margin:0;
 	}
 
 /* ========================
