@@ -126,7 +126,6 @@ nav ul{
 
 nav a{
 	display:block;
-	margin-bottom:10px;
 	padding:15px 0;
 
 	text-align:center;
@@ -191,23 +190,26 @@ nav a:hover{
    Author's custom styles
    ========================================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+ul.errorlist{
+	float:right;
+	margin:0;
+}
 
 /* ==========================================================================
    Media Queries
    ========================================================================== */
+
+@media only screen and (max-width:479px){
+	textarea{
+		max-width:90%;
+	}
+	.header-container>header a{
+		float:left;
+		width:25%;
+		padding:10px 0;
+		font-size:.8em;
+	}
+}
 
 @media only screen and (min-width:480px){
 
@@ -220,7 +222,6 @@ nav a:hover{
 		width:27%;
 		margin:0 1.7%;
 		padding:25px 2%;
-		margin-bottom:0;
 	}
 
 	nav li:first-child a{
@@ -438,14 +439,5 @@ nav a:hover{
 	h3{
 		page-break-after:avoid;
 	}
-}
-
-/* ==========================================================================
-   Custom styles
-   ========================================================================== */
-
-ul.errorlist{
-	float:right;
-	margin:0;
 }
 /* vim:set ts=4 sw=4:*/
