@@ -19,7 +19,14 @@
 		<!--[if lt IE 7]>
 			<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
 		<![endif]-->
-
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
 		<div class="header-container">
 			<header class="wrapper clearfix">
 				<h1 class="title"><a href="/"><img src="/static/img/logo.png" alt="logo"></a></h1>
@@ -56,6 +63,9 @@
 					</article>
 				{% endblock %}
 				{% include "base_updates.html" %}
+				<aside>
+					<div class="fb-like-box" data-href="http://www.facebook.com/MsMississaugaYouthCommittee" data-width="292" data-show-faces="true" data-border-color="#dd060b" data-stream="true" data-header="true"></div>
+				</aside>
 			</div> <!-- #main -->
 			<div class="footer-push"></div>
 		</div> <!-- #main-container -->

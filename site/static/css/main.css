@@ -96,6 +96,14 @@ body{
 .title{
 	color:white;
 }
+.fb-like-box{
+	background:#fff;
+	margin-left:-5.555555555555555%;
+	margin-right:-5.555555555555555%;
+}
+.fb_iframe_widget span{
+	display:block!important;
+}
 
 /* ===================
 	ALL:header/footer
@@ -162,6 +170,7 @@ nav a:hover{
 .main aside{
 	color:white;
 	padding:0px 5% 10px;
+	margin-bottom:20px;
 }
 
 .footer-container footer{
