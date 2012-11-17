@@ -98,6 +98,13 @@ body{
 .fb_iframe_widget span{
 	display:block!important;
 }
+a{
+	color:orange;
+}
+a:hover{
+	color:white;
+	background-color:orange;
+}
 
 /* ===================
 	ALL:header/footer
