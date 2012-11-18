@@ -20,12 +20,12 @@
 			<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
 		<![endif]-->
 		<div id="fb-root"></div>
-		<script>function(d,s,id){
-			var js=d.createElement(s),fjs=d.getElementsByTagName(s)[0];
-			js.id=id;js.async=true;
-			js.src="//connect.facebook.net/en_GB/all.js";
-			fjs.parentNode.insertBefore(js,fjs);
-		}(document,"script","facebook-jssdk");</script>
+		<script>(function(d,s){
+		  var js=d.createElement(s),fjs=d.getElementsByTagName(s)[0];
+		  js.id="facebook-jssdk";js.async=true;
+		  js.src="//connect.facebook.net/en_GB/all.js#xfbml=1";
+		  fjs.parentNode.insertBefore(js,fjs);
+		}(document,"script"));</script>
 		<div class="header-container">
 			<header class="wrapper clearfix">
 				<h1 class="title"><a href="/"><img src="/static/img/logo.png" alt="logo"></a></h1>
