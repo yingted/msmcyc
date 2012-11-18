@@ -42,7 +42,8 @@
 		<div class="main-container wrapper">
 			<div class="main clearfix">
 				{% block content %}{% endblock %}
-				{% include "base_updates.html" %}
+				{% load extras %}
+				{% updates 3 %}
 				<aside>
 					<div class="fb-like-box" data-href="http://www.facebook.com/MsMississaugaYouthCommittee" data-width="292" data-show-faces="true" data-border-color="#dd060b" data-stream="true" data-header="true"></div>
 				</aside>
