@@ -8,14 +8,14 @@ from django.template import TemplateDoesNotExist
 from django.shortcuts import redirect
 import re
 useful=re.compile(r'^/(?!base_)([^\.]*?)(?:\.html)?$')
+def updates():
+	return Update.all().order("-added").run(limit=3)
 def index(request):
 	match=useful.match(request.path)
 	if match:
 		try:
 			return render(request,(match.group(1)or"index")+".html",{
-				"updates":Update.all()
-					.order("-added")
-					.run(limit=3),
+				"updates":updates(),
 			})
 		except TemplateDoesNotExist as e:
 			logging.error(e)
@@ -56,16 +56,20 @@ def contact(request):
 			if form.cleaned_data["cc_sender"]:
 				message.cc="%s <%s>"%tuple(map(form.cleaned_data.get,("name","sender")))
 			message.send()
-			return direct_to_template(request,"contact_success.html")
+			return render(request,"contact_success.html",{
+				"updates":updates(),
+			})
 	else:
 		form=ContactForm()
 	return render(request,"contact.html",{
+		"updates":updates(),
 		"form":form,
 	})
 
 from datetime import datetime
 def events(request):
 	return render(request,"events.html",{
+		"updates":updates(),
 		"events":Event.all()
 			.filter("when >",datetime.now())
 			.order("when")

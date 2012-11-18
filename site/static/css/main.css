@@ -98,12 +98,19 @@ body{
 .fb_iframe_widget span{
 	display:block!important;
 }
-a{
+a:link{
+	color:#12c;
+}
+a:active,a:focus{
 	color:orange;
 }
+a:visited{
+	color:#b7f;
+}
 a:hover{
-	color:white;
-	background-color:orange;
+	color:#70f;
+	background-color:#ffc;
+	border-radius:2px;
 }
 
 /* ===================
@@ -143,7 +150,7 @@ nav a{
 
 	color:white;
 }
-nav a:hover{
+nav a:hover,nav a:focus{
 	background:#000;
 }
 
