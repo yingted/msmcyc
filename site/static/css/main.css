@@ -109,9 +109,12 @@ a:visited{
 }
 a:hover{
 	color:#70f;
-	background-color:#ffc;
-	border-radius:2px;
 }
+a:hover,
+.click:hover{
+	background-color:#ffc;
+}
+	border-radius:2px;
 h1.title a:hover{
 	background-color:transparent;
 }

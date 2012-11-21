@@ -11,14 +11,38 @@
 			<h2>article section h2</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
 		</section>
-		<section>
-			<h2>article section h2</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
+		<section class="toggle-container">
+			<h2>Meet the team</h2>
+			<p>Click any name for more information.</p>
+			<h3>Angela Chao</h3>
+			<p>My name is Angela Chao.</p>
+			<h3>Allison Chen</h3>
+			<p>My name is Allison Chen.</p>
+			<h3>Cathy Li</h3>
+			<p>Cathy is currently completing her senior year in the International Baccalaureate Program. Aside from her involvement with the MS Society of Canada, she actively volunteers at her local hospital and is a Shad Valley Queen’s 2012 alumnus. As an avid musician and athlete, she teaches piano, and loves to be actively competing in sports, such as volleyball and soccer. On her long journey ahead, she hopes to inspire others to do things beyond their comfort zones.</p>
+			<h3>Jessie Liu</h3>
+			<p>My name is Jessie Liu</p>
+			<h3>Neil Liu</h3>
+			<p>Neil Liu is a vocal Grade 10 member in the community and attending the IB Program. As an active figure in the community, he was participated in many social events, as well as volunteered. I think the most important thing about MSMYC is the cooperation of students from different schools to accomplish a task and I really hope that we can make a difference. In my opinion, we youth can greatly benefit from participating in a community effort to support the excellent work of researchers and use this opportunity to get closer with our community, take an active role in an organization, exercise our leadership capabilities, and acquiring the skills we will need to apply throughout our lives. Raising money for a significant cause like the search for a cure for multiple sclerosis is, in my view, the perfect opportunity for aspiring leaders to shine.</p>
+			<h3>Ted Ying</h3>
+			<p>I&#8217;m a 12<sup>th</sup>-grader at The Woodlands School and I maintain this website.</p>
 		</section>
 		<footer>
 			<h3>article footer h3</h3>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
 		</footer>
 	</article>
+{% endblock %}
+{% block postscript %}
+	<script type="text/javascript">
+		$(".toggle-container>h3").click(function(){
+			$(this).next().toggle("fast");
+		}).addClass("click").next().hide();
+	</script>
+	<style>
+		.toggle-container>h3{
+			cursor:pointer;
+		}
+	</style>
 {% endblock %}
 {# vim: set ts=4 sw=4: #}
