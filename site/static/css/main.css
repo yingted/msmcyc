@@ -110,13 +110,19 @@ a:visited{
 a:hover{
 	color:#70f;
 }
+a.click{
+	color:inherit;
+}
 a:hover,
 .click:hover{
 	background-color:#ffc;
-}
 	border-radius:2px;
-h1.title a:hover{
-	background-color:transparent;
+}
+h1.title a{
+	background-color:transparent!important;
+}
+header a{
+	color:#fff!important;
 }
 
 /* ===================

@@ -35,9 +35,17 @@
 {% endblock %}
 {% block postscript %}
 	<script type="text/javascript">
-		$(".toggle-container>h3").click(function(){
+		(function($){//WAI-ARIA
+			$.fn.button=function(f){
+				return this.wrapInner("<a href=\"#\" class=\"click\">").children().click(function(e){
+					e.preventDefault();
+					return f.apply(this.parentNode,arguments);
+				}).parent();
+			}
+		})(jQuery);
+		$(".toggle-container>h3").button(function(){
 			$(this).next().toggle("fast");
-		}).addClass("click").next().hide();
+		}).next().hide();
 	</script>
 	<style>
 		.toggle-container>h3{
