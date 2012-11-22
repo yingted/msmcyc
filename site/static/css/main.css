@@ -98,6 +98,10 @@ body{
 .fb_iframe_widget span{
 	display:block!important;
 }
+a.external{
+	background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=") no-repeat scroll right center transparent;/*Copyright mediawiki TODO replace*/
+	padding-right:13px;
+}
 a:link{
 	color:#12c;
 }
@@ -111,7 +115,10 @@ a:hover{
 	color:#70f;
 }
 a.click{
-	color:inherit;
+	color:#059;
+}
+.click{
+	cursor:pointer;
 }
 a:hover,
 .click:hover{
@@ -121,8 +128,16 @@ a:hover,
 h1.title a{
 	background-color:transparent!important;
 }
-header a{
+nav>header a{
 	color:#fff!important;
+}
+blockquote{
+	border:2px dashed #dd060b;
+	background-color:#eee;
+	padding:1em;
+}
+blockquote>footer:before{
+	content:"\2014\a0";
 }
 
 /* ===================
