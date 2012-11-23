@@ -136,9 +136,6 @@ blockquote{
 	background-color:#eee;
 	padding:1em;
 }
-blockquote>footer:before{
-	content:"\2014\a0";
-}
 
 /* ===================
 	ALL:header/footer
