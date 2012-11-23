@@ -67,7 +67,7 @@ def events(request):
 			.order("when"),
 	})
 
-from google.appengine.ext.db.djangoforms import ModelForm
+from legacy.google.appengine.ext.db.djangoforms import ModelForm
 from google.appengine.api import users
 def add_entity(request,what):
 	class AddEntityForm(ModelForm):
