@@ -264,9 +264,11 @@ ul.errorlist{
 
 	nav a{
 		float:left;
-		width:27%;
 		margin:0 1.7%;
-		padding:25px 2%;
+		padding:25px 1%;
+	}
+	nav{
+		width:15.5em;
 	}
 
 	nav li:first-child a{
@@ -284,12 +286,16 @@ ul.errorlist{
 	INTERMEDIATE:IE Fixes
    ======================== */
 
-	nav ul li{
+	h1.title,
+	nav>ul>li{
 		display:inline;
 	}
 
 	.oldie nav a{
 		margin:0 0.7%;
+	}
+	nav{
+		float:right;
 	}
 }
 
@@ -320,14 +326,17 @@ ul.errorlist{
 	}
 
 	nav{
-		float:right;
-		width:38%;
+		width:48%;
 	}
 
 /* ============
 	WIDE:Main
    ============ */
 
+	nav a{
+		width:27%;
+		padding:25px 2%;
+	}
 	.main article{
 		float:left;
 		width:57%;
