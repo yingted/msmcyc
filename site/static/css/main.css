@@ -125,11 +125,11 @@ a:hover,
 	background-color:#ffc;
 	border-radius:2px;
 }
-h1.title>a{
+h1.title a{
 	background-color:transparent!important;
 }
-h1.title>a,
-header>nav a{
+h1.title a,
+header nav a{
 	color:#fff!important;
 }
 blockquote{
@@ -245,13 +245,13 @@ ul.errorlist{
 	textarea{
 		max-width:90%;
 	}
-	.header-container>header a{
+	.header-container header a{
 		float:left;
 		width:25%;
 		padding:10px 0;
 		font-size:.7em;
 	}
-	.header-container>header a>img{
+	.header-container header a img{
 		max-height:24px;
 	}
 }
@@ -276,7 +276,7 @@ ul.errorlist{
 	nav li:last-child a{
 		margin-right:0;
 	}
-	.header-container>header>h1{
+	.header-container header h1{
 		margin:0;
 	}
 
@@ -488,4 +488,3 @@ ul.errorlist{
 		page-break-after:avoid;
 	}
 }
-/* vim:set ts=4 sw=4:*/

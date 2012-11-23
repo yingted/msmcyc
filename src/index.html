@@ -1,0 +1,69 @@
+{% extends "base_home.html" %}
+{% block title %}About us{% endblock %}
+{% block description %},home,about us{% endblock %}
+{% block content %}
+	<article>
+		<header>
+			<h1>About us</h1>
+			<p>The Multiple Sclerosis Mississauga Youth Committee (MSMYC) is a youth-run organization that advocates for awareness of multiple sclerosis in youth. As a non-profit organization that works closely with the MS Society of Canada, the <abbr title="Multiple Sclerosis Mississauga Youth Committee">MSMYC</abbr> was founded by Cathy Li in January 2012 in an effort to bring the issue of multiple sclerosis to the forefront of youth, while raising money towards finding a cure and enhancing the lives of those affected.</p>
+		</header>
+		<section>
+			<h2>About multiple sclerosis</h2>
+			<p>Multiple sclerosis is a chronic disease, often progressive, that affects the central nervous system, resulting in loss of muscle control and sensation. While Canada has the highest incident rate of multiple sclerosis in the world, the majority of the youth populace remains unaware of this disease and its impact. To address this, the <abbr title="Multiple Sclerosis Mississauga Youth Committee">MSMYC</abbr> emphasizes awareness, education, and action through the youth populace. We place high value in the educational background of the disease, as it is an important step in understanding how to advocate for those facing <abbr title="multiple sclerosis">MS</abbr> as well as in sparking interest in the disease.</p>
+		</section>
+		<section>
+			<h2>Mission statement</h2>
+			<blockquote>
+				<p><abbr title="Multiple Sclerosis Mississauga Youth Committee">MSMYC</abbr> strives to engage youth from across Mississauga in various youth-oriented events to raise awareness of <abbr title="multiple sclerosis">MS</abbr> and advocate support for those inflicted with it in our own community. Student involvement in planning and participation of events hosted by the <abbr title="Multiple Sclerosis Mississauga Youth Committee">MSMYC</abbr> offers students valuable leadership and interpersonal skills, while money raise from events and fundraisers will be used to fund services to those facing multiple sclerosis, as well as further research into this disease, its causes and finding a cure.</p>
+			</blockquote>
+		</section>
+		<section>
+			<h2>Vision</h2>
+			<blockquote>
+				<p>My first encounter with multiple sclerosis was at a volunteering event in grade nine. As a curious, science-loving student, I did not hesitate to investigate further into this disease and since then, I’ve worked with the MS Society of Canada as the Volunteer Coordinator of the MS Walk in Streetsville for the last three years. Having worked with both adult and youth volunteers, I realized that although the MS Society is successful in reaching out to adults, it was less successful in engaging the younger demographic. This was the fuelling agent to the start of the MS Youth Committee. I initiated this committee in hopes of inspiring others to take active measures in understanding this complex disease and become leaders in the fight against multiple sclerosis. I know that when given the opportunity, youth have the potential to make a significant impact in the world, especially in an area of concern, such as multiple sclerosis, that can affect anyone anytime. Already we have established a large network of student ambassadors in high schools across Mississauga, working together to promote awareness and understanding of multiple sclerosis through youth-oriented fundraisers and events. We’ve taken the first step, and I truly hope that youth, hand-in-hand, will join us in the movement for an MS-free future together.</p>
+				<footer>&#8212; Cathy Li<br>
+				Founder and Chair<br>
+				MS Mississauga Youth Committee</footer>
+			</blockquote>
+		</section>
+		<section class="toggle-container">
+			<h2>Meet the team</h2>
+			<p>Click any name for more information or <span id="openall">open all</span></p>
+			<h3>Angela Chao</h3>
+			<p>My name is Angela Chao.</p>
+			<h3>Allison Chen</h3>
+			<p>My name is Allison Chen.</p>
+			<h3>Cathy Li</h3>
+			<p>Cathy is currently completing her senior year in the International Baccalaureate Program. Aside from her involvement with the MS Society of Canada, she actively volunteers at her local hospital and is a Shad Valley Queen’s 2012 alumnus. As an avid musician and athlete, she teaches piano, and loves to be actively competing in sports, such as volleyball and soccer. On her long journey ahead, she hopes to inspire others to do things beyond their comfort zones.</p>
+			<h3>Jessie Liu</h3>
+			<p>My name is Jessie Liu</p>
+			<h3>Neil Liu</h3>
+			<p>Neil Liu is a vocal Grade 10 member in the community and attending the IB Program. As an active figure in the community, he was participated in many social events, as well as volunteered. I think the most important thing about MSMYC is the cooperation of students from different schools to accomplish a task and I really hope that we can make a difference. In my opinion, we youth can greatly benefit from participating in a community effort to support the excellent work of researchers and use this opportunity to get closer with our community, take an active role in an organization, exercise our leadership capabilities, and acquiring the skills we will need to apply throughout our lives. Raising money for a significant cause like the search for a cure for multiple sclerosis is, in my view, the perfect opportunity for aspiring leaders to shine.</p>
+			<h3>Ted Ying</h3>
+			<p>I&#8217;m a 12<sup>th</sup>-grader at The Woodlands School and I maintain this website.</p>
+		</section>
+		<footer>
+			<h3>Student ambassadors</h3>
+			<p>We also have student ambassadors, listed at <a href="https://www.facebook.com/groups/450000581703693/">MS Student Ambassadors on Facebook</a>.</p>
+		</footer>
+	</article>
+{% endblock %}
+{% block postscript %}
+	<script type="text/javascript">
+		(function($){
+			$.fn.button=function(f){
+				return this.wrapInner("<a href=\"#\" class=\"click\">").children().click(function(e){
+					e.preventDefault();
+					return f.apply(this.parentNode,arguments);
+				}).attr("role","button").parent();
+			}
+		})(jQuery);
+		var bios=$(".toggle-container>h3").button(function(){
+			$(this).next().toggle("fast");
+		}).next().hide();
+		$("#openall").button(function(){
+			bios.show("fast");
+		});
+	</script>
+{% endblock %}
+{# vim: set ts=4 sw=4: #}
