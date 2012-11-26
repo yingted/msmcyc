@@ -19,3 +19,4 @@ copy:
 	grep -v '[^[:alnum:]]*vim:' events.html > ../site/msmcyc/templates/events.html
 	grep -v '[^[:alnum:]]*vim:' extras.py > ../site/msmcyc/templatetags/extras.py
 	grep -v '[^[:alnum:]]*vim:' base_signup.html > ../site/msmcyc/templates/base_signup.html
+	grep -v '[^[:alnum:]]*vim:' sponsors.html > ../site/msmcyc/templates/sponsors.html
