@@ -1,4 +1,5 @@
 google_appengine*
+*.swp
 *.pyc
 *~
 site/msmcyc/templates/base_home.html
