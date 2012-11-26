@@ -1,4 +1,6 @@
+google_appengine*
 *.pyc
+*~
 site/msmcyc/templates/base_home.html
 site/static/css/main.css
 site/msmcyc/templates/index.html

@@ -10,3 +10,7 @@ copy:
 	grep -v '[^[:alnum:]]*vim:' index.html > ../site/msmcyc/templates/index.html
 	grep -v '[^[:alnum:]]*vim:' main.js > ../site/static/js/main.js
 	grep -v '[^[:alnum:]]*vim:' sponsors.html > ../site/msmcyc/templates/sponsors.html
+deploy:
+	make deploy -C ..
+commit:
+	make commit -C ..
