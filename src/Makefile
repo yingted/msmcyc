@@ -13,3 +13,5 @@ deploy:
 	make deploy -C ..
 commit:
 	make commit -C ..
+	grep -v '[^[:alnum:]]*vim:' views.py > ../site/msmcyc/views.py
+	grep -v '[^[:alnum:]]*vim:' models.py > ../site/msmcyc/models.py

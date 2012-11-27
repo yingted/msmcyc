@@ -6,3 +6,4 @@ site/msmcyc/templates/base_home.html
 site/static/css/main.css
 site/msmcyc/templates/index.html
 site/static/js/main.js
+site/msmcyc/models.py
