@@ -2,6 +2,8 @@
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import render
 import logging
+logging.getLogger().setLevel(logging.NOTSET)
+
 from models import *
 
 from django.template import TemplateDoesNotExist
@@ -60,22 +62,24 @@ def contact(request):
 	})
 
 from datetime import datetime
+from django.template import Template,RequestContext
 def events(request):
+	events=Event.all()\
+		.filter("when >",datetime.now())\
+		.order("when")\
+		.fetch(None)
+	for event in events:
+		event.signup=Template(event.signup).render(RequestContext(request))
 	return render(request,"events.html",{
-		"events":Event.all()
-			.filter("when >",datetime.now())
-			.order("when"),
+		"events":events,
 	})
 
 from legacy.google.appengine.ext.db.djangoforms import ModelForm
 from google.appengine.api import users
 def add_entity(request,what):
-	class AddEntityForm(ModelForm):
-		class Meta:
-			model={"event":Event,"update":Update}[what]
 	if users.is_current_user_admin():
 		if request.method=="POST":
-			form=AddEntityForm(request.POST)
+			form=form_class(what)(request.POST)
 			if form.is_valid():
 				form.save()
 				return render(request,"base_admin_success.html",{
@@ -83,7 +87,7 @@ def add_entity(request,what):
 					"form":form,
 				})
 		else:
-			form=AddEntityForm()
+			form=form_class(what)()
 		return render(request,"base_add.html",{
 			"what":what,
 			"form":form,

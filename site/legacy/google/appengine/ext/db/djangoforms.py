@@ -817,6 +817,7 @@ class BaseModelForm(forms.BaseForm):
 
   def __init__(self, data=None, files=None, auto_id=None, prefix=None,
                initial=None, error_class=None, label_suffix=None,
+	       empty_permitted=False, #screw it
                instance=None):
     """Constructor.
 
