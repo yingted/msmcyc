@@ -16,5 +16,5 @@ copy:
 	grep -v '[^[:alnum:]]*vim:' views.py > ../site/msmcyc/views.py
 	grep -v '[^[:alnum:]]*vim:' models.py > ../site/msmcyc/models.py
 	grep -v '[^[:alnum:]]*vim:' events.html > ../site/msmcyc/templates/events.html
-	grep -v '[^[:alnum:]]*vim:' base_signup.html > ../site/msmcyc/templates/base_signup.html
 	grep -v '[^[:alnum:]]*vim:' extras.py > ../site/msmcyc/templatetags/extras.py
+	grep -v '[^[:alnum:]]*vim:' base_signup.html > ../site/msmcyc/templates/base_signup.html
