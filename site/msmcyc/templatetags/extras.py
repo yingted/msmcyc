@@ -9,7 +9,7 @@ def updates(count):
 			.order("-added")
 			.run(limit=3),
 	}
-
+	
 @register.inclusion_tag("base_signup.html")
 def signup(name):
 	return{

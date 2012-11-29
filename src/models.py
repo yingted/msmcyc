@@ -29,24 +29,32 @@ def form_class(what):
 				"update":Update,
 				"volleyball_player":VolleyballPlayer,
 			}[what]if isinstance(what,str)else what
-	AddEntityForm.__name__="Add%sForm"%string.capwords(what,"_").replace("_"," ")
+	AddEntityForm.__name__="Add%sForm"%(string.capwords(what,"_").replace("_"," ")if isinstance(what,str)else what.__name__)
 	return AddEntityForm
-from django.forms.formsets import BaseFormSet,formset_factory
+from django.forms.formsets import BaseFormSet,ManagementForm,formset_factory,TOTAL_FORM_COUNT,INITIAL_FORM_COUNT,MAX_NUM_FORM_COUNT
 from django import forms
+from noconflict import classmaker
+class VolleyballManagementForm(ManagementForm,ModelForm):
+	class Meta:
+		model=VolleyballTeam
+	__metaclass__=classmaker()
 class BaseVolleyballFormSet(BaseFormSet):
-	def __init__(self,*args,**kwargs):
-		if"initial"in kwargs:
-			del kwargs["initial"]
-		super(BaseVolleyballFormSet,self).__init__(self,initial=6,*args,**kwargs)
 	def clean(self):
 		if any(self.errors):
 			return
 		pass
 	@BaseFormSet.management_form.getter
 	def management_form(self):
-		from views import logging
-		logging.debug(BaseFormSet.management_form.fget)
-		form=BaseFormSet.management_form.fget(self)
-		logging.debug(form)
+		"""Returns the ManagementForm instance for this FormSet."""
+		if self.is_bound:
+			form = VolleyballManagementForm(self.data, auto_id=self.auto_id, prefix=self.prefix)
+			if not form.is_valid():
+				raise ValidationError('ManagementForm data is missing or has been tampered with')
+		else:
+			form = VolleyballManagementForm(auto_id=self.auto_id, prefix=self.prefix, initial={
+				TOTAL_FORM_COUNT: self.total_form_count(),
+				INITIAL_FORM_COUNT: self.initial_form_count(),
+				MAX_NUM_FORM_COUNT: self.max_num
+			})  
 		return form
 VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8)
