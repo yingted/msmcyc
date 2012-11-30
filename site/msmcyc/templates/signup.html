@@ -1,0 +1,9 @@
+{% extends "base_home_validation.html" %}
+{% block title %}{{ event|capfirst }} &#8212; Signup{% endblock %}
+{% block description %}Signup for {{ event }}{% endblock %}
+{% block header %}
+	<p>Sign up for {{ event }} now! You can edit it later.</p>
+{% endblock %}
+{% block longtitle %}If you haven't signed up for {{ event }}, you can sign up here.{% endblock %}
+{% block submit_text %}Sign up{% endblock %}
+{# vim: set ts=4 sw=4: #}

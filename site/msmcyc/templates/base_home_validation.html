@@ -43,7 +43,7 @@
 		})(jQuery);
 		$(function(){
 			$("form").validation({% render_ajax_fields form %},{
-				//add_required_indicators:true,
+				add_required_indicators:true,
 			});
 		});
 		$("form input:not(:hidden)").attr("aria-required",true).each(function(e){

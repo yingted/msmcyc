@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'^add_(event|update)',views.add_entity),
     url(r'^contact',views.contact),
     url(r'^events',views.events),
+    url(r'^signup/([^/]*)',views.signup),
     url(r'',views.index),
 )

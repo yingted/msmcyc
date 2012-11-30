@@ -95,3 +95,19 @@ def add_entity(request,what):
 		})
 	else:
 		return redirect(users.create_login_url(request.path))
+def signup(request,event):
+	if request.method=="POST":
+		form=signup_form(event)(request.POST)
+		if form.is_valid():
+			return render(request,"base_signup_success.html",{
+				"event":event,
+				"shit":form.add_random_shit(),
+				"id":form.save().key().id(),
+				"form":form,
+			})
+	else:
+		form=signup_form(event)()
+	return render(request,"signup.html",{
+		"event":event,
+		"form":form,
+	})

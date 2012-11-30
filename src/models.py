@@ -1,8 +1,8 @@
 from google.appengine.ext import db
 class Event(db.Model):
-	when=db.DateTimeProperty()
+	when=db.DateTimeProperty(required=True)
 	link=db.LinkProperty(verbose_name="Map link")
-	name=db.StringProperty(verbose_name="Event name")
+	name=db.StringProperty(verbose_name="Event name",required=True)
 	html=db.TextProperty(verbose_name="[HTML] body")
 	signup=db.TextProperty(verbose_name="[HTML] Embed code")
 	stats=db.TextProperty(verbose_name="[HTML] stats")
@@ -14,22 +14,23 @@ class VolleyballPlayer(db.Model):
 	male=db.BooleanProperty()
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
-	email=db.EmailProperty()
-	phone=db.PhoneNumberProperty()
 class VolleyballTeam(db.Model):
 	name=db.StringProperty(verbose_name="Team name")
-	school=db.StringProperty()
+	email=db.EmailProperty(verbose_name="Account email")
+	phone=db.PhoneNumberProperty(verbose_name="Contact number")
+	school=db.StringProperty(verbose_name="School(s) to mention")
 from legacy.google.appengine.ext.db.djangoforms import ModelForm
 import string
 def form_class(what):
+	is_str=type(what)in(unicode,str)
 	class AddEntityForm(ModelForm):
 		class Meta:
 			model={
 				"event":Event,
 				"update":Update,
 				"volleyball_player":VolleyballPlayer,
-			}[what]if isinstance(what,str)else what
-	AddEntityForm.__name__="Add%sForm"%(string.capwords(what,"_").replace("_"," ")if isinstance(what,str)else what.__name__)
+			}[what]if is_str else what
+	AddEntityForm.__name__="Add%sForm"%(string.capwords(str(what),"_").replace("_"," ")if is_str else what.__name__)
 	return AddEntityForm
 from django.forms.formsets import BaseFormSet,ManagementForm,formset_factory,TOTAL_FORM_COUNT,INITIAL_FORM_COUNT,MAX_NUM_FORM_COUNT
 from django import forms
@@ -57,4 +58,8 @@ class BaseVolleyballFormSet(BaseFormSet):
 				MAX_NUM_FORM_COUNT: self.max_num
 			})  
 		return form
-VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8)
+VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8,extra=8)
+def signup_data(event):
+	return{
+		"volleyball":VolleyballFormSet,
+	}[event]

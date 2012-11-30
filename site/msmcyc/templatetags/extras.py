@@ -11,9 +11,8 @@ def updates(count):
 	}
 	
 @register.inclusion_tag("base_signup.html")
-def signup(name):
+def signup(event):
 	return{
-		"form":{
-			"volleyball":VolleyballFormSet,
-		}[name](),
+		"event":event,
+		"form":signup_form(event)(),
 	}

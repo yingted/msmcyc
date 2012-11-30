@@ -194,6 +194,8 @@ class Property(db.Property):
       for choice in self.choices:
         choices.append((str(choice), unicode(choice)))
       defaults['widget'] = forms.Select(choices=choices)
+    else:
+      defaults["required"]=self.required
     if self.default is not None:
       defaults['initial'] = self.default
     defaults.update(kwargs)
@@ -817,7 +819,7 @@ class BaseModelForm(forms.BaseForm):
 
   def __init__(self, data=None, files=None, auto_id=None, prefix=None,
                initial=None, error_class=None, label_suffix=None,
-	       empty_permitted=False, #screw it
+	       empty_permitted=True, #screw it
                instance=None):
     """Constructor.
 
