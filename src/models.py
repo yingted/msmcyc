@@ -14,7 +14,12 @@ class VolleyballPlayer(db.Model):
 	male=db.BooleanProperty()
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
-class VolleyballTeam(db.Model):
+import random
+class HasPassword:
+	password=db.StringProperty()
+	def __init__(self):
+		self.password="_".join(random.choice(words)for _ in xrange(4))
+class VolleyballTeam(HasPassword,db.Model):
 	name=db.StringProperty(verbose_name="Team name")
 	email=db.EmailProperty(verbose_name="Account email")
 	phone=db.PhoneNumberProperty(verbose_name="Contact number")
@@ -59,7 +64,7 @@ class BaseVolleyballFormSet(BaseFormSet):
 			})  
 		return form
 VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8,extra=8)
-def signup_data(event):
+def signup_form(event):
 	return{
 		"volleyball":VolleyballFormSet,
 	}[event]
