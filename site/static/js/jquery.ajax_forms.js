@@ -40,7 +40,7 @@
                         });
                     }
 
-                    if (opts.add_required_indicators) {
+                    if (opts.add_required_indicators&&fields[name].required) {
                         $('label[for=' + field[0].id + ']', form).after(
                             '<span class="required">*</span>');
                     }
