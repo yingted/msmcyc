@@ -31,7 +31,7 @@
 		{% endcomment %}
 		<section class="toggle-container">
 			<h2>Meet the Team</h2>
-			<p><span id="openall">Open all</span></p>
+			{% comment %}<p><span id="openall">Open all</span></p>{% endcomment %}
 			<h3>Angela Chao</h3>
 			<p>Angela is a grade 12 student, currently enrolled in the Regional Enhanced Program at Glenforest Secondary School. During her free time, she loves to play volleyball, watch movies, and listen to classic rock music. Angela actively volunteers with the Credit Valley Hospital, AbleLiving Organization, and community sport camps. Through her involvement with MSMYC, she hopes to raise awareness among the voices of tomorrow to enable them to take action in support of the people who are affected by this devastating disease.</p>
 			<h3>Allison Chen</h3>
@@ -56,7 +56,9 @@
 		(function($){
 			$.fn.button=function(f){
 				return this.wrapInner("<a href=\"#\" class=\"click\">").children().click(function(e){
-					e.preventDefault();
+					if(e.preventDefault)
+						e.preventDefault();
+					else e.returnValue=false;
 					return f.apply(this.parentNode,arguments);
 				}).attr("role","button").parent();
 			}
@@ -64,9 +66,9 @@
 		var bios=$(".toggle-container>h3").button(function(){
 			$(this).next().toggle("fast");
 		}).next().hide();
-		$("#openall").button(function(){
+		{% comment %}$("#openall").button(function(){
 			bios.show("fast");
-		});
+		});{% endcomment %}
 	</script>
 {% endblock %}
 {# vim: set ts=4 sw=4: #}

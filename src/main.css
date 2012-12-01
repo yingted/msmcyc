@@ -344,10 +344,13 @@ ul.errorlist{
    ============ */
 
 	nav a{
-		width:26%;
+		width:27%;
 		padding:25px 2%;
 	}
-	.lt-ie8 nav a{
+	.lt-ie9 nav a{
+		width:27%;
+	}
+	.lt-ie9.lt-ie8 nav a{
 		width:21%;
 	}
 	.main article{
