@@ -53,19 +53,8 @@
 {% endblock %}
 {% block postscript %}
 	<script type="text/javascript">
-		(function($){
-			$.fn.button=function(f){
-				return this.wrapInner("<a href=\"#\" class=\"click\">").children().click(function(e){
-					if(e.preventDefault)
-						e.preventDefault();
-					else e.returnValue=false;
-					return f.apply(this.parentNode,arguments);
-				}).attr("role","button").parent();
-			}
-		})(jQuery);
-		var bios=$(".toggle-container>h3").button(function(){
-			$(this).next().toggle("fast");
-		}).next().hide();
+		var bios=$(".toggle-container>h3");
+		bios=bios.togglerFor(bios.next());
 		{% comment %}$("#openall").button(function(){
 			bios.show("fast");
 		});{% endcomment %}

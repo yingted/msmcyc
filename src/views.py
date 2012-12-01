@@ -107,8 +107,7 @@ def signup(request,event,uid=0,rand=None):
 			form=conf["form"](request.POST,instance=ent)
 			if form.is_valid():
 				form.save()
-		else:
-			form=conf["form"](instance=ent)
+		form=conf["form"](instance=ent)
 	elif request.method=="POST":
 		form=conf["form"](request.POST)
 		if form.is_valid():

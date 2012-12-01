@@ -464,6 +464,10 @@ div.sponsor-panel>p{
 	visibility:hidden;
 }
 
+.js .jshidden{
+	display:none;
+}
+
 .visuallyhidden{
 	border:0;
 	clip:rect(0 0 0 0);

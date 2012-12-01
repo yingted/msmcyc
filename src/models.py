@@ -48,6 +48,8 @@ class VolleyballManagementForm(ManagementForm,ModelForm):
 	class Meta:
 		model=VolleyballTeam
 		exclude=("random",)
+	def save(self,*args,**kwargs):
+		return ModelForm.save(self,*args,**kwargs)
 	__metaclass__=classmaker()
 from django.forms.util import ValidationError
 def to_dict(ent):
@@ -58,7 +60,7 @@ class BaseVolleyballFormSet(BaseFormSet):
 		rebuild="instance"in kwargs
 		if rebuild:
 			self.instance=kwargs["instance"]
-			self.players=VolleyballPlayer.all().ancestor(self.instance).run()
+			self.players=VolleyballPlayer.all().ancestor(self.instance).fetch(limit=8)
 			kwargs["initial"]=map(to_dict,self.players)
 			del kwargs["instance"]
 		else:
@@ -71,8 +73,9 @@ class BaseVolleyballFormSet(BaseFormSet):
 				INITIAL_FORM_COUNT:8,
 				MAX_NUM_FORM_COUNT:8,
 			})
-			self.data=dict(("form-"+k,v)for k,v in team.iteritems())
-			self.is_bound=True
+			if self.data=={}:
+				self.data=dict(("form-"+k,v)for k,v in team.iteritems())
+				self.is_bound=True
 	def clean(self):
 		if any(self.errors):
 			return
@@ -92,21 +95,23 @@ class BaseVolleyballFormSet(BaseFormSet):
 				MAX_NUM_FORM_COUNT: self.max_num
 			})  
 		return form
-	@db.transactional
 	def save(self):
 		event=self.management_form.save()
-		from views import logging
-		logging.debug("Z"*100)
-		logging.debug(event.key())
-		logging.debug(event)
 		i=0
+		deleted=self.deleted_forms
 		for form in self:
-			if form.is_valid():
-				if self.instance and i in self.players:
-					VolleyballPlayer(key=self.players[i].key(),**to_dict(form.save(commit=False))).put()
+			if form in deleted and i<len(self.players):
+				VolleyballPlayer(key=self.players[i].key()).delete()
+			elif form.is_valid()and form.has_changed():
+				props=to_dict(form.save(commit=False))
+				if self.instance and i<len(self.players):
+					props["key"]=self.players[i].key()
+				else:
+					props["parent"]=event
+				VolleyballPlayer(**props).put()
 			i+=1
 		return event
-VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8,extra=8)
+VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8,extra=8,can_delete=True)
 def signup_conf(event):
 	return{
 		"volleyball":{

@@ -8,7 +8,9 @@
 			<p>Sign up for {{ name }} now! You can edit it later.</p>
 		</header>
 		<section>
-			<h2>{% block longtitle %}If you haven't signed up for the {{ name }}, you can sign up here.{% endblock %}</h2>
+			{% if not existing %}
+				<p>If you haven't signed up for the {{ name }}, you can sign up here.</p>
+			{% endif %}
 			{% if form.management_form %}
 				{% include "base_signup.html" %}
 			{% else %}

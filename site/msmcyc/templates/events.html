@@ -32,3 +32,10 @@
 		</footer>
 	</article>
 {% endblock %}
+{% block postscript %}
+	<script type="text/javascript">
+		$(".signup").each(function(i,e){
+			$(e).prev().togglerFor(e);
+		});
+	</script>
+{% endblock %}
