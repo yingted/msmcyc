@@ -305,6 +305,16 @@ div.sponsor-panel>p{
 	small{
 		font-size:.6em;
 	}
+	.ie8 .header-container>header a>img{
+		max-height:none;
+	}
+	.ie8 .header-container>header a{
+		line-height:67px;
+		font-size:1em;
+	}
+	.ie8 .header-container>header>h1{
+		margin:0;
+	}
 }
 
 @media only screen and (min-width:480px){
@@ -392,6 +402,12 @@ div.sponsor-panel>p{
 		width:19%;
 		padding:25px 1%;
 		font-size:1em;
+	}
+	.lt-ie9 nav a{
+		width:27%;
+	}
+	.lt-ie9.lt-ie8 nav a{
+		width:21%;
 	}
 	.main article{
 		float:left;
