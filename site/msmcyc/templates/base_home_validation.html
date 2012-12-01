@@ -11,16 +11,14 @@
 			<form action="" method="post">
 				{% csrf_token %}
 				{{ form.non_field_errors }}
-				{% comment %}
-				<table>
-					{{ form.as_table }}
-					<tr><td></td><td><input type="submit" value="{% block submit_text %}Submit{% endblock %}" /></td></tr>
-				</table>
-				{% endcomment %}
-				<dl>
-					{% as_dl form %}
-					<dd><input type="submit" value="{% block submit_text %}Submit{% endblock %}" /></dd>
-				</dl>
+				{% if form.management_form %}
+					{% include "base_signup.html" %}
+				{% else %}
+					<dl>
+						{% as_dl form %}
+						<dd><input type="submit" value="{% block submit_text %}Submit{% endblock %}" /></dd>
+					</dl>
+				{% endif %}
 			</form>
 		</section>
 	</article>
@@ -43,9 +41,20 @@
 			};
 		})(jQuery);
 		$(function(){
-			$("form").validation({% render_ajax_fields form %},{
-				add_required_indicators:true,
-			});
+			var forms=[
+				{% if form.management_form %}
+					{% render_ajax_fields form.management_form %},
+					{% for form in form %}
+						{% render_ajax_fields form %},
+					{% endfor %}
+				{% else %}
+					{% render_ajax_fields form %}
+				{% endif %}
+			];
+			for(var i=0;i<forms.length;++i)
+				$("form").validation(forms[i],{
+					add_required_indicators:true,
+				});
 		});
 		$("form input:not(:hidden)").attr("aria-required",true).each(function(e){
 			var id=$(e).attr("id")+"-aria-label";

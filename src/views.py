@@ -99,10 +99,20 @@ def signup(request,event):
 	if request.method=="POST":
 		form=signup_form(event)(request.POST)
 		if form.is_valid():
-			return render(request,"base_signup_success.html",{
+			ent=form.save()
+			EmailMessage(
+				sender="MSMYC mailer <youth.mssociety@gmail.com>",
+				subject="Sign up: %s"%event,
+				body="""You have signed up for %s. You can change your information at:
+%s
+Submitted form (can be changed):
+%s"""%(event,request.build_absolute_uri("/signup/%s/%s"%(ent.key().id(),ent.random)),form),
+				to="%s <%s>"%(ent.name,ent.email),
+			).send()
+			return render(request,"signup_success.html",{
 				"event":event,
-				"shit":form.add_random_shit(),
-				"id":form.save().key().id(),
+				"id":ent.key().id(),
+				"random":ent.random,
 				"form":form,
 			})
 	else:
