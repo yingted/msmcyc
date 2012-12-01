@@ -11,19 +11,21 @@ class Update(db.Model):
 	title=db.StringProperty()
 	html=db.TextProperty(verbose_name="[HTML] body")
 class VolleyballPlayer(db.Model):
-	male=db.BooleanProperty()
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
+	gender=db.StringProperty(choices=("Male","Female"))
 import random
-class HasPassword:
-	password=db.StringProperty()
+from words import words
+class HasRandom:
+	random=db.StringProperty()
 	def __init__(self):
-		self.password="_".join(random.choice(words)for _ in xrange(4))
-class VolleyballTeam(HasPassword,db.Model):
+		self.random="_".join(random.choice(words)for _ in xrange(4))
+class VolleyballTeam(HasRandom,db.Model):
 	name=db.StringProperty(verbose_name="Team name")
-	email=db.EmailProperty(verbose_name="Account email")
+	email=db.EmailProperty(verbose_name="Account email",required=True)
 	phone=db.PhoneNumberProperty(verbose_name="Contact number")
 	school=db.StringProperty(verbose_name="School(s) to mention")
+	date=db.DateTimeProperty(auto_now_add=True)
 from legacy.google.appengine.ext.db.djangoforms import ModelForm
 import string
 def form_class(what):
