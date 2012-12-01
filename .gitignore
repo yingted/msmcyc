@@ -10,4 +10,4 @@ site/msmcyc/models.py
 site/msmcyc/templates/events.html
 site/msmcyc/templatetags/extras.py
 site/msmcyc/templates/base_signup.html
-/home/ted/msmcyc/site/msmcyc/templates/sponsors.html
+site/msmcyc/templates/sponsors.html
