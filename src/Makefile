@@ -8,8 +8,9 @@ deploy:
 	make deploy -C ..
 commit:
 	make commit -C ..
-copy:
-	make all -C ../site/ajax_forms/media/js
+%.min.js: %.js
+	js -f ../fulljsmin.js -e 'print(jsmin((b=(a=snarf(readline())).match(/^\/\*(?:x|[^x])*?\*\//)),a.substring(b.length).trim()).trim())' <<< $< > $@
+copy: *.min.js
 	grep -v '[^[:alnum:]]*vim:' base_home.html > ../site/msmcyc/templates/base_home.html
 	sed '/>.*[{,]/s/>/ /g' main.css | grep -v '[^[:alnum:]]*vim:' > ../site/static/css/main.css
 	grep -v '[^[:alnum:]]*vim:' index.html > ../site/msmcyc/templates/index.html
@@ -20,3 +21,4 @@ copy:
 	grep -v '[^[:alnum:]]*vim:' extras.py > ../site/msmcyc/templatetags/extras.py
 	grep -v '[^[:alnum:]]*vim:' base_signup.html > ../site/msmcyc/templates/base_signup.html
 	grep -v '[^[:alnum:]]*vim:' sponsors.html > ../site/msmcyc/templates/sponsors.html
+.PHONY: all
