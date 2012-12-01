@@ -95,29 +95,46 @@ def add_entity(request,what):
 		})
 	else:
 		return redirect(users.create_login_url(request.path))
-def signup(request,event):
-	if request.method=="POST":
-		form=signup_form(event)(request.POST)
+from django.core.exceptions import PermissionDenied
+def signup(request,event,uid=0,rand=None):
+	conf=signup_conf(event)
+	if uid:
+		ent=conf["model"].get_by_id(long(uid))
+		if ent.random!=rand:
+			raise PermissionDenied
+		event+="/%s/%s"%(uid,rand)
+		if request.method=="POST":
+			form=conf["form"](request.POST,instance=ent)
+			if form.is_valid():
+				form.save()
+		else:
+			form=conf["form"](instance=ent)
+	elif request.method=="POST":
+		form=conf["form"](request.POST)
 		if form.is_valid():
 			ent=form.save()
+			uri=request.build_absolute_uri("/signup/%s/%s/%s"%(event,ent.key().id(),ent.random))
 			EmailMessage(
 				sender="MSMYC mailer <youth.mssociety@gmail.com>",
-				subject="Sign up: %s"%event,
+				subject="Sign up: %s"%conf["name"],
 				body="""You have signed up for %s. You can change your information at:
 %s
+This link can be used by anyone to edit your team info.
 Submitted form (can be changed):
-%s"""%(event,request.build_absolute_uri("/signup/%s/%s"%(ent.key().id(),ent.random)),form),
+%s"""%(conf["name"],uri,form),
 				to="%s <%s>"%(ent.name,ent.email),
 			).send()
 			return render(request,"signup_success.html",{
 				"event":event,
-				"id":ent.key().id(),
-				"random":ent.random,
+				"name":conf["name"],
+				"uri":uri,
 				"form":form,
 			})
 	else:
-		form=signup_form(event)()
+		form=conf["form"](event)()
 	return render(request,"signup.html",{
 		"event":event,
+		"name":conf["name"],
 		"form":form,
+		"existing":bool(uid),
 	})

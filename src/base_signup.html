@@ -1,7 +1,7 @@
 {# {% load extras %} #}
 <p class="signup">
 	{% if form.management_form %}
-		<form action="signup/{{ event }}" method="post">
+		<form action="/signup/{{ event }}" method="post">
 			{% csrf_token %}
 			{{ form.non_field_errors }}
 			{{ form.non_form_errors }}
@@ -15,7 +15,7 @@
 			</table>
 		</form>
 	{% else %}
-		<form action="signup/{{ event }}" method="post">
+		<form action="/signup/{{ event }}" method="post">
 			{% csrf_token %}
 			{{ form.non_field_errors }}
 			<table>

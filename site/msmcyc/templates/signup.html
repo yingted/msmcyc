@@ -1,9 +1,30 @@
-{% extends "base_home_validation.html" %}
-{% block title %}{{ event|capfirst }} &#8212; Signup{% endblock %}
-{% block description %}Signup for {{ event }}{% endblock %}
-{% block header %}
-	<p>Sign up for {{ event }} now! You can edit it later.</p>
+{% extends "base_home.html" %}
+{% load ajax_form_utils %}
+{% block description %}Signup for the {{ name }}{% endblock %}
+{% block content %}
+	<article>
+		<header>
+			<h1>{{ name|capfirst }} &#8212; Signup</h1>
+			<p>Sign up for {{ name }} now! You can edit it later.</p>
+		</header>
+		<section>
+			<h2>{% block longtitle %}If you haven't signed up for the {{ name }}, you can sign up here.{% endblock %}</h2>
+			{% if form.management_form %}
+				{% include "base_signup.html" %}
+			{% else %}
+				<form action="" method="post">
+					{% csrf_token %}
+					{{ form.non_field_errors }}
+						<dl>
+							{% as_dl form %}
+							<dd><input type="submit" value="Sign up" /></dd>
+						</dl>
+				</form>
+			{% endif %}
+		</section>
+	</article>
 {% endblock %}
-{% block longtitle %}If you haven't signed up for {{ event }}, you can sign up here.{% endblock %}
-{% block submit_text %}Sign up{% endblock %}
+{% block postscript %}
+	{% include "base_validation.html" %}
+{% endblock %}
 {# vim: set ts=4 sw=4: #}

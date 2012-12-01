@@ -16,11 +16,13 @@ class VolleyballPlayer(db.Model):
 	gender=db.StringProperty(choices=("Male","Female"))
 import random
 from words import words
-class HasRandom:
-	random=db.StringProperty()
-	def __init__(self):
-		self.random="_".join(random.choice(words)for _ in xrange(4))
-class VolleyballTeam(HasRandom,db.Model):
+class HasRandom(db.Model):
+	random=db.StringProperty(name="random")#too much work to fix
+	def __init__(self,*args,**kwargs):
+		if"random"not in kwargs or not kwargs["random"]:
+			kwargs["random"]="_".join(random.choice(words)for _ in xrange(4))
+		super(HasRandom,self).__init__(*args,**kwargs)
+class VolleyballTeam(HasRandom):
 	name=db.StringProperty(verbose_name="Team name")
 	email=db.EmailProperty(verbose_name="Account email",required=True)
 	phone=db.PhoneNumberProperty(verbose_name="Contact number")
@@ -45,17 +47,42 @@ from noconflict import classmaker
 class VolleyballManagementForm(ManagementForm,ModelForm):
 	class Meta:
 		model=VolleyballTeam
+		exclude=("random",)
 	__metaclass__=classmaker()
+from django.forms.util import ValidationError
+def to_dict(ent):
+	klass=ent.__class__
+	return dict((k,v.__get__(ent,klass))for k,v in klass.properties().iteritems())
 class BaseVolleyballFormSet(BaseFormSet):
+	def __init__(self,*args,**kwargs):
+		rebuild="instance"in kwargs
+		if rebuild:
+			self.instance=kwargs["instance"]
+			self.players=VolleyballPlayer.all().ancestor(self.instance).run()
+			kwargs["initial"]=map(to_dict,self.players)
+			del kwargs["instance"]
+		else:
+			self.instance=None
+		super(BaseVolleyballFormSet,self).__init__(*args,**kwargs)
+		if self.instance:
+			team=to_dict(self.instance)
+			team.update({
+				TOTAL_FORM_COUNT:8,
+				INITIAL_FORM_COUNT:8,
+				MAX_NUM_FORM_COUNT:8,
+			})
+			self.data=dict(("form-"+k,v)for k,v in team.iteritems())
+			self.is_bound=True
 	def clean(self):
 		if any(self.errors):
 			return
-		pass
+		if sum(int(form.cleaned_data["gender"]=="Male")for form in self)>4:
+			raise ValidationError("More than 4 male players")
 	@BaseFormSet.management_form.getter
 	def management_form(self):
 		"""Returns the ManagementForm instance for this FormSet."""
 		if self.is_bound:
-			form = VolleyballManagementForm(self.data, auto_id=self.auto_id, prefix=self.prefix)
+			form = VolleyballManagementForm(self.data, auto_id=self.auto_id, prefix=self.prefix, instance=self.instance)
 			if not form.is_valid():
 				raise ValidationError('ManagementForm data is missing or has been tampered with')
 		else:
@@ -65,8 +92,26 @@ class BaseVolleyballFormSet(BaseFormSet):
 				MAX_NUM_FORM_COUNT: self.max_num
 			})  
 		return form
+	@db.transactional
+	def save(self):
+		event=self.management_form.save()
+		from views import logging
+		logging.debug("Z"*100)
+		logging.debug(event.key())
+		logging.debug(event)
+		i=0
+		for form in self:
+			if form.is_valid():
+				if self.instance and i in self.players:
+					VolleyballPlayer(key=self.players[i].key(),**to_dict(form.save(commit=False))).put()
+			i+=1
+		return event
 VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8,extra=8)
-def signup_form(event):
+def signup_conf(event):
 	return{
-		"volleyball":VolleyballFormSet,
+		"volleyball":{
+			"name":"volleyball tournament",
+			"form":VolleyballFormSet,
+			"model":VolleyballTeam,
+		},
 	}[event]

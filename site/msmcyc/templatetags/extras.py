@@ -14,5 +14,5 @@ def updates(count):
 def signup(event):
 	return{
 		"event":event,
-		"form":signup_form(event)(),
+		"form":signup_conf(event)["form"](),
 	}

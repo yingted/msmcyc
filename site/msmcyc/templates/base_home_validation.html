@@ -24,43 +24,6 @@
 	</article>
 {% endblock %}
 {% block postscript %}
-	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ajax_forms.min.js"></script>
-	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ajax_forms.validation.min.js"></script>
-	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.formset.min.js"></script>
-	<script type="text/javascript">
-		(function($){//WAI-ARIA
-			var callbacks=$.validation.defaults.callbacks,show_error=callbacks.show_error,hide_error=callbacks.hide_error;
-			callbacks.show_error=function(field,msg,opts){
-				var ret=show_error.apply(this,arguments);
-				field.siblings("ul."+opts.style.error_list).children("li").attr("role","alertdialog");
-				field.attr("aria-invalid",true);
-			};
-			callbacks.hide_error=function(field){
-				field.attr("aria-invalid",false);
-				return hide_error.apply(this,arguments);
-			};
-		})(jQuery);
-		$(function(){
-			var forms=[
-				{% if form.management_form %}
-					{% render_ajax_fields form.management_form %},
-					{% for form in form %}
-						{% render_ajax_fields form %},
-					{% endfor %}
-				{% else %}
-					{% render_ajax_fields form %}
-				{% endif %}
-			];
-			for(var i=0;i<forms.length;++i)
-				$("form").validation(forms[i],{
-					add_required_indicators:true,
-				});
-		});
-		$("form input:not(:hidden)").attr("aria-required",true).each(function(e){
-			var id=$(e).attr("id")+"-aria-label";
-			$(e).parent().prev().children().attr("id",id);
-			$(e).attr("aria-labelledby",id);
-		});//TODO smarter?
-	</script>
+	{% include "base_validation.html" %}
 {% endblock %}
 {# vim: set ts=4 sw=4: #}
