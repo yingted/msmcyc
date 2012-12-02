@@ -41,6 +41,9 @@
 		$(".signup").each(function(i,e){
 			$(e).prev().togglerFor(e);
 		});
+		$("form").keyup(function(i,e){
+			console.log(document.activeElement);
+		});
 	</script>
 {% endblock %}
 {# vim: set ts=4 sw=4: #}

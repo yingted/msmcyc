@@ -10,11 +10,19 @@ class Update(db.Model):
 	added=db.DateTimeProperty(auto_now_add=True)
 	title=db.StringProperty()
 	html=db.TextProperty(verbose_name="[HTML] body")
+from django.forms.util import ValidationError
+def validator(f):
+	def is_valid(val):
+		if not f(val):
+			raise ValidationError("Invalid value")
+	return is_valid
 class VolleyballPlayer(db.Model):
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
+	grade=db.IntegerProperty(validator=validator(lambda x:9<=x<=12))
 	gender=db.StringProperty(choices=("Male","Female"))
 	email=db.EmailProperty()
+	phone=db.PhoneNumberProperty()
 import random
 from words import words
 class HasRandom(db.Model):
@@ -53,7 +61,6 @@ class VolleyballManagementForm(ManagementForm,ModelForm):
 	def save(self,*args,**kwargs):
 		return ModelForm.save(self,*args,**kwargs)
 	__metaclass__=classmaker()
-from django.forms.util import ValidationError
 def to_dict(ent):
 	klass=ent.__class__
 	return dict((k,v.__get__(ent,klass))for k,v in klass.properties().iteritems())

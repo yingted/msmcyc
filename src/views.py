@@ -137,3 +137,16 @@ Submitted form (can be changed):
 		"form":form,
 		"existing":bool(uid),
 	})
+
+from creepy import first_signups,first_signups_fields
+from django.http import HttpResponse,HttpResponseNotFound
+import itertools
+def prev_players(request,key,prefix):
+	try:
+		idx=first_signups_fields.index(key)
+		lst=list(itertools.islice((record for record in first_signups if record[idx].startswith(prefix)),2))
+		if len(lst)==1:
+			return HttpResponse("\t".join(map(str,lst[0])),content_type="text/plain")
+	except ValueError:
+		pass
+	return HttpResponseNotFound(content_type="text/plain")

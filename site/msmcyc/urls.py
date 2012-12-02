@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     url(r'^events',views.events),
     url(r'^signup/([^/]*)$',views.signup),
     url('^signup/([^/]*)/([1-9][0-9]*)/([A-Za-z_\']*)$',views.signup),
+    url(r'^ajax/([^/]*)/(.*)$',views.prev_players),
     url(r'',views.index),
 )
