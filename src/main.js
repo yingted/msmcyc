@@ -7,9 +7,12 @@
 			return f.apply(this.parentNode,arguments);
 		}).attr("role","button").parent();
 	}
+	var prefixes=["+ ","\u2212 "];
 	$.fn.togglerFor=function(e){
-		this.button(function(){
+		var i=0,prefix=$("<span>").text(prefixes[i]);
+		this.prepend(prefix).button(function(){
 			$(e).toggle("fast");
+			prefix.text(prefixes[i^=1]);
 		});
 		return $(e).hide();
 	}

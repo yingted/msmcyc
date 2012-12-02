@@ -53,8 +53,9 @@
 {% endblock %}
 {% block postscript %}
 	<script type="text/javascript">
-		var bios=$(".toggle-container>h3");
-		bios=bios.togglerFor(bios.next());
+		var bios=$(".toggle-container>h3").each(function(i,e){
+			$(e).togglerFor($(e).next());
+		}).next();
 		{% comment %}$("#openall").button(function(){
 			bios.show("fast");
 		});{% endcomment %}
