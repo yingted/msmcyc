@@ -107,7 +107,7 @@ except ImportError:
   from django.core.files import uploadedfile
   have_uploadedfile = True
 
-
+from django.forms.widgets import RadioSelect
 
 try:
   from django.utils.translation import ugettext_lazy as _
@@ -176,7 +176,7 @@ class Property(db.Property):
     with certain defaults:
       required: self.required
       label: prettified self.verbose_name, if not None
-      widget: a forms.Select instance if self.choices is non-empty
+      widget: a RadioSelect instance if self.choices is non-empty
       initial: self.default, if not None
 
     Returns:
@@ -188,12 +188,12 @@ class Property(db.Property):
       defaults['label'] = self.verbose_name.capitalize().replace('_', ' ')
     if self.choices:
       choices = []
-      if not self.required or (self.default is None and
-                               'initial' not in kwargs):
+      if ("dashes" in kwargs and kwargs["dashes"]) and (not self.required or (self.default is None and
+                               'initial' not in kwargs)):
         choices.append(('', '---------'))
       for choice in self.choices:
         choices.append((str(choice), unicode(choice)))
-      defaults['widget'] = forms.Select(choices=choices)
+      defaults['widget'] = RadioSelect(choices=choices)
     else:
       defaults["required"]=self.required
     if self.default is not None:
@@ -517,7 +517,7 @@ class ModelChoiceField(forms.Field):
 
   def __init__(self, reference_class, query=None, choices=None,
                empty_label=u'---------',
-               required=True, widget=forms.Select, label=None, initial=None,
+               required=True, widget=RadioSelect, label=None, initial=None,
                help_text=None, *args, **kwargs):
     """Constructor.
 
@@ -530,7 +530,7 @@ class ModelChoiceField(forms.Field):
       empty_label: label to be used for the default selection item in
         the widget; this is prepended to the choices
       required, widget, label, initial, help_text, *args, **kwargs:
-        like for forms.Field.__init__(); widget defaults to forms.Select
+        like for forms.Field.__init__(); widget defaults to RadioSelect
     """
     assert issubclass(reference_class, db.Model)
     if query is None:
