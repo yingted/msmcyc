@@ -1,0 +1,14 @@
+{% extends "base_home.html" %}
+{% block title %}Sign up: {{ name }}{% endblock %}
+{% block content %}
+	<article>
+		<header>
+			<h1>Done!</h1>
+			<p>You have signed up for the {{ name }}. You can edit your information at <a href="{{ uri }}">{{ uri }}</a>. Anyone with this link can edit your info. A confirmation email has been sent.</p>
+		</header>
+		<section>
+			<h2>Submitted Form</h2>
+			{% include "base_signup.html" %}
+	</article>
+{% endblock %}
+{# vim: set ts=4 sw=4: #}

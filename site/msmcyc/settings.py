@@ -1,6 +1,7 @@
 # Django settings for msmcyc project.
 
-DEBUG = True
+import os
+DEBUG = os.environ['SERVER_SOFTWARE'].startswith('Dev')
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

@@ -92,8 +92,12 @@ body{
 }
 .fb-like-box{
 	background:#fff;
-	margin-left:-5.555555555555555%;
-	margin-right:-5.555555555555555%;
+}
+@media only screen and (min-width:1040px){
+	.fb-like-box{
+		margin-left:auto;
+		margin-right:auto;
+	}
 }
 .fb_iframe_widget span{
 	display:block!important;
@@ -236,6 +240,74 @@ ul.errorlist{
 	float:right;
 	margin:0;
 }
+div.sponsor-img{
+	display:block;
+	width:336px;
+	height:280px;
+}
+div.sponsor-panel>p{
+	margin:0;
+	word-break:hyphenate;
+	font-size:.8em;
+	line-height:1em;
+}
+@media only screen and (max-width:964px){
+	div.sponsor-panel{
+		max-width:100%;
+	}
+	div.sponsor-img{
+		background-size:100%;/*TODO make this work*/
+		max-width:100%;
+	}
+}
+.carousel{
+	position:relative;
+	overflow:hidden;
+	height:280px;
+}
+.carousel>div.carousel-list{
+	width:20000em;
+	position:absolute;
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+.carousel div.sponsor-panel{
+	float:left;
+	height:280px;
+}
+@media only screen and (max-width:964px){
+	.sponsor-panel,
+	.carousel{
+		width:336px;
+	}
+	.sponsor-panel>p{
+		display:none!important;
+	}
+}
+@media only screen and (min-width:965px){
+	div.sponsor-panel,
+	section.carousel{
+		width:500px;
+	}
+	div.sponsor-img{
+		float:left;
+	}
+	div.sponsor-panel>p{
+		display:block;
+		width:164px;
+		height:280px;
+		overflow-y:auto;
+		text-align:justify;
+		text-justify:newspaper;
+	}
+	#carousel-target>p{
+		display:none!important;
+	}
+}
+#carousel-target>div.sponsor-img{
+	display:none!important;
+}
 
 /* ==========================================================================
    Media Queries
@@ -245,14 +317,23 @@ ul.errorlist{
 	textarea{
 		max-width:90%;
 	}
+	h1{
+		margin:0;
+	}
 	.header-container>header a{
 		float:left;
-		width:25%;
-		padding:10px 0;
+		padding:10px 1%;
 		font-size:.7em;
 	}
 	.header-container>header a>img{
-		max-height:24px;
+		max-height:23px;
+	}
+	.header-container>header{
+		margin:0 5px;
+		width:100%;
+	}
+	small{
+		font-size:.6em;
 	}
 	.ie8 .header-container>header a>img{
 		max-height:none;
@@ -275,10 +356,14 @@ ul.errorlist{
 	nav a{
 		float:left;
 		margin:0 1.7%;
-		padding:25px 1%;
+		padding:11px 1%;
+		font-size:.8em;
+	}
+	.header-container>header a>img{
+		max-height:48px;
 	}
 	nav{
-		width:15.5em;
+		width:19.1em;
 	}
 
 	nav li:first-child a{
@@ -336,7 +421,7 @@ ul.errorlist{
 	}
 
 	nav{
-		width:48%;
+		width:72%;
 	}
 
 /* ============
@@ -344,8 +429,9 @@ ul.errorlist{
    ============ */
 
 	nav a{
-		width:27%;
-		padding:25px 2%;
+		width:19%;
+		padding:25px 1%;
+		font-size:1em;
 	}
 	.lt-ie9 nav a{
 		width:27%;
@@ -355,17 +441,24 @@ ul.errorlist{
 	}
 	.main article{
 		float:left;
-		width:57%;
+		width:54%;
 	}
 
 	.main aside{
 		float:right;
 		width:28%;
+		min-width:228px;
 	}
 	.fall,
 	.main{
 		padding-left:20px;
 		padding-right:20px;
+	}
+	.header-container>header a>img{
+		max-height:76px;
+	}
+	.fb-like-box{
+		margin-left:-15%;
 	}
 }
 
@@ -402,6 +495,10 @@ ul.errorlist{
 .hidden{
 	display:none !important;
 	visibility:hidden;
+}
+
+.js .jshidden{
+	display:none;
 }
 
 .visuallyhidden{

@@ -14,9 +14,11 @@
 						href="{{ event.link }}"
 					{% endif %}
 				>{{ event.name }}</a></h2>
-				<p>{{ event.html|safe }}</p>
-				<h3>Sign up for <strong>{{ event.name }}</strong></h3>
-				{{ event.signup|safe }}
+				<p>{{ event.html|default:""|safe }}</p>
+				{% if event.signup %}
+					<h3>Sign up for <strong>{{ event.name }}</strong></h3>
+					{{ event.signup|safe }}
+				{% endif %}
 				{% if event.stats %}
 					<h3>Signup stats</h3>
 					<p>{{ event.stats|safe }}</p>
@@ -33,5 +35,12 @@
 			<p>We may post more stuff.</p>
 		</footer>
 	</article>
+{% endblock %}
+{% block postscript %}
+	<script type="text/javascript">
+		$(".signup").each(function(i,e){
+			$(e).prev().togglerFor(e);
+		});
+	</script>
 {% endblock %}
 {# vim: set ts=4 sw=4: #}
