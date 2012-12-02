@@ -14,6 +14,7 @@ class VolleyballPlayer(db.Model):
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
 	gender=db.StringProperty(choices=("Male","Female"))
+	email=db.EmailProperty()
 import random
 from words import words
 class HasRandom(db.Model):
@@ -23,13 +24,14 @@ class HasRandom(db.Model):
 			kwargs["random"]="_".join(random.choice(words)for _ in xrange(4))
 		super(HasRandom,self).__init__(*args,**kwargs)
 class VolleyballTeam(HasRandom):
+	team_type=db.StringProperty(choices=("Competitive","Recreational"))
 	name=db.StringProperty(verbose_name="Team name")
 	email=db.EmailProperty(verbose_name="Account email",required=True)
 	phone=db.PhoneNumberProperty(verbose_name="Contact number")
 	school=db.StringProperty(verbose_name="School(s) to mention")
 	date=db.DateTimeProperty(auto_now_add=True)
-from legacy.google.appengine.ext.db.djangoforms import ModelForm
 import string
+from legacy.google.appengine.ext.db.djangoforms import ModelForm
 def form_class(what):
 	is_str=type(what)in(unicode,str)
 	class AddEntityForm(ModelForm):
@@ -79,8 +81,12 @@ class BaseVolleyballFormSet(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
-		if sum(int(form.cleaned_data["gender"]=="Male")for form in self)>4:
-			raise ValidationError("More than 4 male players")
+		deleted=self.deleted_forms()
+		forms=[form for form in self if form.is_valid()and form not in deleted]
+		if len(forms)==0:
+			raise ValidationError("You need at least one team member")
+		if len(forms)>1 and sum(int(form.cleaned_data["gender"]=="Female")for form in forms)<2:
+			raise ValidationError("You need at least 2 female players on the court")
 	@BaseFormSet.management_form.getter
 	def management_form(self):
 		"""Returns the ManagementForm instance for this FormSet."""
