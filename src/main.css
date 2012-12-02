@@ -92,7 +92,6 @@ body{
 }
 .fb-like-box{
 	background:#fff;
-	margin-left:-15%;
 }
 @media only screen and (min-width:1040px){
 	.fb-like-box{
@@ -457,6 +456,9 @@ div.sponsor-panel>p{
 	}
 	.header-container>header a>img{
 		max-height:76px;
+	}
+	.fb-like-box{
+		margin-left:-15%;
 	}
 }
 

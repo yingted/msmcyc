@@ -14,7 +14,7 @@
 						href="{{ event.link }}"
 					{% endif %}
 				>{{ event.name }}</a></h2>
-				<p>{{ event.html|safe }}</p>
+				<p>{{ event.html|default:""|safe }}</p>
 				{% if event.signup %}
 					<h3>Sign up for <strong>{{ event.name }}</strong></h3>
 					{{ event.signup|safe }}

@@ -30,10 +30,11 @@
 	<script type="text/javascript" src="/static/js/jquery.jcarousel.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$(".carousel").wrapInner("<div class=\"carousel-list\" />").children().children("h2").each(function(i,e){
+			var carousel=$(".carousel");
+			carousel.wrapInner("<div class=\"carousel-list\" />").children().children("h2").each(function(i,e){
 				$(e).next().prepend($(e).remove().hide()).html();
 			});
-			$(".carousel").after($("<div id=\"carousel-target\">").append($(".carousel-list>.sponsor-panel:first").children().clone().show()))
+			carousel.after($("<div id=\"carousel-target\">").append($(".carousel-list>.sponsor-panel:first").children().clone().show()))
 			.on("createend.jcarousel",function(){
 				$(this).jcarousel("scroll",$("div.sponsor-panel").length*Math.random()|0,false);
 			}).on("animate.jcarousel",function(){
@@ -45,10 +46,18 @@
 				wrap:"circular",
 				vertical:false,
 			}).jcarouselAutoscroll({
+				interval:5000,
 			}).hover(function(){
 				$(this).jcarouselAutoscroll("stop");
 			},function(){
 				$(this).jcarouselAutoscroll("start");
+			});
+			var out=false;
+			$(window).bind("scroll",function(){
+				var newout=$(window).scrollTop()>carousel.offset().top+carousel.height();
+				if(newout!=out)
+					$(this).jcarouselAutoscroll(newout?"stop":"start");
+				out=newout;
 			});
 		});
 	</script>
