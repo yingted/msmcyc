@@ -261,10 +261,35 @@ div.sponsor-panel>p{
 		max-width:100%;
 	}
 }
+.carousel{
+	position:relative;
+	overflow:hidden;
+	height:280px;
+}
+.carousel>div.carousel-list{
+	width:20000em;
+	position:absolute;
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+.carousel div.sponsor-panel{
+	float:left;
+	height:280px;
+}
+@media only screen and (max-width:964px){
+	.sponsor-panel,
+	.carousel{
+		width:336px;
+	}
+	.sponsor-panel>p{
+		display:none!important;
+	}
+}
 @media only screen and (min-width:965px){
-	div.sponsor-panel{
+	div.sponsor-panel,
+	section.carousel{
 		width:500px;
-		height:280px;
 	}
 	div.sponsor-img{
 		float:left;
@@ -277,6 +302,12 @@ div.sponsor-panel>p{
 		text-align:justify;
 		text-justify:newspaper;
 	}
+	#carousel-target>p{
+		display:none!important;
+	}
+}
+#carousel-target>div.sponsor-img{
+	display:none!important;
 }
 
 /* ==========================================================================
@@ -333,7 +364,7 @@ div.sponsor-panel>p{
 		max-height:48px;
 	}
 	nav{
-		width:19.3em;
+		width:19.1em;
 	}
 
 	nav li:first-child a{
