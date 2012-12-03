@@ -139,14 +139,16 @@ Submitted form (can be changed):
 	})
 
 from creepy import first_signups,first_signups_fields
-from django.http import HttpResponse,HttpResponseNotFound
+from django.http import HttpResponse
 import itertools
+first_signups_keyed=tuple(tuple(val.lower()if type(val)==str else val for val in record)+record for record in first_signups)
 def prev_players(request,key,prefix):
+	prefix=prefix.lower()
 	try:
 		idx=first_signups_fields.index(key)
-		lst=list(itertools.islice((record for record in first_signups if record[idx].startswith(prefix)),2))
+		lst=list(itertools.islice((record[len(first_signups_fields):] for record in first_signups_keyed if record[idx].startswith(prefix)),2))
 		if len(lst)==1:
 			return HttpResponse("\t".join(map(str,lst[0])),content_type="text/plain")
 	except ValueError:
 		pass
-	return HttpResponseNotFound(content_type="text/plain")
+	return HttpResponse(content_type="text/plain")

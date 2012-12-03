@@ -7,6 +7,17 @@
 			return f.apply(this.parentNode,arguments);
 		}).attr("role","button").parent();
 	}
+	$.fn.hint=function(hint){//assume parent is display:block
+		if(hint){
+			this.clone().insertAfter(this).addClass("input-hint").val(hint).attr("tabindex",-1);
+			return this.addClass("input-hinted");
+		}
+		this.removeClass("input-hinted").next(".input-hint").remove();
+		return this;
+	}
+	$.unhint=function(){
+		$(".input-hinted").hint();
+	}
 	var prefixes=["+ ","\u2212 "];
 	$.fn.togglerFor=function(e){
 		var i=0,prefix=$("<span>").text(prefixes[i]);

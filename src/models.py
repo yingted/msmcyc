@@ -20,7 +20,7 @@ class VolleyballPlayer(db.Model):
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
 	grade=db.IntegerProperty(validator=validator(lambda x:9<=x<=12))
-	gender=db.StringProperty(choices=("Male","Female"))
+	gender=db.StringProperty(choices=("Male","Female"),required=True)
 	email=db.EmailProperty()
 	phone=db.PhoneNumberProperty()
 import random
@@ -32,7 +32,7 @@ class HasRandom(db.Model):
 			kwargs["random"]="_".join(random.choice(words)for _ in xrange(4))
 		super(HasRandom,self).__init__(*args,**kwargs)
 class VolleyballTeam(HasRandom):
-	team_type=db.StringProperty(choices=("Competitive","Recreational"))
+	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True)
 	name=db.StringProperty(verbose_name="Team name")
 	email=db.EmailProperty(verbose_name="Account email",required=True)
 	phone=db.PhoneNumberProperty(verbose_name="Contact number")

@@ -308,6 +308,31 @@ div.sponsor-panel>p{
 #carousel-target>div.sponsor-img{
 	display:none!important;
 }
+.signup ul{
+	padding:0;
+}
+.signup ul li{
+	padding-right:.5em;
+	display:inline;
+}
+.signup>form td{
+	display:block;
+	position:relative;
+}
+.input-hint{
+	position:absolute;
+	z-index:-1;
+	color:silver;
+	left:0px;
+	margin:1px;
+}
+.input-hinted{
+	position:absolute;
+	background:transparent;
+	border-color:transparent;
+	left:0px;
+	margin:1px;
+}
 
 /* ==========================================================================
    Media Queries

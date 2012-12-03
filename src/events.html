@@ -38,11 +38,113 @@
 {% endblock %}
 {% block postscript %}
 	<script type="text/javascript">
-		$(".signup").each(function(i,e){
-			$(e).prev().togglerFor(e);
-		});
-		$("form").keyup(function(i,e){
-			console.log(document.activeElement);
+		$(function(){
+			$(".signup").each(function(i,e){
+				$(e).prev().togglerFor(e);
+			});
+			var cache={},queue={},trees=[],slugs="first_name last_name phone email schools_to_mention grade team_type".split(" "),write=47,read=15;
+			trees=slugs.map(function(){
+				return{};
+			});
+			function ajax(url,f){
+				if(cache.hasOwnProperty(url)){
+					if(queue.hasOwnProperty(url))
+						queue[url].push(f);
+					else
+						f.apply(cache[url].ths,cache[url].args);
+					return cache[url].ret;
+				}
+				queue[url]=[f];
+				var ret=$.ajax(url).success(function(){
+					for(var i=0;i<queue[url].length;queue[url][i++].apply(this,arguments));
+					cache[url].ths=this;
+					cache[url].args=arguments;
+					delete queue[url];
+				});
+				cache[url]={ret:ret};
+				return ret;
+			}
+			function insert(t,s,v){
+				if(s.length==1)
+					return!(t[s[0]]instanceof Array)&&(t[s[0]]=v);
+				if(!t.hasOwnProperty(s[0]))
+					t[s[0]]={};
+				return insert(t[s[0]],s.substring(1),v);
+			}
+			function retrieve(t,s){
+				if(s)
+					if(t instanceof Array)
+						return false;
+					else if(t.hasOwnProperty(s[0]))
+						return retrieve(t[s[0]],s.substring(1));
+					else return;
+				if(t instanceof Array)
+					return t;
+			}
+			var lastcb,ac=new Function,block=false;
+			function unhint(){
+				ac=new Function;
+				$.unhint();
+				block=false;
+			}
+			$("form").keyup(function(){
+				if(block)
+					return;
+				unhint();
+				var $e=$(document.activeElement),prefix=$e.val(),slug=$e.parent().prev().children().text().trim().replace(/ /g,"_").toLowerCase().replace(/[^a-z_]/g,"");
+				if(!$e.closest("#signup-volleyball").length||!prefix)
+					return;
+				var idx=slugs.indexOf(slug),val=retrieve(trees[idx]||{},prefix.toLowerCase());
+				if(!(read&(1<<idx))||val===false)
+					return;
+				function cb(val){
+					if(lastcb!=cb)
+						return;
+					var m=$e.attr("name").match(/form-([0-9]*)/),n=+m[1];
+					for(var i=0;1<<i<=write;++i)
+						if((1<<i)&write)
+							$(document.getElementById("id_form-"+n+"-"+slugs[i])).hint(i==idx?prefix+val[i].substring(prefix.length)+" (tab)":val[i]);
+					ac=function(){
+						for(var i=0;1<<i<=write;++i)
+							if((1<<i)&write)
+								$(document.getElementById("id_form-"+n+"-"+slugs[i])).val(val[i]);
+						var $school=$("#id_form-school"),old=$school.val(),$phone=$("#id_form-phone"),$email=$("#id_form-email");
+						if(old.indexOf(val[4])<0)
+							$school.val(old?old.replace(/ *$/,"")+", "+val[4]:val[4]);
+						if(!$("#id_form-team_type_0:checked,#id_form-team_type_1:checked").length)
+							$("#id_form-team_type_"+(val[6]^1)).click();
+						if(!$phone.val())
+							$phone.val(val[2]);
+						if(!$email.val())
+							$email.val(val[3]);
+						$.unhint();
+					}
+				}
+				lastcb=cb;
+				if(val&&!val[idx].toLowerCase().lastIndexOf(prefix.toLowerCase(),0))
+					cb(val);
+				else
+					ajax("/ajax/prev_players/"+slug+"/"+prefix,function(rec){
+						if(!rec)
+							return;
+						rec=rec.split("\t");
+						for(var i=0;i<slugs.length;++i)
+							insert(trees[i],rec[i].toLowerCase(),rec);
+						cb(rec);
+					});
+			}).keydown(function(e){
+				switch(e.keyCode||e.which){
+					case 9:
+						if(ac())
+							e.preventDefault();
+						unhint();
+						break
+					case 27:
+						unhint();
+						block=true;
+				}
+			});
+			$(".signup>form input").focus(unhint).blur(unhint);
 		});
 	</script>
 {% endblock %}
