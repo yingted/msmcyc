@@ -31,10 +31,11 @@ class ContactForm(forms.Form):
 	name=forms.CharField(max_length=1000)
 	sender=MyEmailField(label="Your email")
 	about=forms.ChoiceField(choices=(
-		("AboutUs","Stuff about this organization"),
+		("AboutUs","General information"),
 		("HelpMe","I need help with..."),
-		("Website","The website sucks/rocks!"),
-		("Internet","My internet is down!"),
+		("Website","Website issues"),
+		("Sponsors","Becoming a sponsor"),
+		("Volleyball","MS Volleyball Tournament"),
 		("Other","Other"),
 	))
 	message=forms.CharField(widget=forms.widgets.Textarea)
