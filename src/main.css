@@ -323,15 +323,10 @@ div.sponsor-panel>p{
 	position:absolute;
 	z-index:-1;
 	color:silver;
-	left:0px;
-	margin:1px;
 }
 .input-hinted{
-	position:absolute;
-	background:transparent;
+	background-color:transparent;
 	border-color:transparent;
-	left:0px;
-	margin:1px;
 }
 
 /* ==========================================================================

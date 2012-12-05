@@ -5,12 +5,10 @@
 	<article>
 		<header>
 			<h1>{{ name|capfirst }} &#8212; Signup</h1>
-			<p>Sign up for {{ name }} now! You can edit it later.</p>
+			<p>Sign up for {{ name }} now!</p>
 		</header>
 		<section>
-			{% if not existing %}
-				<p>If you haven't signed up for the {{ name }}, you can sign up here.</p>
-			{% endif %}
+			<p>If you haven't signed up for the {{ name }}, you can sign up here.</p>
 			{% if form.management_form %}
 				{% include "base_signup.html" %}
 			{% else %}

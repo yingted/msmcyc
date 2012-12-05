@@ -19,6 +19,7 @@ def validator(f):
 class VolleyballPlayer(db.Model):
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
+	school=db.StringProperty(verbose_name="School")
 	grade=db.IntegerProperty(validator=validator(lambda x:9<=x<=12))
 	gender=db.StringProperty(choices=("Male","Female"),required=True)
 	email=db.EmailProperty()
@@ -31,12 +32,14 @@ class HasRandom(db.Model):
 		if"random"not in kwargs or not kwargs["random"]:
 			kwargs["random"]="_".join(random.choice(words)for _ in xrange(4))
 		super(HasRandom,self).__init__(*args,**kwargs)
-class VolleyballTeam(HasRandom):
-	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True)
+import re
+normalize_kill=re.compile(u"[-\t _]",re.UNICODE)
+def normalize_name(name):
+	return normalize_kill.sub("",name).lower()#kill unpronounceables
+class VolleyballTeam(db.Model):
 	name=db.StringProperty(verbose_name="Team name")
-	email=db.EmailProperty(verbose_name="Account email",required=True)
-	phone=db.PhoneNumberProperty(verbose_name="Contact number")
-	school=db.StringProperty(verbose_name="School(s) to mention")
+	index_key=db.StringProperty()
+	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True)
 	date=db.DateTimeProperty(auto_now_add=True)
 import string
 from legacy.google.appengine.ext.db.djangoforms import ModelForm
@@ -57,48 +60,28 @@ from noconflict import classmaker
 class VolleyballManagementForm(ManagementForm,ModelForm):
 	class Meta:
 		model=VolleyballTeam
-		exclude=("random",)
+		exclude=("random","index_key",)
 	def save(self,*args,**kwargs):
 		return ModelForm.save(self,*args,**kwargs)
 	__metaclass__=classmaker()
 def to_dict(ent):
 	klass=ent.__class__
 	return dict((k,v.__get__(ent,klass))for k,v in klass.properties().iteritems())
+def team_by_name(name):
+	res=VolleyballTeam.all().filter("index_key",name).fetch(2)
+	if len(res)==1:
+		return res[0]
 class BaseVolleyballFormSet(BaseFormSet):
-	def __init__(self,*args,**kwargs):
-		rebuild="instance"in kwargs
-		if rebuild:
-			self.instance=kwargs["instance"]
-			self.players=VolleyballPlayer.all().ancestor(self.instance).fetch(limit=8)
-			kwargs["initial"]=map(to_dict,self.players)
-			del kwargs["instance"]
-		else:
-			self.instance=None
-		super(BaseVolleyballFormSet,self).__init__(*args,**kwargs)
-		if self.instance:
-			team=to_dict(self.instance)
-			team.update({
-				TOTAL_FORM_COUNT:8,
-				INITIAL_FORM_COUNT:8,
-				MAX_NUM_FORM_COUNT:8,
-			})
-			if self.data=={}:
-				self.data=dict(("form-"+k,v)for k,v in team.iteritems())
-				self.is_bound=True
 	def clean(self):
 		if any(self.errors):
 			return
-		deleted=self.deleted_forms()
-		forms=[form for form in self if form.is_valid()and form not in deleted]
-		if len(forms)==0:
+		if not any(form.is_valid() for form in self):
 			raise ValidationError("You need at least one team member")
-		if len(forms)>1 and sum(int(form.cleaned_data["gender"]=="Female")for form in forms)<2:
-			raise ValidationError("You need at least 2 female players on the court")
 	@BaseFormSet.management_form.getter
 	def management_form(self):
 		"""Returns the ManagementForm instance for this FormSet."""
 		if self.is_bound:
-			form = VolleyballManagementForm(self.data, auto_id=self.auto_id, prefix=self.prefix, instance=self.instance)
+			form = VolleyballManagementForm(self.data, auto_id=self.auto_id, prefix=self.prefix)
 			if not form.is_valid():
 				raise ValidationError('ManagementForm data is missing or has been tampered with')
 		else:
@@ -109,22 +92,21 @@ class BaseVolleyballFormSet(BaseFormSet):
 			})  
 		return form
 	def save(self):
-		event=self.management_form.save()
+		newevent=self.management_form.save(commit=False)
+		newevent.index_key=normalize_name(newevent.name)
+		event=team_by_name(newevent.index_key)
+		if not event:
+			event=newevent
+			event.put()
 		i=0
-		deleted=self.deleted_forms
 		for form in self:
-			if form in deleted and i<len(self.players):
-				VolleyballPlayer(key=self.players[i].key()).delete()
-			elif form.is_valid()and form.has_changed():
+			if form.is_valid()and form.has_changed():
 				props=to_dict(form.save(commit=False))
-				if self.instance and i<len(self.players):
-					props["key"]=self.players[i].key()
-				else:
-					props["parent"]=event
+				props["parent"]=event
 				VolleyballPlayer(**props).put()
 			i+=1
 		return event
-VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=8,extra=8,can_delete=True)
+VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=1)
 def signup_conf(event):
 	return{
 		"volleyball":{

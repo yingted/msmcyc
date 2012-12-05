@@ -4,12 +4,14 @@
 	<article>
 		<header>
 			<h1>Done!</h1>
-			<p>You have signed up for the {{ name }}. You can edit your information at <a href="{{ uri }}">{{ uri }}</a>. Anyone with this link can edit your info. A confirmation email has been sent.</p>
+			<p>You have signed up for the {{ name }}. You can view your information at <a href="{{ uri }}">{{ uri }}</a>. A confirmation email has been sent.</p>
 		</header>
-		<section>
-			<h2>Submitted Form</h2>
-			{% include "base_signup.html" %}
-		</section>
+		{% if form %}
+			<section>
+				<h2>Submitted Form</h2>
+				{% include "base_signup.html" %}
+			</section>
+		{% endif %}
 	</article>
 {% endblock %}
 {# vim: set ts=4 sw=4: #}

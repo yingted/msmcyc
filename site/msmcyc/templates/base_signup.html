@@ -1,5 +1,5 @@
 {# {% load extras %} #}
-<div class="signup" id="signup-{{ event }}">
+<div class="signup jshidden" id="signup-{{ event }}">
 	{% if form.management_form %}
 		<form action="/signup/{{ event }}" method="post">
 			{% csrf_token %}
@@ -8,7 +8,7 @@
 			<table>
 				{{ form.management_form.as_table }}
 				{% for form in form %}
-					<tr style="border-top:1px dotted black"><th></th><td>Player {{ forloop.counter }}</td></tr>
+					<tr style="border-top:1px dotted black"><th></th><td><span class="signup-me">Participant</span> information</td></tr>
 					{{ form.as_table }}
 				{% endfor %}
 				<tr><td></td><td><input type="submit" value="{{ existing|yesno:"Save,Sign up" }}" /></td></tr>

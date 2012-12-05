@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^contact',views.contact),
     url(r'^events',views.events),
     url(r'^signup/([^/]*)$',views.signup),
-    url('^signup/([^/]*)/([1-9][0-9]*)/([A-Za-z_\']*)$',views.signup),
     url(r'^ajax/prev_players/([^/]*)/(.*)$',views.prev_players),
+    url(r'^ajax/team_prefix/(.*)$',views.team_prefix),
     url(r'',views.index),
 )

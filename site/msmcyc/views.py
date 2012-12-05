@@ -31,10 +31,11 @@ class ContactForm(forms.Form):
 	name=forms.CharField(max_length=1000)
 	sender=MyEmailField(label="Your email")
 	about=forms.ChoiceField(choices=(
-		("AboutUs","Stuff about this organization"),
+		("AboutUs","General information"),
 		("HelpMe","I need help with..."),
-		("Website","The website sucks/rocks!"),
-		("Internet","My internet is down!"),
+		("Website","Website issues"),
+		("Sponsors","Becoming a sponsor"),
+		("Volleyball","MS Volleyball Tournament"),
 		("Other","Other"),
 	))
 	message=forms.CharField(widget=forms.widgets.Textarea)
@@ -96,59 +97,55 @@ def add_entity(request,what):
 	else:
 		return redirect(users.create_login_url(request.path))
 from django.core.exceptions import PermissionDenied
-def signup(request,event,uid=0,rand=None):
+def signup(request,event):
 	conf=signup_conf(event)
-	if uid:
-		ent=conf["model"].get_by_id(long(uid))
-		if ent.random!=rand:
-			raise PermissionDenied
-		event+="/%s/%s"%(uid,rand)
-		if request.method=="POST":
-			form=conf["form"](request.POST,instance=ent)
-			if form.is_valid():
-				form.save()
-		form=conf["form"](instance=ent)
-	elif request.method=="POST":
+	if request.method=="POST":
 		form=conf["form"](request.POST)
 		if form.is_valid():
 			ent=form.save()
-			uri=request.build_absolute_uri("/signup/%s/%s/%s"%(event,ent.key().id(),ent.random))
+			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
 			EmailMessage(
 				sender="MSMYC mailer <youth.mssociety@gmail.com>",
 				subject="Sign up: %s"%conf["name"],
-				body="""You have signed up for %s. You can change your information at:
-%s
-This link can be used by anyone to edit your team info.
-Submitted form (can be changed):
-%s"""%(conf["name"],uri,form),
-				to="%s <%s>"%(ent.name,ent.email),
+				body="""You have signed up for %s. You can see more information online at:
+%s"""%(conf["name"],uri),
+				to="%s <%s>"%(ent.name,next(form.cleaned_data["email"]for form in form if form.is_valid())),
 			).send()
 			return render(request,"signup_success.html",{
 				"event":event,
 				"name":conf["name"],
 				"uri":uri,
-				"form":form,
 			})
 	else:
-		form=conf["form"](event)()
+		form=conf["form"]()
 	return render(request,"signup.html",{
 		"event":event,
 		"name":conf["name"],
 		"form":form,
-		"existing":bool(uid),
 	})
 
 from creepy import first_signups,first_signups_fields
 from django.http import HttpResponse
 import itertools
 first_signups_keyed=tuple(tuple(val.lower()if type(val)==str else val for val in record)+record for record in first_signups)
+def one(ite):
+	"""Returns the one value or None"""
+	lst=list(itertools.islice(ite,2))
+	if len(lst)==1:
+		return lst[0]
 def prev_players(request,key,prefix):
 	prefix=prefix.lower()
 	try:
 		idx=first_signups_fields.index(key)
-		lst=list(itertools.islice((record[len(first_signups_fields):] for record in first_signups_keyed if record[idx].startswith(prefix)),2))
-		if len(lst)==1:
-			return HttpResponse("\t".join(map(str,lst[0])),content_type="text/plain")
+		val=one(record[len(first_signups_fields):] for record in first_signups_keyed if record[idx].startswith(prefix))
+		if val:
+			return HttpResponse("\t".join(map(str,val)),content_type="text/plain")
 	except ValueError:
 		pass
 	return HttpResponse(content_type="text/plain")
+def team_prefix(request,prefix):
+	prefix=normalize_name(prefix)
+	lst=VolleyballTeam.all().filter("index_key >=",prefix).filter("index_key <=",prefix+u"\uffff").order("index_key").fetch(2)
+	if len(lst)>1 and lst[0].index_key!=prefix:
+		lst=False
+	return HttpResponse(str(int(lst[0].team_type=="Competitive"))+lst[0].name if lst else"",content_type="text/plain")

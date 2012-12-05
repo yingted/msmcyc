@@ -8,15 +8,17 @@
 		}).attr("role","button").parent();
 	}
 	$.fn.hint=function(hint){//assume parent is display:block
-		if(hint){
-			this.clone().insertAfter(this).addClass("input-hint").val(hint).attr("tabindex",-1);
-			return this.addClass("input-hinted");
-		}
-		this.removeClass("input-hinted").next(".input-hint").remove();
+		if(hint)
+			return this.before(this.clone().removeAttr("id").addClass("input-hint").val(hint).attr("tabindex",-1)).addClass("input-hinted");
+		this.removeClass("input-hinted").prev(".input-hint").remove();
 		return this;
 	}
 	$.unhint=function(){
 		$(".input-hinted").hint();
+	}
+	$.fn.guess=function(guess,force){
+		var val=this.val();
+		return this.hint(val+guess.substring(force?0:val.length));
 	}
 	var prefixes=["+ ","\u2212 "];
 	$.fn.togglerFor=function(e){
