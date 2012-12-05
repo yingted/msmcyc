@@ -131,7 +131,7 @@ Submitted form (can be changed):
 				"form":form,
 			})
 	else:
-		form=conf["form"](event)()
+		form=conf["form"]()
 	return render(request,"signup.html",{
 		"event":event,
 		"name":conf["name"],
