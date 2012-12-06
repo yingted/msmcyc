@@ -1,8 +1,10 @@
 .PHONY: all copy watch
 all: copy
 test: copy
+	[ "$(TERM)" = "screen" ] && echo -en '\ekgae\e\\' || :
 	python ../google_appengine/dev_appserver.py ../site --address 0.0.0.0
 watch: copy
+	[ "$(TERM)" = "screen" ] && echo -en '\ekwatch\e\\' || :
 	while :; do inotifywait -e close_write -e delete_self -e create -e move_self -qqrt5 *; make; done
 deploy:
 	make deploy -C ..
