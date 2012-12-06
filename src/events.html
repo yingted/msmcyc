@@ -79,6 +79,8 @@
 					return t;
 				if(s&&t.hasOwnProperty(s[0]))
 					return retrieve(t[s[0]],s.substring(1));
+				if(s===""&&t.hasOwnProperty('\0'))
+					return retrieve(t['\0']);
 			}
 			var lastcb,ac=new Function,block=false;
 			function unhint(){
