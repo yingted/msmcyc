@@ -1,0 +1,35 @@
+{% extends "base_home.html" %}
+{% block title %}Signup info{% endblock %}
+{% block description %}Signup info for {{ name }}{% endblock %}
+{% block content %}
+	<article>
+		<header>
+			<h1>Information for {{ ent.name }} at the {{ name }}</h1>
+		</header>
+		<section class="view-parent">
+			{% for k,v in ent.items %}
+				<dl>
+					<dt>{{ k }}</dt>
+					<dd>{{ v }}</dd>
+				</dl>
+			{% endfor %}
+		</section>
+		{% if children %}
+			{% for child in children %}
+				<section class="view-child">
+					{% for k,v in child.items %}
+						<dl>
+							<dt>{{ k }}</dt>
+							<dd>{{ v }}</dd>
+						</dl>
+					{% endfor %}
+				</section>
+			{% empty %}
+				<footer>
+					<h2>Empty</h2>
+					<p>There is nothing else here.</p>
+				</footer>
+			{% endfor %}
+		{% endif %}
+	</article>
+{% endblock %}

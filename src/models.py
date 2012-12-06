@@ -57,16 +57,21 @@ def form_class(what):
 from django.forms.formsets import BaseFormSet,ManagementForm,formset_factory,TOTAL_FORM_COUNT,INITIAL_FORM_COUNT,MAX_NUM_FORM_COUNT
 from django import forms
 from noconflict import classmaker
+_exclude=("random","index_key",)
 class VolleyballManagementForm(ManagementForm,ModelForm):
 	class Meta:
 		model=VolleyballTeam
-		exclude=("random","index_key",)
+		exclude=_exclude
 	def save(self,*args,**kwargs):
 		return ModelForm.save(self,*args,**kwargs)
 	__metaclass__=classmaker()
 def to_dict(ent):
 	klass=ent.__class__
 	return dict((k,v.__get__(ent,klass))for k,v in klass.properties().iteritems())
+def to_pretty_dict(ent):
+	klass=ent.__class__
+	props=klass.__dict__
+	return dict((props[k].verbose_name or string.capwords(k.replace("_"," ")),v)for k,v in to_dict(ent).iteritems()if k not in _exclude)
 def team_by_name(name):
 	res=VolleyballTeam.all().filter("index_key",name).fetch(2)
 	if len(res)==1:
@@ -113,5 +118,6 @@ def signup_conf(event):
 			"name":"volleyball tournament",
 			"form":VolleyballFormSet,
 			"model":VolleyballTeam,
+			"children":VolleyballPlayer,
 		},
 	}[event]

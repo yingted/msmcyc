@@ -328,6 +328,20 @@ div.sponsor-panel>p{
 	background-color:transparent;
 	border-color:transparent;
 }
+.view-parent{
+	border-right:2px dashed #909093;
+}
+.view-parent dt,
+.view-child dt{
+	font-style:italic;
+}
+.view-parent dd,
+.view-child dd{
+	color:black;
+}
+.view-child{
+	border-top:1px dotted black;
+}
 
 /* ==========================================================================
    Media Queries

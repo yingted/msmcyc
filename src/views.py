@@ -149,3 +149,14 @@ def team_prefix(request,prefix):
 	if len(lst)>1 and lst[0].index_key!=prefix:
 		lst=False
 	return HttpResponse(str(int(lst[0].team_type=="Competitive"))+lst[0].name if lst else"",content_type="text/plain")
+
+from itertools import imap
+def view(request,event,uid):
+	conf=signup_conf(event)
+	ent=conf["model"].get_by_id(long(uid))
+	return render(request,"view.html",{
+		"event":event,
+		"name":conf["name"],
+		"ent":to_pretty_dict(ent),
+		"children":imap(to_pretty_dict,conf["children"].all().ancestor(ent).run())if"children"in conf else None,
+	})
