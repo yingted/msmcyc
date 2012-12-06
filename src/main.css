@@ -342,6 +342,9 @@ div.sponsor-panel>p{
 .view-child{
 	border-top:1px dotted black;
 }
+.db-read{
+	background-color:#ffe;
+}
 
 /* ==========================================================================
    Media Queries

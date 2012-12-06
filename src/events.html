@@ -82,7 +82,7 @@
 				if(s===""&&t.hasOwnProperty('\0'))
 					return retrieve(t['\0']);
 			}
-			var lastcb,ac=new Function,block=false;
+			var lastcb,ac=new Function,block=false,defMe=$(".signup-me").text();
 			function unhint(){
 				ac=new Function;
 				$.unhint();
@@ -102,32 +102,39 @@
 					return;
 				unhint();
 				var $e=$(document.activeElement),prefix=$e.val(),slug=$e.parent().prev().children().text().trim().replace(/ /g,"_").toLowerCase().replace(/[^a-z_]/g,"");
-				if(!$e.closest("#signup-volleyball").length||!prefix)
+				if(!$e.closest("#signup-volleyball").length)
+					return;
+				if(slug=="team_name")
+					$(".signup-me").text(defMe).removeClass("db-read");
+				if(!prefix)
 					return;
 				if(slug=="team_name"){
 					var key=normalizeName(prefix),val=retrieve(trees.teamName,key);
 					if(val===false)
-						return;
+						val=[];
 					function cb(val){
 						if(lastcb!=cb)
 							return;
-						$("#id_form-name").guess(val[1]);
-						ac=function(){
-							defaultTeamType(val[0]);
-							$("#id_form-name").val(val[1]);
-							$.unhint();
+						if(val.length){
+							$("#id_form-name").guess(val[1]);
+							ac=function(){
+								defaultTeamType(val[0]);
+								$("#id_form-name").val(val[1]);
+								$(".signup-me").text("Member").addClass("db-read");
+								$.unhint();
+							}
 						}
+						if(normalizeName(val[1])!==key)
+							$(".signup-me").text("Captain").addClass("db-read");
 					}
 					lastcb=cb;
-					if(val)
+					if(val&&(!val.length||!normalizeName(val[1]).lastIndexOf(key,0)))
 						cb(val);
 					else
 						ajax("/ajax/team_prefix/"+key,function(rec){
-							if(!rec)
-								return;
-							rec=[+rec[0],rec.substring(1)];
-							var realkey=normalizeName(rec[1]);
-							insert(trees.teamName,realkey==key?key+"\0":key,rec);
+							rec=rec?[+rec[0],rec.substring(1)]:[];
+							var realkey=rec.length&&normalizeName(rec[1]);
+							insert(trees.teamName,realkey===key?key+"\0":key,rec);
 							cb(rec);
 						});
 					return;
@@ -162,7 +169,7 @@
 							insert(trees[i],prefix.toLowerCase(),rec);
 						cb(rec);
 					});
-			}).keydown(function(e){
+			}).keyup().keydown(function(e){
 				switch(e.keyCode||e.which){
 					case 9:
 						if(ac())
