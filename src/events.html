@@ -124,7 +124,7 @@
 								$.unhint();
 							}
 						}
-						if(normalizeName(val[1])!==key)
+						if(!val.length||normalizeName(val[1])!==key)
 							$(".signup-me").text("Captain").addClass("db-read");
 					}
 					lastcb=cb;

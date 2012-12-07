@@ -17,6 +17,7 @@ def validator(f):
 			raise ValidationError("Invalid value")
 	return is_valid
 class VolleyballPlayer(db.Model):
+	added=db.DateTimeProperty(auto_now_add=True)
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
 	school=db.StringProperty(verbose_name="School")
@@ -119,5 +120,6 @@ def signup_conf(event):
 			"form":VolleyballFormSet,
 			"model":VolleyballTeam,
 			"children":VolleyballPlayer,
+			"order":"added",
 		},
 	}[event]

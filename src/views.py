@@ -154,9 +154,15 @@ from itertools import imap
 def view(request,event,uid):
 	conf=signup_conf(event)
 	ent=conf["model"].get_by_id(long(uid))
+	children=None
+	if"children"in conf:
+		children=conf["children"].all().ancestor(ent)
+		if"order"in conf and conf["order"]:
+			children=children.order(conf["order"])
+		children=imap(to_pretty_dict,children.run())
 	return render(request,"view.html",{
 		"event":event,
 		"name":conf["name"],
 		"ent":to_pretty_dict(ent),
-		"children":imap(to_pretty_dict,conf["children"].all().ancestor(ent).run())if"children"in conf else None,
+		"children":children,
 	})
