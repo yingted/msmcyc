@@ -9,8 +9,8 @@
 	}
 	$.fn.hint=function(hint){//assume parent is display:block
 		if(hint)
-			return this.before(this.clone().removeAttr("id").addClass("input-hint db-read").val(hint).attr("tabindex",-1)).addClass("input-hinted");
-		this.removeClass("input-hinted").prev(".input-hint").remove();
+			return this.before(this.clone().removeAttr("id").addClass("input-hint").val(hint).attr("tabindex",-1)).addClass("input-hinted");
+		this.removeClass("input-hinted").prev().filter(".input-hint").remove();
 		return this;
 	}
 	$.unhint=function(){
