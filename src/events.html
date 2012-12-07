@@ -44,7 +44,7 @@
 			if(!$("#signup-volleyball").length)
 				return;
 			$(".signup").each(function(i,e){
-				$(e).prev("h3").togglerFor(e);
+				$(e).prevAll("h3").first().togglerFor(e);
 			});
 			var trees=[],slugs="first_name last_name phone email school grade team_type".split(" "),read=31;
 			trees=slugs.map(function(){
