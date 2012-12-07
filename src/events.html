@@ -148,10 +148,10 @@
 					if(lastcb!=cb)
 						return;
 					var m=$e.attr("name").match(/form-([0-9]*)/),n=+m[1];
-					for(var i=0;1<slugs.length;++i)
+					for(var i=0;i<slugs.length;++i)
 						$(document.getElementById("id_form-"+n+"-"+slugs[i])).hint(i==idx?prefix+val[i].substring(prefix.length)+" (tab)":val[i]);
 					ac=function(){
-						for(var i=0;1<slugs.length;++i)
+						for(var i=0;i<slugs.length;++i)
 							$(document.getElementById("id_form-"+n+"-"+slugs[i])).val(val[i]);
 						defaultTeamType(val[6]);
 						$.unhint();
