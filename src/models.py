@@ -58,7 +58,7 @@ def form_class(what):
 from django.forms.formsets import BaseFormSet,ManagementForm,formset_factory,TOTAL_FORM_COUNT,INITIAL_FORM_COUNT,MAX_NUM_FORM_COUNT
 from django import forms
 from noconflict import classmaker
-_exclude=("random","index_key",)
+_exclude=("random","index_key","date","added",)
 class VolleyballManagementForm(ManagementForm,ModelForm):
 	class Meta:
 		model=VolleyballTeam

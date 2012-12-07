@@ -7,22 +7,12 @@
 			<h1>Information for {{ ent.name }} at the {{ name }}</h1>
 		</header>
 		<section class="view-parent">
-			{% for k,v in ent.items %}
-				<dl>
-					<dt>{{ k }}</dt>
-					<dd>{{ v }}</dd>
-				</dl>
-			{% endfor %}
+			{% include "base_dict.html" with data=ent %}
 		</section>
 		{% if children %}
 			{% for child in children %}
 				<section class="view-child">
-					{% for k,v in child.items %}
-						<dl>
-							<dt>{{ k }}</dt>
-							<dd>{{ v }}</dd>
-						</dl>
-					{% endfor %}
+					{% include "base_dict.html" with data=child %}
 				</section>
 			{% empty %}
 				<footer>
@@ -33,3 +23,4 @@
 		{% endif %}
 	</article>
 {% endblock %}
+{# vim: set ts=4 sw=4: #}

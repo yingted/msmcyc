@@ -29,6 +29,25 @@
 		});
 		return $(e).hide();
 	}
+	var cache={},queue={};
+	$.ajaxC=function(url,f){
+		if(cache.hasOwnProperty(url)){
+			if(queue.hasOwnProperty(url))
+				queue[url].push(f);
+			else
+				f.apply(cache[url].ths,cache[url].args);
+			return cache[url].ret;
+		}
+		queue[url]=[f];
+		var ret=$.ajax(url).success(function(){
+			for(var i=0;i<queue[url].length;queue[url][i++].apply(this,arguments));
+			cache[url].ths=this;
+			cache[url].args=arguments;
+			delete queue[url];
+		});
+		cache[url]={ret:ret};
+		return ret;
+	}
 })(jQuery);
 $(function(){
 	$("a:not(.click)").filter(function(i,e){

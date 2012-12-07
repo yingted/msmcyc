@@ -41,32 +41,16 @@
 {% block postscript %}
 	<script type="text/javascript">
 		$(function(){
+			if(!$("#signup-volleyball").length)
+				return;
 			$(".signup").each(function(i,e){
-				$(e).prev().togglerFor(e);
+				$(e).prev("h3").togglerFor(e);
 			});
-			var cache={},queue={},trees=[],slugs="first_name last_name phone email school grade team_type".split(" "),read=31;
+			var trees=[],slugs="first_name last_name phone email school grade team_type".split(" "),read=31;
 			trees=slugs.map(function(){
 				return{};
 			});
 			trees.teamName={};
-			function ajax(url,f){
-				if(cache.hasOwnProperty(url)){
-					if(queue.hasOwnProperty(url))
-						queue[url].push(f);
-					else
-						f.apply(cache[url].ths,cache[url].args);
-					return cache[url].ret;
-				}
-				queue[url]=[f];
-				var ret=$.ajax(url).success(function(){
-					for(var i=0;i<queue[url].length;queue[url][i++].apply(this,arguments));
-					cache[url].ths=this;
-					cache[url].args=arguments;
-					delete queue[url];
-				});
-				cache[url]={ret:ret};
-				return ret;
-			}
 			function insert(t,s,v){
 				if(s.length==1)
 					return!(t[s[0]]instanceof Array)&&(t[s[0]]=v);
@@ -87,13 +71,21 @@
 				ac=new Function;
 				$.unhint();
 				block=false;
+				var prefix=$("#id_form-name").val(),key=normalizeName(prefix),val=retrieve(trees.teamName,key);
+				if(val&&normalizeName(val[1])===key){
+					$(".signup-me").text("Member").addClass("db-read");
+					$("#id_form-team_type_"+val[0]).attr("disabled","disabled");
+					$("#id_form-team_type_"+(val[0]^1)).click();
+				}else{
+					if(val!==false)
+						$(".signup-me").text(defMe).removeClass("db-read");
+					else
+						$(".signup-me").text("Captain").addClass("db-read");
+					$("#id_form-team_type_0,#id_form-team_type_1").removeAttr("disabled");
+				}
 			}
 			function normalizeName(name){
 				return name.replace(/ \t-_/g,"").toLowerCase();
-			}
-			function defaultTeamType(type){
-				if(!$("#id_form-team_type_0:checked,#id_form-team_type_1:checked").length)
-					$("#id_form-team_type_"+(type^1)).click();
 			}
 			$(".signup input[type=text]").css({display:"block"});
 			$("form").keyup(function(){
@@ -102,11 +94,7 @@
 					return;
 				unhint();
 				var $e=$(document.activeElement),prefix=$e.val(),slug=$e.parent().prev().children().text().trim().replace(/ /g,"_").toLowerCase().replace(/[^a-z_]/g,"");
-				if(!$e.closest("#signup-volleyball").length)
-					return;
-				if(slug=="team_name")
-					$(".signup-me").text(defMe).removeClass("db-read");
-				if(!prefix)
+				if(!$e.closest("#signup-volleyball").length||!prefix)
 					return;
 				if(slug=="team_name"){
 					var key=normalizeName(prefix),val=retrieve(trees.teamName,key);
@@ -118,20 +106,16 @@
 						if(val.length){
 							$("#id_form-name").guess(val[1]);
 							ac=function(){
-								defaultTeamType(val[0]);
 								$("#id_form-name").val(val[1]);
-								$(".signup-me").text("Member").addClass("db-read");
-								$.unhint();
+								unhint();
 							}
 						}
-						if(!val.length||normalizeName(val[1])!==key)
-							$(".signup-me").text("Captain").addClass("db-read");
 					}
 					lastcb=cb;
 					if(val&&(!val.length||!normalizeName(val[1]).lastIndexOf(key,0)))
 						cb(val);
 					else
-						ajax("/ajax/team_prefix/"+key,function(rec){
+						$.ajaxC("/ajax/team_prefix/"+key,function(rec){
 							rec=rec?[+rec[0],rec.substring(1)]:[];
 							var realkey=rec.length&&normalizeName(rec[1]);
 							insert(trees.teamName,realkey===key?key+"\0":key,rec);
@@ -153,7 +137,8 @@
 					ac=function(){
 						for(var i=0;i<slugs.length;++i)
 							$(document.getElementById("id_form-"+n+"-"+slugs[i])).val(val[i]);
-						defaultTeamType(val[6]);
+						if(!$("#id_form-team_type_0:checked,#id_form-team_type_1:checked").length)
+							$("#id_form-team_type_"+(val[6]^1)).click();
 						$.unhint();
 					}
 				}
@@ -161,7 +146,7 @@
 				if(val&&!val[idx].toLowerCase().lastIndexOf(prefix.toLowerCase(),0))
 					cb(val);
 				else
-					ajax("/ajax/prev_players/"+slug+"/"+prefix,function(rec){
+					$.ajaxC("/ajax/prev_players/"+slug+"/"+prefix,function(rec){
 						if(!rec)
 							return;
 						rec=rec.split("\t");
