@@ -354,14 +354,23 @@ div.sponsor-panel>p{
 	textarea{
 		max-width:90%;
 	}
+	h1{
+		margin:0;
+	}
 	.header-container>header a{
 		float:left;
-		width:25%;
-		padding:10px 0;
+		padding:10px 1%;
 		font-size:.7em;
 	}
 	.header-container>header a>img{
-		max-height:24px;
+		max-height:23px;
+	}
+	.header-container>header{
+		margin:0 5px;
+		width:100%;
+	}
+	small{
+		font-size:.6em;
 	}
 	.ie8 .header-container>header a>img{
 		max-height:none;
@@ -384,10 +393,14 @@ div.sponsor-panel>p{
 	nav a{
 		float:left;
 		margin:0 1.7%;
-		padding:25px 1%;
+		padding:11px 1%;
+		font-size:.8em;
+	}
+	.header-container>header a>img{
+		max-height:48px;
 	}
 	nav{
-		width:15.5em;
+		width:19.1em;
 	}
 
 	nav li:first-child a{
@@ -445,7 +458,7 @@ div.sponsor-panel>p{
 	}
 
 	nav{
-		width:48%;
+		width:72%;
 	}
 
 /* ============
@@ -453,8 +466,9 @@ div.sponsor-panel>p{
    ============ */
 
 	nav a{
-		width:27%;
-		padding:25px 2%;
+		width:19%;
+		padding:25px 1%;
+		font-size:1em;
 	}
 	.lt-ie9 nav a{
 		width:27%;
@@ -464,12 +478,13 @@ div.sponsor-panel>p{
 	}
 	.main article{
 		float:left;
-		width:57%;
+		width:54%;
 	}
 
 	.main aside{
 		float:right;
 		width:28%;
+		min-width:228px;
 	}
 	.fall,
 	.main{

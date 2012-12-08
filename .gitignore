@@ -11,5 +11,6 @@ site/msmcyc/models.py
 site/msmcyc/templates/events.html
 site/msmcyc/templatetags/extras.py
 site/msmcyc/templates/base_signup.html
+site/msmcyc/templates/sponsors.html
 site/msmcyc/templates/signup_success.html
 site/msmcyc/templates/signup.html
