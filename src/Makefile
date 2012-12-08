@@ -24,3 +24,4 @@ copy: *.min.js
 	grep -v '[^[:alnum:]]*vim:' base_signup.html > ../site/msmcyc/templates/base_signup.html
 	grep -v '[^[:alnum:]]*vim:' sponsors.html > ../site/msmcyc/templates/sponsors.html
 	grep -v '[^[:alnum:]]*vim:' signup_success.html > ../site/msmcyc/templates/signup_success.html
+	grep -v '[^[:alnum:]]*vim:' signup.html > ../site/msmcyc/templates/signup.html

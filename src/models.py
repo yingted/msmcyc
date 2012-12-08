@@ -22,7 +22,7 @@ class VolleyballPlayer(db.Model):
 	last_name=db.StringProperty()
 	school=db.StringProperty(verbose_name="School")
 	grade=db.IntegerProperty(validator=validator(lambda x:9<=x<=12))
-	gender=db.StringProperty(choices=("Male","Female"),required=True)
+	gender=db.StringProperty(choices=("Male","Female"),required=True,verbose_name="Gender (min. 2 girls at any time)")
 	email=db.EmailProperty()
 	phone=db.PhoneNumberProperty()
 import random
@@ -40,7 +40,7 @@ def normalize_name(name):
 class VolleyballTeam(db.Model):
 	name=db.StringProperty(verbose_name="Team name")
 	index_key=db.StringProperty()
-	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True)
+	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True,verbose_name="Team type (competitive if you've played on a team)")
 	date=db.DateTimeProperty(auto_now_add=True)
 import string
 from legacy.google.appengine.ext.db.djangoforms import ModelForm

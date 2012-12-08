@@ -28,6 +28,11 @@
 	{% include "base_validation.html" %}
 	{% ifequal event "volleyball" %}
 		<script type="text/javascript">
+			$("label").each(function(i,e){
+				var html=$(e).html(),m=html.match(/ \([^()]*\):$/);
+				if(m)
+					$(e).html(html.substring(0,html.length-m[0].length)+"<br><small>"+m[0].substring(1)+"</small>");
+			});
 			$(function(){
 				var trees=[],slugs="first_name last_name phone email school grade team_type".split(" "),read=31;
 				trees=slugs.map(function(){
