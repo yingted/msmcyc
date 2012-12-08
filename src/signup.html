@@ -155,6 +155,8 @@
 					}
 				});
 				$("#signup-volleyball>form input").focus(unhint).blur(unhint);
+				if(location.hash=="#independent")
+					$("#id_form-name").closest("tr").hide();
 			});
 		</script>
 	{% endifequal %}

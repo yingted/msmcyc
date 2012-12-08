@@ -36,12 +36,14 @@ class HasRandom(db.Model):
 import re
 normalize_kill=re.compile(u"[-\t _]",re.UNICODE)
 def normalize_name(name):
-	return normalize_kill.sub("",name).lower()#kill unpronounceables
+	return name and normalize_kill.sub("",name).lower()#kill unpronounceables
 class VolleyballTeam(db.Model):
-	name=db.StringProperty(verbose_name="Team name")
+	name=db.StringProperty(verbose_name="Team name",required=False)
 	index_key=db.StringProperty()
 	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True,verbose_name="Team type (competitive if you've played on a team)")
 	date=db.DateTimeProperty(auto_now_add=True)
+single_recreational=VolleyballTeam.all().filter("index_key","_single_recreational").get()
+single_competitive=VolleyballTeam.all().filter("index_key","_single_competitive").get()
 import string
 from legacy.google.appengine.ext.db.djangoforms import ModelForm
 def form_class(what):

@@ -1,5 +1,5 @@
 {# {% load extras %} #}
-<div class="signup jshidden" id="signup-{{ event }}">
+<div class="signup" id="signup-{{ event }}">
 	{% if form.management_form %}
 		<form action="/signup/{{ event }}" method="post">
 			{% csrf_token %}

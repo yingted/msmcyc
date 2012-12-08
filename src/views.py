@@ -103,6 +103,12 @@ def signup(request,event):
 		form=conf["form"](request.POST)
 		if form.is_valid():
 			ent=form.save()
+			if event!="volleyball"or"team_name"not in form.management_form.cleaned_data:
+				ent=form.save()
+			elif form.management_form.cleaned_data["team_type"]=="Recreational":
+				ent=single_recreational
+			else:
+				ent=single_competitive
 			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
 			EmailMessage(
 				sender="MSMYC mailer <youth.mssociety@gmail.com>",
@@ -134,14 +140,15 @@ def one(ite):
 	if len(lst)==1:
 		return lst[0]
 def prev_players(request,key,prefix):
-	prefix=prefix.lower()
-	try:
-		idx=first_signups_fields.index(key)
-		val=one(record[len(first_signups_fields):] for record in first_signups_keyed if record[idx].startswith(prefix))
-		if val:
-			return HttpResponse("\t".join(map(str,val)),content_type="text/plain")
-	except ValueError:
-		pass
+	if prefix:
+		prefix=prefix.lower()
+		try:
+			idx=first_signups_fields.index(key)
+			val=one(record[len(first_signups_fields):] for record in first_signups_keyed if record[idx].startswith(prefix))
+			if val:
+				return HttpResponse("\t".join(map(str,val)),content_type="text/plain")
+		except ValueError:
+			pass
 	return HttpResponse(content_type="text/plain")
 def team_prefix(request,prefix):
 	prefix=normalize_name(prefix)
