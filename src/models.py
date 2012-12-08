@@ -1,7 +1,7 @@
 from google.appengine.ext import db
 class Event(db.Model):
 	when=db.DateTimeProperty(required=True)
-	link=db.LinkProperty(verbose_name="Map link")
+	link=db.LinkProperty(verbose_name="Title link")
 	name=db.StringProperty(verbose_name="Event name",required=True)
 	html=db.TextProperty(verbose_name="[HTML] body")
 	signup=db.TextProperty(verbose_name="[HTML] Embed code")

@@ -155,8 +155,11 @@
 					}
 				});
 				$("#signup-volleyball>form input").focus(unhint).blur(unhint);
-				if(location.hash=="#independent")
+				if(location.hash=="#independent"){
 					$("#id_form-name").closest("tr").hide();
+					var $label=$("label[for=id_form-team_type_0]").first();
+					$label.html($label.html().replace("Team","Player"));
+				}
 			});
 		</script>
 	{% endifequal %}

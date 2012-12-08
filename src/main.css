@@ -410,7 +410,7 @@ div.sponsor-panel>p{
 		display:inline;
 	}
 
-	.oldie nav a{
+	.lt-ie9 nav a{
 		margin:0 0.7%;
 	}
 	nav{
