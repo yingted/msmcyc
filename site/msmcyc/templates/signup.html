@@ -26,135 +26,132 @@
 {% endblock %}
 {% block postscript %}
 	{% include "base_validation.html" %}
-	<script type="text/javascript">
-		$(function(){
-			if(!$("#signup-volleyball").length)
-				return;
-			$(".signup").each(function(i,e){
-				$(e).prevAll("h3").first().togglerFor(e);
-			});
-			var trees=[],slugs="first_name last_name phone email school grade team_type".split(" "),read=31;
-			trees=slugs.map(function(){
-				return{};
-			});
-			trees.teamName={};
-			function insert(t,s,v){
-				if(s.length==1)
-					return!(t[s[0]]instanceof Array)&&(t[s[0]]=v);
-				if(!t.hasOwnProperty(s[0]))
-					t[s[0]]={};
-				return insert(t[s[0]],s.substring(1),v);
-			}
-			function retrieve(t,s){
-				if(t instanceof Array)
-					return t;
-				if(s&&t.hasOwnProperty(s[0]))
-					return retrieve(t[s[0]],s.substring(1));
-				if(s===""&&t.hasOwnProperty('\0'))
-					return retrieve(t['\0']);
-			}
-			var lastcb,ac=new Function,block=false,defMe=$(".signup-me").text();
-			function unhint(){
-				ac=new Function;
-				$.unhint();
-				block=false;
-				var prefix=$("#id_form-name").val(),key=normalizeName(prefix),val=retrieve(trees.teamName,key);
-				if(val&&normalizeName(val[1])===key){
-					$(".signup-me").text("Member").addClass("db-read");
-					$("#id_form-team_type_"+val[0]).attr("disabled","disabled");
-					$("#id_form-team_type_"+(val[0]^1)).click();
-				}else{
-					if(val!==false)
-						$(".signup-me").text(defMe).removeClass("db-read");
-					else
-						$(".signup-me").text("Captain").addClass("db-read");
-					$("#id_form-team_type_0,#id_form-team_type_1").removeAttr("disabled");
+	{% ifequal event "volleyball" %}
+		<script type="text/javascript">
+			$(function(){
+				var trees=[],slugs="first_name last_name phone email school grade team_type".split(" "),read=31;
+				trees=slugs.map(function(){
+					return{};
+				});
+				trees.teamName={};
+				function insert(t,s,v){
+					if(s.length==1)
+						return!(t[s[0]]instanceof Array)&&(t[s[0]]=v);
+					if(!t.hasOwnProperty(s[0]))
+						t[s[0]]={};
+					return insert(t[s[0]],s.substring(1),v);
 				}
-			}
-			function normalizeName(name){
-				return name.replace(/ \t-_/g,"").toLowerCase();
-			}
-			$(".signup input[type=text]").css({display:"block"});
-			$("form").keyup(function(){
-				lastcb=undefined;
-				if(block)
-					return;
-				unhint();
-				var $e=$(document.activeElement),prefix=$e.val(),slug=$e.parent().prev().children().text().trim().replace(/ /g,"_").toLowerCase().replace(/[^a-z_]/g,"");
-				if(!$e.closest("#signup-volleyball").length||!prefix)
-					return;
-				if(slug=="team_name"){
-					var key=normalizeName(prefix),val=retrieve(trees.teamName,key);
+				function retrieve(t,s){
+					if(t instanceof Array)
+						return t;
+					if(s&&t.hasOwnProperty(s[0]))
+						return retrieve(t[s[0]],s.substring(1));
+					if(s===""&&t.hasOwnProperty('\0'))
+						return retrieve(t['\0']);
+				}
+				var lastcb,ac=new Function,block=false,defMe=$(".signup-me").text();
+				function unhint(){
+					ac=new Function;
+					$.unhint();
+					block=false;
+					var prefix=$("#id_form-name").val(),key=normalizeName(prefix),val=retrieve(trees.teamName,key);
+					if(val&&normalizeName(val[1])===key){
+						$(".signup-me").text("Member").addClass("db-read");
+						$("#id_form-team_type_"+val[0]).attr("disabled","disabled");
+						$("#id_form-team_type_"+(val[0]^1)).click();
+					}else{
+						if(val!==false)
+							$(".signup-me").text(defMe).removeClass("db-read");
+						else
+							$(".signup-me").text("Captain").addClass("db-read");
+						$("#id_form-team_type_0,#id_form-team_type_1").removeAttr("disabled");
+					}
+				}
+				function normalizeName(name){
+					return name.replace(/ \t-_/g,"").toLowerCase();
+				}
+				$(".signup input[type=text]").css({display:"block"});
+				$("form").keyup(function(){
+					lastcb=undefined;
+					if(block)
+						return;
+					unhint();
+					var $e=$(document.activeElement),prefix=$e.val(),slug=$e.parent().prev().children().text().trim().replace(/ /g,"_").toLowerCase().replace(/[^a-z_]/g,"");
+					if(!$e.closest("#signup-volleyball").length||!prefix)
+						return;
+					if(slug=="team_name"){
+						var key=normalizeName(prefix),val=retrieve(trees.teamName,key);
+						if(val===false)
+							val=[];
+						function cb(val){
+							if(lastcb!=cb)
+								return;
+							if(val.length){
+								$("#id_form-name").guess(val[1]);
+								ac=function(){
+									$("#id_form-name").val(val[1]);
+									unhint();
+								}
+							}
+						}
+						lastcb=cb;
+						if(val&&(!val.length||!normalizeName(val[1]).lastIndexOf(key,0)))
+							cb(val);
+						else
+							$.ajaxC("/ajax/team_prefix/"+key,function(rec){
+								rec=rec?[+rec[0],rec.substring(1)]:[];
+								var realkey=rec.length&&normalizeName(rec[1]);
+								insert(trees.teamName,realkey===key?key+"\0":key,rec);
+								cb(rec);
+							});
+						return;
+					}
 					if(val===false)
-						val=[];
+						return;
+					var idx=slugs.indexOf(slug),val=retrieve(trees[idx]||{},prefix.toLowerCase());
+					if(!(read&(1<<idx))||val===false)
+						return;
 					function cb(val){
 						if(lastcb!=cb)
 							return;
-						if(val.length){
-							$("#id_form-name").guess(val[1]);
-							ac=function(){
-								$("#id_form-name").val(val[1]);
-								unhint();
-							}
+						var m=$e.attr("name").match(/form-([0-9]*)/),n=+m[1];
+						for(var i=0;i<slugs.length;++i)
+							$(document.getElementById("id_form-"+n+"-"+slugs[i])).hint(i==idx?prefix+val[i].substring(prefix.length)+" (tab)":val[i]);
+						ac=function(){
+							for(var i=0;i<slugs.length;++i)
+								$(document.getElementById("id_form-"+n+"-"+slugs[i])).val(val[i]);
+							if(!$("#id_form-team_type_0:checked,#id_form-team_type_1:checked").length)
+								$("#id_form-team_type_"+(val[6]^1)).click();
+							$.unhint();
 						}
 					}
 					lastcb=cb;
-					if(val&&(!val.length||!normalizeName(val[1]).lastIndexOf(key,0)))
+					if(val&&!val[idx].toLowerCase().lastIndexOf(prefix.toLowerCase(),0))
 						cb(val);
 					else
-						$.ajaxC("/ajax/team_prefix/"+key,function(rec){
-							rec=rec?[+rec[0],rec.substring(1)]:[];
-							var realkey=rec.length&&normalizeName(rec[1]);
-							insert(trees.teamName,realkey===key?key+"\0":key,rec);
+						$.ajaxC("/ajax/prev_players/"+slug+"/"+prefix,function(rec){
+							if(!rec)
+								return;
+							rec=rec.split("\t");
+							for(var i=0;i<slugs.length;++i)
+								insert(trees[i],prefix.toLowerCase(),rec);
 							cb(rec);
 						});
-					return;
-				}
-				if(val===false)
-					return;
-				var idx=slugs.indexOf(slug),val=retrieve(trees[idx]||{},prefix.toLowerCase());
-				if(!(read&(1<<idx))||val===false)
-					return;
-				function cb(val){
-					if(lastcb!=cb)
-						return;
-					var m=$e.attr("name").match(/form-([0-9]*)/),n=+m[1];
-					for(var i=0;i<slugs.length;++i)
-						$(document.getElementById("id_form-"+n+"-"+slugs[i])).hint(i==idx?prefix+val[i].substring(prefix.length)+" (tab)":val[i]);
-					ac=function(){
-						for(var i=0;i<slugs.length;++i)
-							$(document.getElementById("id_form-"+n+"-"+slugs[i])).val(val[i]);
-						if(!$("#id_form-team_type_0:checked,#id_form-team_type_1:checked").length)
-							$("#id_form-team_type_"+(val[6]^1)).click();
-						$.unhint();
+				}).keyup().keydown(function(e){
+					switch(e.keyCode||e.which){
+						case 9:
+							if(ac())
+								e.preventDefault();
+							unhint();
+							break
+						case 27:
+							unhint();
+							block=true;
 					}
-				}
-				lastcb=cb;
-				if(val&&!val[idx].toLowerCase().lastIndexOf(prefix.toLowerCase(),0))
-					cb(val);
-				else
-					$.ajaxC("/ajax/prev_players/"+slug+"/"+prefix,function(rec){
-						if(!rec)
-							return;
-						rec=rec.split("\t");
-						for(var i=0;i<slugs.length;++i)
-							insert(trees[i],prefix.toLowerCase(),rec);
-						cb(rec);
-					});
-			}).keyup().keydown(function(e){
-				switch(e.keyCode||e.which){
-					case 9:
-						if(ac())
-							e.preventDefault();
-						unhint();
-						break
-					case 27:
-						unhint();
-						block=true;
-				}
+				});
+				$("#signup-volleyball>form input").focus(unhint).blur(unhint);
 			});
-			$("#signup-volleyball>form input").focus(unhint).blur(unhint);
-		});
-	</script>
+		</script>
+	{% endifequal %}
 {% endblock %}
 {# vim: set ts=4 sw=4: #}
