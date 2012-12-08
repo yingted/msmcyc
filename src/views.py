@@ -84,7 +84,7 @@ def add_entity(request,what):
 			if form.is_valid():
 				form.save()
 				return render(request,"base_admin_success.html",{
-					"success":"Added %s."%what,
+					"success":"Added %s"%what,
 					"form":form,
 				})
 		else:

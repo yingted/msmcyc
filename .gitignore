@@ -6,6 +6,7 @@ site/msmcyc/templates/base_home.html
 site/static/css/main.css
 site/msmcyc/templates/index.html
 site/static/js/main.js
+site/msmcyc/views.py
 site/msmcyc/models.py
 site/msmcyc/templates/events.html
 site/msmcyc/templatetags/extras.py
