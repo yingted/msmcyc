@@ -14,7 +14,7 @@
 				</h2>
 				<p>{{ event.html|default:""|safe }}</p>
 				{% if event.signup %}
-					<h3>Sign up for <strong>{{ event.name }}</strong></h3>
+					<h3>Sign up for <strong>{{ event.name|safe }}</strong></h3>
 					{{ event.signup|safe }}
 				{% endif %}
 				{% if event.stats %}
