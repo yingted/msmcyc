@@ -160,6 +160,8 @@
 					var $label=$("label[for=id_form-team_type_0]").first();
 					$label.html($label.html().replace("Team","Player"));
 				}
+				var $h1=$("header>h1").first();
+				$h1.html($h1.html().replace("Volleyball",location.hash=="#independent"?"Independent":"Team"));
 			});
 		</script>
 	{% endifequal %}
