@@ -300,8 +300,6 @@ div.sponsor-panel>p{
 		width:164px;
 		height:280px;
 		overflow-y:auto;
-		text-align:justify;
-		text-justify:newspaper;
 	}
 	#carousel-target>p{
 		display:none!important;
