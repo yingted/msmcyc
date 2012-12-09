@@ -129,8 +129,8 @@ a:hover,
 	background-color:#ffc;
 	border-radius:2px;
 }
-h1.title>a{
-	background-color:transparent!important;
+a.nohover{
+	background:transparent!important;
 }
 h1.title>a,
 header>nav a{
@@ -241,6 +241,8 @@ ul.errorlist{
 	margin:0;
 }
 div.sponsor-img{
+	background-position:center;
+	background-repeat:no-repeat;
 	display:block;
 	width:336px;
 	height:280px;
@@ -344,6 +346,12 @@ div.sponsor-panel>p{
 }
 .db-read{
 	background-color:#ffe;
+}
+.fill-parent{
+	display:block;
+	height:100%;
+	width:100%;
+	text-decoration:none;
 }
 
 /* ==========================================================================
