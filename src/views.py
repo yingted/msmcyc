@@ -80,25 +80,22 @@ from google.appengine.api import users
 edit_entity="^/add_%s/([1-9][0-9]*)$"#TODO implement
 def add_entity(request,what):
 	if users.is_current_user_admin():
+		ent=None
+		match=re.match(edit_entity%what,request.path)
+		if match:
+			klass=form_class(what)
+			ent=klass.Meta.model.get_by_id(long(match.group(1)))
 		if request.method=="POST":
-			form=form_class(what)(request.POST)
+			form=form_class(what)(request.POST,instance=ent)
 			if form.is_valid():
-				form.save()
 				return render(request,"base_admin_success.html",{
-					"success":"Added %s"%what,
+					"success":"Saved %s"%what,
 					"form":form,
+					"what":what,
+					"ent":form.save(),
 				})
 		else:
-			match=re.match(edit_entity%what,request.path)
-			if match:
-				klass=form_class(what)
-				model=klass.Meta.model
-				import logging
-				logging.error("="*100)
-				logging.error(model)
-				form=klass(instance=model.get_by_id(long(match.group(1))))
-			else:
-				form=form_class(what)()
+			form=form_class(what)(instance=ent)
 		return render(request,"base_add.html",{
 			"what":what,
 			"form":form,
