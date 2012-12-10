@@ -53,7 +53,7 @@
 					if(s===""&&t.hasOwnProperty('\0'))
 						return retrieve(t['\0']);
 				}
-				var lastcb,ac=new Function,block=false,defMe=$(".signup-me").text();
+				var lastcb,ac=new Function,block=false,defMe=$(".signup-me").text(),indie=/independent/.test(location.href);
 				function unhint(){
 					ac=new Function;
 					$.unhint();
@@ -152,16 +152,19 @@
 							unhint();
 							block=true;
 					}
+				}).submit(function(e){
+					if(!indie&&!$("#id_form-name").val()&&!confirm("Are you sure you want to sign up independently?"))
+						e.preventDefault();
 				});
 				$("#signup-volleyball>form input").focus(unhint).blur(unhint);
-				if(location.hash=="#independent"){
+				if(indie){
 					$("#id_form-name").closest("tr").hide();
 					var $label=$("label[for=id_form-team_type_0]").first();
 					$label.html($label.html().replace("Team","Player"));
 				}else
 					$("#signup-volleyball").before($("<p>").text("If you play regularly or are on a team, it is recommended that you sign up to play competitively."));
 				var $h1=$(".main header>h1").first();
-				$h1.html($h1.html().replace("Volleyball tournament",/independent/.test(location.href)?"Independent":"Team"));
+				$h1.html($h1.html().replace("Volleyball tournament",indie?"Independent":"Team"));
 			});
 		</script>
 	{% endifequal %}
