@@ -161,8 +161,7 @@
 				}else
 					$("#signup-volleyball").before($("<p>").text("If you play regularly or are on a team, it is recommended that you sign up to play competitively."));
 				var $h1=$(".main header>h1").first();
-				$h1.html($h1.html().replace("Volleyball tournament",location.hash=="#independent"?"Independent":"Team"));
-				console.log($h1.html());
+				$h1.html($h1.html().replace("Volleyball tournament",/independent/.test(location.href)?"Independent":"Team"));
 			});
 		</script>
 	{% endifequal %}

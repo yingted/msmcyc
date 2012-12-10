@@ -89,7 +89,16 @@ def add_entity(request,what):
 					"form":form,
 				})
 		else:
-			form=form_class(what)()
+			match=re.match(edit_entity%what,request.path)
+			if match:
+				klass=form_class(what)
+				model=klass.Meta.model
+				import logging
+				logging.error("="*100)
+				logging.error(model)
+				form=klass(instance=model.get_by_id(long(match.group(1))))
+			else:
+				form=form_class(what)()
 		return render(request,"base_add.html",{
 			"what":what,
 			"form":form,
