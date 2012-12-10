@@ -109,7 +109,6 @@ def signup(request,event):
 	if request.method=="POST":
 		form=conf["form"](request.POST)
 		if form.is_valid():
-			ent=form.save()
 			if event!="volleyball"or"team_name"not in form.management_form.cleaned_data:
 				ent=form.save()
 			elif form.management_form.cleaned_data["team_type"]=="Recreational":
