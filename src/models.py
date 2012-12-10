@@ -40,7 +40,7 @@ def normalize_name(name):
 class VolleyballTeam(db.Model):
 	name=db.StringProperty(verbose_name="Team name",required=False)
 	index_key=db.StringProperty()
-	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True,verbose_name="Team type (competitive if you've played on a team)")
+	team_type=db.StringProperty(choices=("Competitive","Recreational"),required=True)
 	date=db.DateTimeProperty(auto_now_add=True)
 single_recreational=VolleyballTeam.all().filter("index_key","_single_recreational").get()
 single_competitive=VolleyballTeam.all().filter("index_key","_single_competitive").get()

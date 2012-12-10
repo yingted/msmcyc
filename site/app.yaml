@@ -12,6 +12,9 @@ libraries:
   version: "1.4"
 
 handlers:
+- url: /admin/.*
+  script: google.appengine.ext.admin.application
+  login: admin
 - url: /static
   static_dir: static
 - url: /(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png)

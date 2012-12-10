@@ -77,6 +77,7 @@ def events(request):
 
 from legacy.google.appengine.ext.db.djangoforms import ModelForm
 from google.appengine.api import users
+edit_entity="^/add_%s/([1-9][0-9]*)$"#TODO implement
 def add_entity(request,what):
 	if users.is_current_user_admin():
 		if request.method=="POST":
@@ -116,7 +117,7 @@ def signup(request,event):
 				body="""You have signed up for %s. You can see more information online at:
 %s"""%(conf["name"],uri),
 				to="%s <%s>"%(ent.name,next(form.cleaned_data["email"]for form in form if form.is_valid())),
-			).send()
+			)#.send()
 			return render(request,"signup_success.html",{
 				"event":event,
 				"name":conf["name"],
