@@ -8,9 +8,6 @@
 			<h1>{{ name|capfirst }} &#8212; Signup</h1>
 		</header>
 		<section>
-			{% ifequal event "volleyball" %}
-				<p>If you play regularly or are on a team, it is recommended that you sign up to play competitively.</p>
-			{% endifequal %}
 			{% if form.management_form %}
 				{% include "base_signup.html" %}
 			{% else %}
