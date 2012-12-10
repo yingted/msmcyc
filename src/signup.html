@@ -161,8 +161,8 @@
 					$("#id_form-name").closest("tr").hide();
 					var $label=$("label[for=id_form-team_type_0]").first();
 					$label.html($label.html().replace("Team","Player"));
-				}else
-					$("#signup-volleyball").before($("<p>").text("If you play regularly or are on a team, it is recommended that you sign up to play competitively."));
+				}
+				$("#signup-volleyball").before($("<p>").text("If you play regularly or are on a team, it is recommended that you sign up to play competitively."));
 				var $h1=$(".main header>h1").first();
 				$h1.html($h1.html().replace("Volleyball tournament",indie?"Independent":"Team"));
 			});
