@@ -258,8 +258,8 @@ div.sponsor-panel>p{
 		max-width:100%;
 	}
 	div.sponsor-img{
-		background-size:100%;/*TODO make this work*/
-		max-width:100%;
+		background-size:100%;
+		max-width:90%;
 	}
 }
 .carousel{
@@ -367,9 +367,10 @@ div.sponsor-panel>p{
 		float:left;
 		padding:10px 1%;
 		font-size:.7em;
+		border-radius:0;
 	}
 	.header-container>header a>img{
-		max-height:23px;
+		max-height:22px;
 	}
 	.header-container>header{
 		margin:0 5px;

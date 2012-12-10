@@ -46,9 +46,10 @@
 	<script type="text/javascript" src="/static/js/vendor/jquery.jcarousel.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
+			{# try{function log(s){for(var a=s.split("\n"),i=0;i<a.length;++i)console.log(a[i])} #}
 			var carousel=$(".carousel");
 			carousel.wrapInner("<div class=\"carousel-list\" />").children().children("h2").each(function(i,e){
-				$(e).next().prepend($(e).remove().hide()).html();
+				$(e).next().prepend($(e).remove().hide());
 			});
 			carousel.after($("<div id=\"carousel-target\">").append($(".carousel-list>.sponsor-panel:first").children().clone().show()))
 			.on("createend.jcarousel",function(){
@@ -75,6 +76,7 @@
 					$(this).jcarouselAutoscroll(newout?"stop":"start");
 				out=newout;
 			});
+			{# }catch(e){log(e)} #}
 		});
 	</script>
 {% endblock %}
