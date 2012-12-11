@@ -293,8 +293,8 @@ to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bo
 </font></div></div></div><br>
 """%uri,
 					attachments=(
-						("Release_of_Liability.pdf",file("att/Release_of_Liability.pdf")),
-						("Volleyball Pledge Form.doc",file("att/Volleyball Pledge Form.doc")),
+						("Release_of_Liability.pdf",file("att/Release_of_Liability.pdf").read()),
+						("Volleyball Pledge Form.doc",file("att/Volleyball Pledge Form.doc").read()),
 					),
 					to="%s <%s>"%(ent.name,next(form.cleaned_data["email"]for form in form if form.is_valid())),
 				).send()
