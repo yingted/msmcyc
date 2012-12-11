@@ -116,13 +116,188 @@ def signup(request,event):
 			else:
 				ent=single_competitive
 			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
-			EmailMessage(
-				sender="MSMYC mailer <youth.mssociety@gmail.com>",
-				subject="Sign up: %s"%conf["name"],
-				body="""You have signed up for %s. You can see more information online at:
-%s"""%(conf["name"],uri),
-				to="%s <%s>"%(ent.name,next(form.cleaned_data["email"]for form in form if form.is_valid())),
-			)#.send()
+			if event=="volleyball":
+				EmailMessage(
+					sender="MSMYC mailer <info@msyouthmississauga.com>",
+					subject="Sign up: %s"%conf["name"],
+					body="""Hello!
+
+This email is to confirm that you are officially registered for the 1st
+Annual MS Volleyball Tournament at *Mentor College* on* Saturday, January
+5th, 2013* from 8PM to 5PM. If you are part of a team, registration is
+complete once ALL members of your team signs up on our website:
+www.msyouthmississauga.org and hands in the appropriate documents before
+tournament day.
+
+Remember that the registration fee is minimum $10/person (you are welcome
+	to donate more!). As well, you can get a pledge form from your student
+ambassador at your respective schools. It is encouraged that you approach
+your family, friends, parents\u2019 colleagues or workplaces to sponsor you. The
+pledge form is also as attached. *If you raise more than $50, you will be
+exempt from paying the $10 registration fee.* Remember that all proceeds go
+towards research for multiple sclerosis!
+
+
+*Please give your registration fee, pledge forms, and liability forms (attached) to
+your student ambassador before Thursday, December 20th, as they will drop
+off these three items to us. Ensure that you sign off on the amount of
+money that you paid/raised.
+*
+
+
+**
+
+If you are unable to give these three items to your student ambassador
+before Thursday, December 20th, you are asked to bring them yourselves or
+on Saturday December 29th (more details to come). All payment and liability
+forms must be received* BEFORE *the day of the tournament. Listed below is
+our current network of student ambassadors; please refer to your respective
+school's ambassadors to arrange the collection of payment/liability forms.
+
+*
+*
+
+*Network of Student Ambassadors: *
+
+Glenforest Secondary School: Edward Chen, Mike Wang, Ruhi Kokal
+
+Gordon Graydon Memorial Secondary School: Moksha Patel, Ayesha Madan
+
+John Fraser Secondary School: Christine Xin, Braeden Page, Daaniya Tariq
+
+Lorne Park Secondary School: Kim Ren, Jenny Qian
+
+Philopateer Christian College: George Keliny
+
+Rick Hansen Secondary School: Supriya Gopalan, Shiwei Zhuang
+
+St. Francis Xavier Secondary School: Natasha Mathew
+
+St. Marcellinus Secondary School: Eva Xu
+
+Stephen Lewis Secondary School: Sathu Sivalogarajah, Anish Arora
+
+The Woodlands Secondary School: Jonathan Martins, Ashley Tam, April Liu
+
+
+
+You can view your team info at this url:
+
+%s
+
+
+
+If there is no student ambassador at your school, please drop off your
+*registration
+fee, pledge forms, and liability forms* (attached) in person to Mississauga Central
+Library on Thursday, December 20th to one of the Executives present. Thank
+you for your interest and we look forward to seeing you on the court!
+
+
+Cheers,
+*Cathy L.
+*
+MS Mississauga Youth Committee Executive
+www.msyouthmississauga.org
+"""%uri,
+					html="""<p class="MsoNormal" style="margin-bottom:12.0pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Hello! </span></p>
+
+<p class="MsoNormal" style="margin-bottom:12.0pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">This email is to confirm that you
+are officially registered for the 1st Annual MS Volleyball Tournament at <b>Mentor
+College</b> on<b> Saturday, January 5th, 2013</b> from 8PM to 5PM. If you are part
+of a team, registration is complete once ALL members of your team signs up on
+our website: <a href="http://www.msyouthmississauga.org">www.msyouthmississauga.org</a>
+and hands in the appropriate documents before tournament day. <span style> </span></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Remember
+that the registration fee is minimum $10/person (you are welcome to donate
+more!). As well, you can get a pledge form from your student ambassador at your
+respective schools. It is encouraged that you approach your family, friends,
+parents\u2019 colleagues or workplaces to sponsor you. The pledge form is also as
+attached. <b>If you raise more than $50, you will be exempt from paying the $10
+registration fee.</b> Remember that all proceeds go towards research for
+multiple sclerosis! </span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"></span></p><p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal">
+
+<br><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"></span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;;color:red" lang="EN-CA">Please give your <i style><u>registration
+fee</u></i>, <i style><u>pledge forms</u></i>, and
+<i style><u>liability forms</u></i> (attached) to your
+student ambassador before Thursday, December 20th, as they will drop off these
+three items to us. Ensure that you sign off on the amount of money that you
+paid/raised. <br></span></b></p><p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><br><b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;;color:red" lang="EN-CA"></span></b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">If
+you are unable to give these three items to your student ambassador before
+Thursday, December 20th, you are asked to bring them yourselves or on Saturday
+December 29th (more details to come). All payment and liability forms must be
+received<b> BEFORE </b>the day of the tournament. Listed below is our current
+network of student ambassadors; please refer to your respective school&#39;s
+ambassadors to arrange the collection of payment/liability forms. </span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"><br></span></b></p><p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal">
+
+<b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Network
+of Student Ambassadors: </span></b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Glenforest Secondary School: Edward
+Chen, Mike Wang, Ruhi Kokal </span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Gordon Graydon Memorial Secondary
+School: Moksha Patel, Ayesha Madan</span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">John Fraser Secondary School:
+Christine Xin, Braeden Page, Daaniya Tariq</span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Lorne Park Secondary School: Kim
+Ren, Jenny Qian</span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Philopateer Christian College:
+George Keliny</span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Rick Hansen Secondary School:
+Supriya Gopalan, Shiwei Zhuang</span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">St. Francis Xavier Secondary School:
+Natasha Mathew </span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">St. Marcellinus Secondary School:
+Eva Xu</span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Stephen Lewis Secondary School:
+Sathu Sivalogarajah, Anish Arora</span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">The Woodlands Secondary School:
+Jonathan Martins, Ashley Tam, April Liu </span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"> </span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">You can view your team info <a href="%s">here</a>.</span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"> </span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">If there is no student ambassador at
+your school, please drop off your</span><span style lang="EN-CA"> </span><b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;;color:red" lang="EN-CA"><i style><u>registration fee, pledge forms</u></i><u>, and </u><i style><u>liability
+forms</u></i> (attached)</span></b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"> in person to Mississauga Central Library on Thursday, December 20<sup>th</sup>
+to one of the Executives present. Thank you for your interest and we look forward
+to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><br><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"></span><span style></span></p>
+
+
+
+<div><div><font color="#666666">Cheers, </font><div><font color="#666666"> </font></div><div><b><font color="#666666">Cathy L.<br></font></b></div><div><font color="#666666">MS Mississauga Youth Committee Executive<br><a href="http://www.msyouthmississauga.org/" target="_blank">www.msyouthmississauga.org</a><br>
+
+</font></div></div></div><br>
+"""%uri,
+					attachments=(
+						("Release_of_Liability.pdf",file("att/Release_of_Liability.pdf")),
+						("Volleyball Pledge Form.doc",file("att/Volleyball Pledge Form.doc")),
+					),
+					to="%s <%s>"%(ent.name,next(form.cleaned_data["email"]for form in form if form.is_valid())),
+				).send()
 			return render(request,"signup_success.html",{
 				"event":event,
 				"name":conf["name"],
