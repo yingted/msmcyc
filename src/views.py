@@ -117,14 +117,15 @@ def signup(request,event):
 				ent=single_competitive
 			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
 			if event=="volleyball":
+				player=next(form for form in form if form.is_valid())
 				EmailMessage(
-					sender="MSMYC mailer <info@msyouthmississauga.com>",
+					sender="MSMYC mailer <info@msyouthmississauga.org>",
 					subject="Sign up: %s"%conf["name"],
 					body="""Hello!
 
 This email is to confirm that you are officially registered for the 1st
 Annual MS Volleyball Tournament at *Mentor College* on* Saturday, January
-5th, 2013* from 8PM to 5PM. If you are part of a team, registration is
+5th, 2013* from 8AM to 5PM. If you are part of a team, registration is
 complete once ALL members of your team signs up on our website:
 www.msyouthmississauga.org and hands in the appropriate documents before
 tournament day.
@@ -204,7 +205,7 @@ www.msyouthmississauga.org
 
 <p class="MsoNormal" style="margin-bottom:12.0pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">This email is to confirm that you
 are officially registered for the 1st Annual MS Volleyball Tournament at <b>Mentor
-College</b> on<b> Saturday, January 5th, 2013</b> from 8PM to 5PM. If you are part
+College</b> on<b> Saturday, January 5th, 2013</b> from 8AM to 5PM. If you are part
 of a team, registration is complete once ALL members of your team signs up on
 our website: <a href="http://www.msyouthmississauga.org">www.msyouthmississauga.org</a>
 and hands in the appropriate documents before tournament day. <span style> </span></span></p>
@@ -296,7 +297,7 @@ to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bo
 						("Release_of_Liability.pdf",file("att/Release_of_Liability.pdf").read()),
 						("Volleyball Pledge Form.doc",file("att/Volleyball Pledge Form.doc").read()),
 					),
-					to="%s <%s>"%(ent.name,next(form.cleaned_data["email"]for form in form if form.is_valid())),
+					to="%s %s <%s>"%(player["first_name"],player["last_name"],player["email"]),
 				).send()
 			return render(request,"signup_success.html",{
 				"event":event,
