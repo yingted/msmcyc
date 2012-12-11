@@ -117,7 +117,7 @@ def signup(request,event):
 				ent=single_competitive
 			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
 			if event=="volleyball":
-				player=next(form for form in form if form.is_valid())
+				player=next(form for form in form if form.is_valid()).cleaned_data
 				EmailMessage(
 					sender="MS Youth Committee <info@msyouthmississauga.org>",
 					subject="MS Volleyball Tournament Confirmation",
