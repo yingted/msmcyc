@@ -119,8 +119,8 @@ def signup(request,event):
 			if event=="volleyball":
 				player=next(form for form in form if form.is_valid())
 				EmailMessage(
-					sender="MSMYC mailer <info@msyouthmississauga.org>",
-					subject="Sign up: %s"%conf["name"],
+					sender="MS Youth Committee <info@msyouthmississauga.org>",
+					subject="MS Volleyball Tournament Confirmation",
 					body="""Hello!
 
 This email is to confirm that you are officially registered for the 1st
@@ -150,7 +150,7 @@ money that you paid/raised.
 
 If you are unable to give these three items to your student ambassador
 before Thursday, December 20th, you are asked to bring them yourselves or
-on Saturday December 29th (more details to come). All payment and liability
+on Saturday December 22nd (more details to come). All payment and liability
 forms must be received* BEFORE *the day of the tournament. Listed below is
 our current network of student ambassadors; please refer to your respective
 school's ambassadors to arrange the collection of payment/liability forms.
@@ -214,7 +214,7 @@ and hands in the appropriate documents before tournament day. <span style> </spa
 that the registration fee is minimum $10/person (you are welcome to donate
 more!). As well, you can get a pledge form from your student ambassador at your
 respective schools. It is encouraged that you approach your family, friends,
-parents\u2019 colleagues or workplaces to sponsor you. The pledge form is also as
+parents&8217; colleagues or workplaces to sponsor you. The pledge form is also as
 attached. <b>If you raise more than $50, you will be exempt from paying the $10
 registration fee.</b> Remember that all proceeds go towards research for
 multiple sclerosis! </span></p>
@@ -235,7 +235,7 @@ paid/raised. <br></span></b></p><p class="MsoNormal" style="margin-bottom:0in;ma
 <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">If
 you are unable to give these three items to your student ambassador before
 Thursday, December 20th, you are asked to bring them yourselves or on Saturday
-December 29th (more details to come). All payment and liability forms must be
+December 22nd (more details to come). All payment and liability forms must be
 received<b> BEFORE </b>the day of the tournament. Listed below is our current
 network of student ambassadors; please refer to your respective school&#39;s
 ambassadors to arrange the collection of payment/liability forms. </span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
