@@ -160,6 +160,8 @@ school's ambassadors to arrange the collection of payment/liability forms.
 
 *Network of Student Ambassadors: *
 
+Cawthra Secondary School: Jesse Yan
+
 Glenforest Secondary School: Edward Chen, Mike Wang, Ruhi Kokal
 
 Gordon Graydon Memorial Secondary School: Moksha Patel, Ayesha Madan
@@ -182,17 +184,15 @@ The Woodlands Secondary School: Jonathan Martins, Ashley Tam, April Liu
 
 
 
-You can view your team info at this url:
-
-%s
-
-
-
 If there is no student ambassador at your school, please drop off your
 *registration
 fee, pledge forms, and liability forms* (attached) in person to Mississauga Central
 Library on Thursday, December 20th to one of the Executives present. Thank
-you for your interest and we look forward to seeing you on the court!
+you for your interest and to view your team info, visit this URL:
+
+%s
+
+We look forward to seeing you on the court!
 
 
 Cheers,
@@ -214,7 +214,7 @@ and hands in the appropriate documents before tournament day. <span style> </spa
 that the registration fee is minimum $10/person (you are welcome to donate
 more!). As well, you can get a pledge form from your student ambassador at your
 respective schools. It is encouraged that you approach your family, friends,
-parents&8217; colleagues or workplaces to sponsor you. The pledge form is also as
+parents&#8217; colleagues or workplaces to sponsor you. The pledge form is also as
 attached. <b>If you raise more than $50, you will be exempt from paying the $10
 registration fee.</b> Remember that all proceeds go towards research for
 multiple sclerosis! </span></p>
@@ -244,6 +244,8 @@ ambassadors to arrange the collection of payment/liability forms. </span><span s
 
 <b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Network
 of Student Ambassadors: </span></b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
+
+<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Cawthra Secondary School: Jesse Yan</span></p>
 
 <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">Glenforest Secondary School: Edward
 Chen, Mike Wang, Ruhi Kokal </span><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"></span></p>
@@ -277,14 +279,10 @@ Jonathan Martins, Ashley Tam, April Liu </span></p>
 
 <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"> </span></p>
 
-<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">You can view your team info <a href="%s">here</a>.</span></p>
-
-<p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"> </span></p>
-
 <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA">If there is no student ambassador at
 your school, please drop off your</span><span style lang="EN-CA"> </span><b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;;color:red" lang="EN-CA"><i style><u>registration fee, pledge forms</u></i><u>, and </u><i style><u>liability
 forms</u></i> (attached)</span></b><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"> in person to Mississauga Central Library on Thursday, December 20<sup>th</sup>
-to one of the Executives present. Thank you for your interest and we look forward
+to one of the Executives present. Thank you for your interest and to view your team info, click <a href="%s">here</a>. We look forward
 to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:normal"><br><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;" lang="EN-CA"></span><span style></span></p>
 
 
