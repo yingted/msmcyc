@@ -11,8 +11,10 @@ deploy:
 commit:
 	make commit -C ..
 %.min.js: %.js
+	mkdir -p $$(dirname -- $$(readlink -m -- $@))
 	js -f ../fulljsmin.js -e 'print(jsmin((b=(a=snarf(readline())).match(/^\/\*(?:x|[^x])*?\*\//)),a.substring(b.length).trim()).trim())' <<< $< > $$(readlink -m -- $@)
 %-scaled.jpg: %-orig.jpg
+	mkdir -p $$(dirname -- $$(readlink -m -- $@))
 	convert $< -resize 336x280\< -resize 336x280\> $$(readlink -m -- $@)
 copy: *.min.js *-scaled.jpg
 	grep -v '[^[:alnum:]]*vim:' base_home.html > ../site/msmcyc/templates/base_home.html
