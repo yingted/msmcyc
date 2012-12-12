@@ -11,9 +11,9 @@ deploy:
 commit:
 	make commit -C ..
 %.min.js: %.js
-	js -f ../fulljsmin.js -e 'print(jsmin((b=(a=snarf(readline())).match(/^\/\*(?:x|[^x])*?\*\//)),a.substring(b.length).trim()).trim())' <<< $< > $@
+	js -f ../fulljsmin.js -e 'print(jsmin((b=(a=snarf(readline())).match(/^\/\*(?:x|[^x])*?\*\//)),a.substring(b.length).trim()).trim())' <<< $< > $$(readlink -m -- $@)
 %-scaled.jpg: %-orig.jpg
-	convert $< -resize 336x280\< -resize 336x280\> $@
+	convert $< -resize 336x280\< -resize 336x280\> $$(readlink -m -- $@)
 copy: *.min.js *-scaled.jpg
 	grep -v '[^[:alnum:]]*vim:' base_home.html > ../site/msmcyc/templates/base_home.html
 	sed '/>.*[{,]/s/>/ /g' main.css | grep -v '[^[:alnum:]]*vim:' > ../site/static/css/main.css
