@@ -106,10 +106,12 @@ class BaseVolleyballFormSet(BaseFormSet):
 		if not event:
 			event=newevent
 			event.put()
+		logging.info("Team: %s"%to_dict(event))
 		i=0
 		for form in self:
 			if form.is_valid()and form.has_changed():
 				props=to_dict(form.save(commit=False))
+				logging.info("Player: %s"%props)
 				props["parent"]=event
 				VolleyballPlayer(**props).put()
 			i+=1

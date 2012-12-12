@@ -99,6 +99,11 @@ body{
 		margin-right:auto;
 	}
 }
+@media print{
+	.fb-like-box{
+		display:none!important;
+	}
+}
 .fb_iframe_widget span{
 	display:block!important;
 }
@@ -615,6 +620,7 @@ div.sponsor-panel>p{
 
 	.ir a:after,
 	a[href^="javascript:"]:after,
+	a.nohover:after,
 	a[href^="#"]:after{
 		content:"";
 	}
@@ -652,6 +658,12 @@ div.sponsor-panel>p{
 	h2,
 	h3{
 		page-break-after:avoid;
+	}
+	.header-container{
+		display:none;
+	}
+	.noprint{
+		display:none!important;
 	}
 }
 /* vim:set ts=4 sw=4:*/
