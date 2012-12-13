@@ -136,7 +136,7 @@ def signup_conf(event):
 			"children":VolleyballPlayer,
 			"order":"added",
 			"export":(
-				(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school")),
+				(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school",lambda ent:"%s (%d)"%(ent.parent().name,ent.parent().key().id()))),
 			),
 		},
 	}[event]
