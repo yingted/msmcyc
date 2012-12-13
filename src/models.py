@@ -1,3 +1,5 @@
+import logging
+logging.getLogger().setLevel(logging.NOTSET)
 from google.appengine.ext import db
 class Event(db.Model):
 	when=db.DateTimeProperty(required=True)
@@ -100,12 +102,20 @@ class BaseVolleyballFormSet(BaseFormSet):
 			})  
 		return form
 	def save(self):
-		newevent=self.management_form.save(commit=False)
-		newevent.index_key=normalize_name(newevent.name)
-		event=team_by_name(newevent.index_key)
-		if not event:
-			event=newevent
-			event.put()
+		event=self.management_form.save(commit=False)
+		if event.name:
+			event.index_key=normalize_name(event.name)
+			oldevent=team_by_name(event.index_key)
+			if oldevent:
+				event=oldevent
+			else:
+				event.put()
+		elif event.team_type=="Recreational":
+			event=single_recreational
+		elif event.team_type=="Competitive":
+			event=single_competitive
+		else:
+			logger.warning("Invalid team type %s"%team_type)
 		logging.info("Team: %s"%to_dict(event))
 		i=0
 		for form in self:
@@ -125,5 +135,8 @@ def signup_conf(event):
 			"model":VolleyballTeam,
 			"children":VolleyballPlayer,
 			"order":"added",
+			"export":(
+				(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school")),
+			),
 		},
 	}[event]

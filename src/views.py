@@ -109,12 +109,7 @@ def signup(request,event):
 	if request.method=="POST":
 		form=conf["form"](request.POST)
 		if form.is_valid():
-			if event!="volleyball"or"team_name"not in form.management_form.cleaned_data:
-				ent=form.save()
-			elif form.management_form.cleaned_data["team_type"]=="Recreational":
-				ent=single_recreational
-			else:
-				ent=single_competitive
+			ent=form.save()
 			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
 			if event=="volleyball":
 				player=next(form for form in form if form.is_valid()).cleaned_data
@@ -353,3 +348,15 @@ def view(request,event,uid):
 		"ent":to_pretty_dict(ent),
 		"children":children,
 	})
+
+import csv
+from datetime import datetime
+def export(request,event,kind):
+	conf=signup_conf(event)
+	model,fields=conf["export"][int(kind)-1]
+	response=HttpResponse(mimetype="text/csv")
+	response['Content-Disposition']='attachment; filename="export-%s_%s-%s.csv"'%(event,kind,datetime.now().strftime("%y-%m-%d-%H-%M-%S"))
+	writer=csv.writer(response)
+	for ent in model.all().order(conf["order"]).run():
+		writer.writerow(map(lambda field:field(ent)if hasattr(field,"__call__")else getattr(ent,field),fields))
+	return response

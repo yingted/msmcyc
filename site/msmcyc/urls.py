@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^ajax/prev_players/([^/]*)/(.*)$',views.prev_players),
     url(r'^ajax/team_prefix/(.*)$',views.team_prefix),
     url(r'^view/([^/]*)/([1-9][0-9]*)$',views.view),
+    url(r'^export/([^/]*)/([1-9][0-9]*)$',views.export),
     url(r'',views.index),
 )
