@@ -20,12 +20,13 @@ def index(request):
 	return redirect("/static"+request.path)
 
 from django import forms
+from django.core.validation import email_re
 from ajax_forms import ajax_fields
 class MyEmailField(forms.EmailField):
 	def __init__(self,*args,**kwargs):
 		kwargs["max_length"]=254
 		forms.EmailField.__init__(self,*args,**kwargs)
-		self.regex=re.compile("""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""")
+		self.regex=email_re
 ajax_fields.register(MyEmailField,ajax_fields.AjaxRegexField)
 class ContactForm(forms.Form):
 	name=forms.CharField(max_length=1000)
