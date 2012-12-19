@@ -72,7 +72,8 @@
 					}
 				}
 				function normalizeName(name){
-					return name.replace(/ \t-_/g,"").toLowerCase();
+					if(typeof name=="string")
+						return name.replace(/ \t-_/g,"").toLowerCase();
 				}
 				$(".signup input[type=text]").css({display:"block"});
 				$("form").keyup(function(){
