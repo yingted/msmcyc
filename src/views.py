@@ -20,7 +20,7 @@ def index(request):
 	return redirect("/static"+request.path)
 
 from django import forms
-from django.core.validation import email_re
+from django.core.validators import email_re
 from ajax_forms import ajax_fields
 class MyEmailField(forms.EmailField):
 	def __init__(self,*args,**kwargs):
