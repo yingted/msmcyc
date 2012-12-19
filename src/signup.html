@@ -40,7 +40,7 @@
 				trees.teamName={};
 				function insert(t,s,v){
 					if(s.length==1)
-						return!(t[s[0]]instanceof Array)&&(t[s[0]]=v);
+						return!(t[s]instanceof Array)&&(t[s]=v);
 					if(!t.hasOwnProperty(s[0]))
 						t[s[0]]={};
 					return insert(t[s[0]],s.substring(1),v);
@@ -86,8 +86,6 @@
 						return;
 					if(slug=="team_name"){
 						var key=normalizeName(prefix),val=retrieve(trees.teamName,key);
-						if(val===false)
-							val=[];
 						function cb(val){
 							if(lastcb!=cb)
 								return;
@@ -106,15 +104,15 @@
 							$.ajaxC("/ajax/team_prefix/"+key,function(rec){
 								rec=rec?[+rec[0],rec.substring(1)]:[];
 								var realkey=rec.length&&normalizeName(rec[1]);
-								insert(trees.teamName,realkey===key?key+"\0":key,rec);
+								insert(trees.teamName,!rec.length||realkey===key?key+"\0":key,rec);
 								cb(rec);
 							});
 						return;
 					}
-					if(val===false)
+					if(!val)
 						return;
 					var idx=slugs.indexOf(slug),val=retrieve(trees[idx]||{},prefix.toLowerCase());
-					if(!(read&(1<<idx))||val===false)
+					if(!(read&(1<<idx))||!val)
 						return;
 					function cb(val){
 						if(lastcb!=cb)
