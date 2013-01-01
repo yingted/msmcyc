@@ -8,6 +8,23 @@
 			<p>As a youth-run organization, our success lies in the help of our sponsors, as mentioned below, who have provided us with much support in funding our initiatives. To learn more about becoming a sponsor, please <a href="/contact">contact us</a> at <a href="mailto:&#105;&#110;&#102;&#111;&#64;&#109;&#115;&#121;&#111;&#117;&#116;&#104;&#109;&#105;&#115;&#115;&#105;&#115;&#115;&#97;&#117;&#103;&#97;&#46;&#111;&#114;&#103;">&#105;&#110;&#102;&#111;&#64;&#109;&#115;&#121;&#111;&#117;&#116;&#104;&#109;&#105;&#115;&#115;&#105;&#115;&#115;&#97;&#117;&#103;&#97;&#46;&#111;&#114;&#103;</a>.</p>
 		</header>
 		<section class="carousel">
+			<h2>Pizzaville and The Great Canadian Bagel</h2>
+			<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=The+Great+Canadian+Bagel,+5985+Mavis,+Mississauga,+ON+L5R+3T7,+Canada&amp;aq=&amp;sll=43.612877,-79.693633&amp;sspn=0.003363,0.008256&amp;ie=UTF8&amp;hq=The+Great+Canadian+Bagel,+5985+Mavis,+Mississauga,&amp;hnear=Mississauga,+Ontario+L5R+3T7,+Canada&amp;t=m&amp;cid=17827486895279812618&amp;ll=43.620978,-79.692421&amp;spn=0.021747,0.036478&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=The+Great+Canadian+Bagel,+5985+Mavis,+Mississauga,+ON+L5R+3T7,+Canada&amp;aq=&amp;sll=43.612877,-79.693633&amp;sspn=0.003363,0.008256&amp;ie=UTF8&amp;hq=The+Great+Canadian+Bagel,+5985+Mavis,+Mississauga,&amp;hnear=Mississauga,+Ontario+L5R+3T7,+Canada&amp;t=m&amp;cid=17827486895279812618&amp;ll=43.620978,-79.692421&amp;spn=0.021747,0.036478&amp;z=14&amp;iwloc=A" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+			<div class="sponsor-panel">
+				<div class="sponsor-img" style="background-image:url('/static/img/sponsors/Pizzaville-TGCB.png');">
+					<a href="http://pizzaville.ca/" target="_blank" class="fill-parent nohover"></a>
+				</div>
+				<p>A huge thanks to Tom and Shirley. These guys gave us the pizza slices to sell!<br>
+				They have two stores:
+				<strong>Pizzaville</strong>
+				and
+				<strong>The Great Canadian Bagel</strong><br>
+				<span style="color:blue">UNIT5&#8212; MAVIS ROAD</span><br>
+				<span style="color:red">(MAVIS &amp; BRITANNIA)</span><br>
+				<span style="color:red">5985 Mavis Road</span><br>
+				<span style="color:blue">MISSISSAUGA, ON<br>L5R 3T7</span><br>
+				Store Phone: 905-8906060</p>
+			</div>
 			<h2>Katie Mahoney, Councillor, Ward 8</h2>
 			<div class="sponsor-panel">
 				<div class="sponsor-img" style="background-image:url('/static/img/sponsors/Katie_Mahoney-scaled.jpg');">
@@ -56,7 +73,7 @@
 			{# try{function log(s){for(var a=s.split("\n"),i=0;i<a.length;++i)console.log(a[i])} #}
 			var carousel=$(".carousel");
 			carousel.wrapInner("<div class=\"carousel-list\" />").children().children("h2").each(function(i,e){
-				$(e).next().prepend($(e).remove().hide());
+				$(e).nextUntil("h2",".sponsor-panel").prepend($(e).nextUntil(".sponsor-panel").andSelf().remove().hide());
 			});
 			carousel.after($("<div id=\"carousel-target\">").append($(".carousel-list>.sponsor-panel:first").children().clone().show()))
 			.on("createend.jcarousel",function(){
