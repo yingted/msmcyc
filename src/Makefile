@@ -29,3 +29,5 @@ copy: *.min.js *-scaled.jpg
 	grep -v '[^[:alnum:]]*vim:' sponsors.html > ../site/msmcyc/templates/sponsors.html
 	grep -v '[^[:alnum:]]*vim:' signup_success.html > ../site/msmcyc/templates/signup_success.html
 	grep -v '[^[:alnum:]]*vim:' signup.html > ../site/msmcyc/templates/signup.html
+	grep -v '[^[:alnum:]]*vim:' scoreboard.html > ../site/msmcyc/templates/scoreboard.html
+	grep -v '[^[:alnum:]]*vim:' base_matches.html > ../site/msmcyc/templates/base_matches.html

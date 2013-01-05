@@ -70,7 +70,7 @@ class VolleyballManagementForm(ManagementForm,ModelForm):
 	def save(self,*args,**kwargs):
 		return ModelForm.save(self,*args,**kwargs)
 	__metaclass__=classmaker()
-def to_dict(ent):
+def to_dict(ent):#dereferences keys
 	klass=ent.__class__
 	return dict((k,v.__get__(ent,klass))for k,v in klass.properties().iteritems())
 def to_pretty_dict(ent):
@@ -140,3 +140,10 @@ def signup_conf(event):
 			),
 		},
 	}[event]
+class VolleyballMatch(db.Model):
+	start=db.TimeProperty()
+	end=db.TimeProperty()
+	a=db.ReferenceProperty(VolleyballTeam)
+	b=db.StringProperty()
+	a_points=db.IntegerProperty()
+	b_points=db.IntegerProperty()

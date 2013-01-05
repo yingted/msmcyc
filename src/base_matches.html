@@ -1,0 +1,31 @@
+{% for match in matches %}
+	<tr class="{{ match.when }} {{ match.a.team_type|slugify }}">
+		<td>{{ match.start|date:"H:ia" }}</td>
+		<td
+			{% if match.a_points > match.b_points %}
+				class="win"
+			{% endif %}
+			{% if match.a_points < match.b_points %}
+				class="lose"
+			{% endif %}
+			>{{ match.a.name }}
+			{% if match.a_points or match.b_points %}
+				(<span class="points">{{ match.a_points }}</span>)
+			{% endif %}
+		</td>
+		<td
+			{% if match.a_points < match.b_points %}
+				class="win"
+			{% endif %}
+			{% if match.a_points > match.b_points %}
+				class="lose"
+			{% endif %}
+			>{{ match.b }}
+			{% if match.a_points or match.b_points %}
+				(<span class="points">{{ match.b_points }}</span>)
+			{% endif %}
+		</td>
+		<td>{{ match.a.team_type }}</td>
+	</tr>
+{% endfor %}
+{# vim: set ts=4 sw=4: #}
