@@ -67,7 +67,6 @@ from datetime import datetime
 from django.template import Template,RequestContext
 def events(request):
 	events=Event.all()\
-		#.filter("when >",datetime.now())\
 		.order("when")\
 		.fetch(None)
 	for event in events:
