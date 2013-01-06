@@ -8,7 +8,8 @@
 			{% if match.a_points < match.b_points %}
 				class="lose"
 			{% endif %}
-			>{{ match.a.name }}
+			>
+			<span class="team">{{ match.a.name }}</span>
 			{% if match.a_points or match.b_points %}
 				(<span class="points">{{ match.a_points }}</span>)
 			{% endif %}
@@ -20,7 +21,8 @@
 			{% if match.a_points > match.b_points %}
 				class="lose"
 			{% endif %}
-			>{{ match.b }}
+			>
+			<span class="team">{{ match.b }}</span>
 			{% if match.a_points or match.b_points %}
 				(<span class="points">{{ match.b_points }}</span>)
 			{% endif %}

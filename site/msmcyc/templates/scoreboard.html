@@ -68,6 +68,22 @@
 			$(".hash").click(function(){
 				cb(this.hash);
 			});
+			function normalizeName(name){
+				if(typeof name=="string")
+					return name.replace(/ \t-_/g,"").toLowerCase();
+			}
+			$("#matches").children().not(":first").filter(function(i,e){
+				return $(e).children().last().text()=="Competitive";
+			}).each(function(i,e){
+				var $ch=$(e).children();
+				var a=$ch.eq(1).children(".team").text();
+				var b=$ch.eq(2).children(".team").text();
+				var ap=$ch.eq(1).children(".points").text().replace(/\s+/g,"");
+				var bp=$ch.eq(2).children(".points").text().replace(/\s+/g,"");
+				if(ap||bp){
+					
+				}
+			});
 			//$(".elimination-hide").removeClass("elimination-hide");
 		});
 	</script>
