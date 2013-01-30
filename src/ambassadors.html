@@ -1,0 +1,50 @@
+{% extends "base_home.html" %}
+{% block title %}Ambassadors{% endblock %}
+{% block description %}MS Mississauga Youth Committee (MSMYC) ambassadors{% endblock %}
+{% block content %}
+	<article>
+		<header>
+			<h1>Meet the Ambassadors</h1>
+			<p>We also have student ambassadors, listed at <a href="https://www.facebook.com/groups/450000581703693/">MS Student Ambassadors on Facebook</a>.</p>
+		</header>
+		<section>
+			<h2>Ambassadors</h2>
+			<ul>
+				<li>Anish Jay Asce</li>
+				<li>April Liu</li>
+				<li>Ashley Tam</li>
+				<li>Ayesha Madan</li>
+				<li>Braeden Page</li>
+				<li>Christine Xin</li>
+				<li>Daaniya Tariq</li>
+				<li>Edward Chen</li>
+				<li>Eva Xu</li>
+				<li>George Keliny</li>
+				<li>Jesse Yan</li>
+				<li>Jonathan Martins</li>
+				<li>Kim Ren</li>
+				<li>Mike Wang</li>
+				<li>Moksha Patel</li>
+				<li>Natasha Mathew</li>
+				<li>Rachel Ha</li>
+				<li>Ruhi Kokal</li>
+				<li>Sathu Siva</li>
+				<li>Shiwei Zhuang</li>
+				<li>Supriya Gopalan</li>
+			</ul>
+		</section>
+	</article>
+{% endblock %}
+{% block postscript %}
+	{% if 0 %}
+		<script type="text/javascript">
+			var bios=$(".toggle-container>h3").each(function(i,e){
+				$(e).togglerFor($(e).next());
+			}).next();
+			{% comment %}$("#openall").button(function(){
+				bios.show("fast");
+			});{% endcomment %}
+		</script>
+	{% endif %}
+{% endblock %}
+{# vim: set ts=4 sw=4: #}

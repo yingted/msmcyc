@@ -20,7 +20,7 @@ copy: *.min.js *-scaled.jpg
 	grep -v '[^[:alnum:]]*vim:' base_home.html > ../site/msmcyc/templates/base_home.html
 	sed '/>.*[{,]/s/>/ /g' main.css | grep -v '[^[:alnum:]]*vim:' > ../site/static/css/main.css
 	grep -v '[^[:alnum:]]*vim:' index.html > ../site/msmcyc/templates/index.html
-	grep -v '[^[:alnum:]]*vim:' main.js > ../site/static/js/main.js
+	curl -sd compilation_level=SIMPLE_OPTIMIZATIONS -d output_format=text -d output_info=compiled_code --data-urlencode 'js_code@main.js' http://closure-compiler.appspot.com/compile > ../site/static/js/main.js || grep -v '[^[:alnum:]]*vim:' main.js > ../site/static/js/main.js
 	grep -v '[^[:alnum:]]*vim:' views.py > ../site/msmcyc/views.py
 	grep -v '[^[:alnum:]]*vim:' models.py > ../site/msmcyc/models.py
 	grep -v '[^[:alnum:]]*vim:' events.html > ../site/msmcyc/templates/events.html
@@ -31,3 +31,5 @@ copy: *.min.js *-scaled.jpg
 	grep -v '[^[:alnum:]]*vim:' signup.html > ../site/msmcyc/templates/signup.html
 	grep -v '[^[:alnum:]]*vim:' scoreboard.html > ../site/msmcyc/templates/scoreboard.html
 	grep -v '[^[:alnum:]]*vim:' base_matches.html > ../site/msmcyc/templates/base_matches.html
+	grep -v '[^[:alnum:]]*vim:' ambassadors.html > ../site/msmcyc/templates/ambassadors.html
+	grep -v '[^[:alnum:]]*vim:' execs.html > ../site/msmcyc/templates/execs.html

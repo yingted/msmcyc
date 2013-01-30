@@ -356,6 +356,28 @@ div.sponsor-panel>p{
 	width:100%;
 	text-decoration:none;
 }
+.menu ul{
+	position:absolute;
+	top:76px;
+	display:block;
+	padding-right:2em;
+	background-color:#005106;
+	visibility:hidden;
+}
+.menu ul>li{
+	position:relative;
+	display:block;
+	width:100%;
+}
+.menu ul>li>a{
+	width:100%;
+	padding-left:1em;
+	padding-right:1em;
+}
+.menu>li:hover>ul,
+.menu>li.hover>ul{
+	visibility:visible;
+}
 
 /* ==========================================================================
    Media Queries

@@ -53,5 +53,11 @@ $(function(){
 	$("a:not(.click)").filter(function(i,e){
 		return/^https?:$/.test(e.protocol)&&e.href&&e.host!=location.host;
 	}).addClass("external");
+	if($.browser.msie&&$.browser.version<=6)
+		$(".ie6").hover(function(){
+			$(this).addClass("hover");
+		},function(){
+			$(this).removeClass("hover");
+		});
 });
 /* vim: set ts=4 sw=4: */
