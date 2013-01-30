@@ -1,11 +1,11 @@
 .PHONY: all copy watch slow fast
 all: copy
-test: copyfast slow
+test: copy
 	[ "$(TERM)" = "screen" ] && echo -en '\ekgae\e\\' || :
 	python ../google_appengine/dev_appserver.py ../site --address 0.0.0.0
-watch: copyfast fast
+watch: copy
 	[ "$(TERM)" = "screen" ] && echo -en '\ekwatch\e\\' || :
-	while :; do inotifywait -e close_write -e delete_self -e create -e move_self -qqrt5 *; make; done
+	while :; do inotifywait -e close_write -e delete_self -e create -e move_self -qqrt5 *; make copyfast fast; done
 deploy:
 	make deploy -C ..
 commit:

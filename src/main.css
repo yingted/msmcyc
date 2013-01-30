@@ -363,11 +363,23 @@ div.sponsor-panel>p{
 	padding-right:2em;
 	background-color:#005106;
 	visibility:hidden;
+	-webkit-box-shadow:0 5px 10px #777;
+	   -moz-box-shadow:0 5px 10px #777;
+			box-shadow:0 5px 10px #777;
 }
 .menu ul>li{
 	position:relative;
 	display:block;
 	width:100%;
+}
+/*damn you ie6*/
+.menu>li:hover>a.hoverbutton,
+.menu>li.hover>a.hoverbutton{
+	background-color:#005106;
+}
+.menu>li:hover>a.hoverbutton:hover,
+.menu>li.hover>a.hoverbutton.hover{
+	background-color:#000;
 }
 .menu ul>li>a{
 	width:100%;
