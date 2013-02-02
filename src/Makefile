@@ -16,14 +16,14 @@ commit:
 %-scaled.jpg: %-orig.jpg
 	mkdir -p $$(dirname -- $$(readlink -m -- $@))
 	convert $< -resize 336x280\< -resize 336x280\> $$(readlink -m -- $@)
-slow:
+slow: main.js
 	curl -sd compilation_level=SIMPLE_OPTIMIZATIONS -d output_format=text -d output_info=compiled_code --data-urlencode 'js_code@main.js' http://closure-compiler.appspot.com/compile > ../site/static/js/main.js || grep -v '[^[:alnum:]]*vim:' main.js > ../site/static/js/main.js
-	sed '/>.*[{,]/s/>/ /g' main.css | php -r 'require_once("../cssmin.php");echo CssMin::minify(file_get_contents("php://stdin"));' > ../site/static/css/main.css || sed '/>.*[{,]/s/>/ /g' main.css | grep -v '[^[:alnum:]]*vim:' > ../site/static/css/main.css
-fast:
+fast: main.js
 	grep -v '[^[:alnum:]]*vim:' main.js > ../site/static/js/main.js
-	sed '/>.*[{,]/s/>/ /g' main.css | grep -v '[^[:alnum:]]*vim:' > ../site/static/css/main.css
 copy: copyfast slow
-copyfast: *.min.js *-scaled.jpg
+#phony target dependencies elided
+copyfast: *.min.js *-scaled.jpg main.sass
+	sass -Ct compressed main.sass | sed '/>.*[{,]/s/>/ /g' | grep -v '[^[:alnum:]]*vim:' > ../site/static/css/main.css
 	grep -v '[^[:alnum:]]*vim:' base_home.html > ../site/msmcyc/templates/base_home.html
 	grep -v '[^[:alnum:]]*vim:' index.html > ../site/msmcyc/templates/index.html
 	grep -v '[^[:alnum:]]*vim:' views.py > ../site/msmcyc/views.py
