@@ -1,16 +1,21 @@
 {% extends "base_home.html" %}
 {% block title %}About Us{% endblock %}
 {% block description %}MS Mississauga Youth Committee (MSMYC) home page{% endblock %}
+{% block inhead %}
+	<link rel="stylesheet" href="/static/css/nivo-default/default.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/static/css/nivo-slider.css" type="text/css" media="screen" />
+{% endblock %}
 {% block content %}
 	<article>
 		<header>
 			<h1>About Us</h1>
 			<p>The Multiple Sclerosis Mississauga Youth Committee (MSMYC) is a youth-run organization that advocates for awareness of multiple sclerosis in youth. As a non-profit organization that works closely with the MS Society of Canada, the <abbr title="Multiple Sclerosis Mississauga Youth Committee">MSMYC</abbr> was founded by Cathy Li in January 2012 in an effort to bring the issue of multiple sclerosis to the forefront of youth, while raising money towards finding a cure and enhancing the lives of those affected.</p>
+			<div class="slider-wrapper theme-default clearfix">
+				<div id="slider" class="nivoSlider">
+					<img src="https://dl.dropbox.com/s/xt31nhlwfcifkmb/2013-01-05%2018.15.49.jpg?dl=1" title="We raised $2300.00 for MS.">
+				</div>
+			</div>
 		</header>
-		<section>
-			<h2>What is Multiple Sclerosis?</h2>
-			<p>Multiple sclerosis is a chronic disease, often progressive, that affects the central nervous system, resulting in loss of muscle control and sensation. While Canada has the highest incident rate of multiple sclerosis in the world, the majority of the youth populace remains unaware of this disease and its impact. To address this, the <abbr title="Multiple Sclerosis Mississauga Youth Committee">MSMYC</abbr> emphasizes awareness, education, and action through the youth populace. We place high value in the educational background of the disease, as it is an important step in understanding how to advocate for those facing <abbr title="multiple sclerosis">MS</abbr> as well as in sparking interest in the disease.</p>
-		</section>
 		<section>
 			<h2>Mission Statement</h2>
 			<blockquote>
@@ -18,6 +23,18 @@
 				</p>
 			</blockquote>
 		</section>
+		<section>
+			<h2>What is Multiple Sclerosis?</h2>
+			<p>Multiple sclerosis is a chronic disease, often progressive, that affects the central nervous system, resulting in loss of muscle control and sensation. While Canada has the highest incident rate of multiple sclerosis in the world, the majority of the youth populace remains unaware of this disease and its impact. To address this, the <abbr title="Multiple Sclerosis Mississauga Youth Committee">MSMYC</abbr> emphasizes awareness, education, and action through the youth populace. We place high value in the educational background of the disease, as it is an important step in understanding how to advocate for those facing <abbr title="multiple sclerosis">MS</abbr> as well as in sparking interest in the disease.</p>
+		</section>
 	</article>
+{% endblock %}
+{% block postscript %}
+	<script type="text/javascript" src="/static/js/vendor/jquery.nivo.slider.pack.js"></script>
+    <script type="text/javascript">
+		$(function(){
+			$('#slider').nivoSlider();
+		});
+	</script>
 {% endblock %}
 {# vim: set ts=4 sw=4: #}
