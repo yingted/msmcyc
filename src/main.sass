@@ -75,6 +75,9 @@ a:hover,.click:hover
 	border-radius: 2px
 a.nohover
 	background: transparent!important
+h1.title
+	/* chrome
+	float: left
 h1.title>a,header>nav a
 	color: #fff!important
 blockquote
@@ -98,6 +101,7 @@ div
 	position: relative
 /* MOBILE:Menu
 nav
+	width: auto
 	ul
 		margin: 0
 		padding: 0
@@ -114,6 +118,10 @@ nav
 			color: white
 		&:hover
 			text-decoration: underline
+.menu
+	margin-right: 0
+	>li
+		margin-right: .4em
 /* MOBILE:Main
 .main
 	padding: 30px 0
@@ -210,32 +218,40 @@ div
 	width: 100%
 	text-decoration: none
 .menu
+	float: right
 	ul
 		position: absolute
 		display: block
-		top: 76px
-		padding-right: 2em
+		top: 46px
+		z-index: 10
+		padding-right: 22px
 		background-color: #005106
 		visibility: hidden
 		-webkit-box-shadow: 0 5px 10px #777
 		-moz-box-shadow: 0 5px 10px #777
 		box-shadow: 0 5px 10px #777
 		>li
-			position: relative
 			display: block
 			width: 100%
-		>li>a
-			width: 100%
-			padding-left: 1em
-			padding-right: 1em
+			>a
+				width: 100%
+				padding-left: 1em
+				padding-right: 1em
+				margin-left: 0
+				white-space: normal
+	li
+		position: relative
+		float: left
+		margin-right: 1em
 	>li
 		&:hover>a.hoverbutton,&.hover>a.hoverbutton
 			background-color: #005106
 		&:hover>a.hoverbutton:hover,&.hover>a.hoverbutton.hover
 			background-color: #000
-	>li
 		&:hover>ul,&.hover>ul
 			visibility: visible
+		>a
+			white-space: nowrap
 .headshot
 	float: right
 	height: 6em
@@ -248,9 +264,6 @@ div
 	color: #888
 /* Media Queries
 @media only screen and (max-width: 479px)
-	.menu ul
-		top: 46px
-		padding-right: 22px
 	textarea
 		max-width: 90%
 	h1
@@ -284,12 +297,14 @@ div
 		font-size: .8em
 	.header-container>header a>img
 		max-height: 48px
+	.menu ul
+		top: 48px
+		padding-right: 22px
 	nav
-		width: 19.1em
 		li
-			&:first-child a
+			&:first-child
 				margin-left: 0
-			&:last-child a
+			&:last-child
 				margin-right: 0
 	.header-container>header>h1
 		margin: 0
@@ -314,10 +329,8 @@ div
 	.title
 		float: left
 	nav
-		width: 72%
 		a
-			width: 19%
-			padding: 25px 1%
+			padding: 25px 1em
 			font-size: 1em
 	/* WIDE:Main
 	.lt-ie9
@@ -331,6 +344,7 @@ div
 			width: 54%
 		aside
 			float: right
+			clear: right
 			width: 28%
 			min-width: 228px
 	.fall,.main
@@ -338,6 +352,12 @@ div
 		padding-right: 20px
 	.header-container>header a>img
 		max-height: 76px
+	.menu
+		ul
+			top: 76px
+			padding-right: 2em
+		li
+			margin-right: 1em
 	.fb-like-box
 		margin-left: -15%
 @media only screen and (min-width: 1140px)
@@ -346,6 +366,8 @@ div
 		width: 1026px
 		/* 1140px - 10% for margins
 		margin: 0 auto
+	.menu li
+		margin-right: 2em
 /* Helper classes
 .ir
 	background-color: transparent
