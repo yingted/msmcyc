@@ -23,7 +23,7 @@ fast: main.js
 copy: copyfast slow
 #phony target dependencies elided
 copyfast: *.min.js *-scaled.jpg main.sass
-	echo "$$(tr '>' ' ' < main.sass | sed 's/^\(\t*\) /\1/' | sass -Ct compressed)" > ../site/static/css/main.css
+	css="$$(tr '>' ' ' < main.sass | sed 's/^\(\t*\) /\1/' | sass -Ct compressed)" && echo "$$css" > ../site/static/css/main.css
 	grep -v '[^[:alnum:]]vim:' base_home.html > ../site/msmcyc/templates/base_home.html
 	grep -v '[^[:alnum:]]vim:' index.html > ../site/msmcyc/templates/index.html
 	grep -v '[^[:alnum:]]vim:' views.py > ../site/msmcyc/views.py
