@@ -1,3 +1,7 @@
+$msred: #dd060b
+$msgrey: #909093
+$dropdown: darken($msred,25%)
+
 /* HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
 html,button,input,select,textarea
 	color: #222
@@ -39,7 +43,7 @@ body
 .main aside
 	border-top: 20px solid #000
 .header-container,.main aside
-	background: #dd060b
+	background: $msred
 .title
 	color: white
 .fb-like-box
@@ -81,7 +85,7 @@ h1.title
 h1.title>a,header>nav a
 	color: #fff!important
 blockquote
-	border: 2px dashed #dd060b
+	border: 2px dashed $msred
 	background-color: #eee
 	padding: 1em
 /* ALL:header/footer
@@ -163,6 +167,8 @@ div
 		line-height: 1em
 .event-heading
 	text-align: center
+:target>event-heading
+	border: 1px solid #005106
 @media only screen and (max-width: 964px)
 	div
 		&.sponsor-panel
@@ -201,7 +207,7 @@ div
 	background-color: transparent
 	border-color: transparent
 .view-parent
-	border-right: 2px dashed #909093
+	border-right: 2px dashed $msgrey
 	dt
 		font-style: italic
 .view-child dt
@@ -227,7 +233,7 @@ div
 		top: 46px
 		z-index: 10
 		padding-right: 22px
-		background-color: #005106
+		background-color: $dropdown
 		visibility: hidden
 		-webkit-box-shadow: 0 5px 10px #777
 		-moz-box-shadow: 0 5px 10px #777
@@ -247,7 +253,7 @@ div
 		margin-right: 1em
 	>li
 		&:hover>a,&.hover>a
-			background-color: #005106
+			background-color: $dropdown
 		&:hover>a:hover,&.hover>a.hover
 			background-color: #000
 		&:hover>ul,&.hover>ul
