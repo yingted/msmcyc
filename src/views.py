@@ -70,7 +70,7 @@ def events(request):
 		.order("when")\
 		.fetch(None)
 	for event in events:
-		event.signup=Template(event.signup).render(RequestContext(request))
+		event.html=Template(event.html).render(RequestContext(request))
 	return render(request,"events.html",{
 		"events":events,
 	})

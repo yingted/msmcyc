@@ -161,6 +161,8 @@ div
 		word-break: hyphenate
 		font-size: .8em
 		line-height: 1em
+.event-heading
+	text-align: center
 @media only screen and (max-width: 964px)
 	div
 		&.sponsor-panel
@@ -169,10 +171,10 @@ div
 			background-size: 100%
 			max-width: 90%
 @media only screen and (max-width: 964px)
-	.sponsor-panel,.carousel
+	.sponsor-panel
 		width: 336px
 @media only screen and (min-width: 965px)
-	div.sponsor-panel,section.carousel
+	div.sponsor-panel
 		width: 500px
 	div
 		&.sponsor-img
@@ -244,9 +246,9 @@ div
 		float: left
 		margin-right: 1em
 	>li
-		&:hover>a.hoverbutton,&.hover>a.hoverbutton
+		&:hover>a,&.hover>a
 			background-color: #005106
-		&:hover>a.hoverbutton:hover,&.hover>a.hoverbutton.hover
+		&:hover>a:hover,&.hover>a.hover
 			background-color: #000
 		&:hover>ul,&.hover>ul
 			visibility: visible
