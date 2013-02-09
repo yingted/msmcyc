@@ -7,7 +7,7 @@ def updates(count):
 	return{
 		"updates":Update.all()
 			.order("-added")
-			.run(limit=3),
+			.run(limit=count),
 	}
 	
 @register.inclusion_tag("base_signup.html")
