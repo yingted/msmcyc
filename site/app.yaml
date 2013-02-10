@@ -17,8 +17,8 @@ handlers:
   login: admin
 - url: /static
   static_dir: static
-- url: /(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png)
+- url: /(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png|robots\.txt)
   static_files: static/\1 #sync those alternations
-  upload: static/(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png)
+  upload: static/(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png|robots\.txt)
 - url: .*
   script: main.py
