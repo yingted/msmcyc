@@ -28,7 +28,6 @@ copyfast: *.min.js *-scaled.jpg main.sass
 	grep -v '[^[:alnum:]]vim:' index.html > ../site/msmcyc/templates/index.html
 	grep -v '[^[:alnum:]]vim:' views.py > ../site/msmcyc/views.py
 	grep -v '[^[:alnum:]]vim:' models.py > ../site/msmcyc/models.py
-	grep -v '[^[:alnum:]]vim:' events.html > ../site/msmcyc/templates/events.html
 	grep -v '[^[:alnum:]]vim:' extras.py > ../site/msmcyc/templatetags/extras.py
 	grep -v '[^[:alnum:]]vim:' base_signup.html > ../site/msmcyc/templates/base_signup.html
 	grep -v '[^[:alnum:]]vim:' sponsors.html > ../site/msmcyc/templates/sponsors.html
@@ -38,3 +37,4 @@ copyfast: *.min.js *-scaled.jpg main.sass
 	grep -v '[^[:alnum:]]vim:' base_matches.html > ../site/msmcyc/templates/base_matches.html
 	grep -v '[^[:alnum:]]vim:' ambassadors.html > ../site/msmcyc/templates/ambassadors.html
 	grep -v '[^[:alnum:]]vim:' execs.html > ../site/msmcyc/templates/execs.html
+	grep -v '[^[:alnum:]]*vim:' apply.html > ../site/msmcyc/templates/apply.html

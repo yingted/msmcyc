@@ -17,6 +17,23 @@ def signup(event):
 		"form":signup_conf(event)["form"](),
 	}
 
+from django.template.defaultfilters import stringfilter
+from django.utils.safestring import mark_safe
+@register.filter(is_safe=True)
+@stringfilter
+def email(addr):
+	addr="".join("&#%d;"%ord(c)for c in addr)
+	return"<a href=\"mailto:%s\">%s</a>"%(addr,addr)
+
+CONSTS={
+	"email":email("info@msyouthmississauga.org"),
+	"name":mark_safe("<abbr title=\"Multiple Sclerosis Mississauga Youth Committee\">MSMYC</abbr>"),
+	"MS":mark_safe("<abbr title=\"multiple sclerosis\">MS</abbr>"),
+}
+@register.simple_tag
+def the(what):
+	return CONSTS[what]if what in CONSTS else""
+
 from datetime import datetime,tzinfo,timedelta
 from time import localtime
 ZERO=timedelta(0)
