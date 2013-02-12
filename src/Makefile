@@ -1,4 +1,4 @@
-.PHONY: all copy watch slow fast png
+.PHONY: all copy watch slow fast png jpg
 all: copy
 test: copy
 	[ "$(TERM)" = "screen" ] && echo -en '\ekgae\e\\' || :
@@ -17,7 +17,9 @@ commit:
 	mkdir -p $$(dirname -- $$(readlink -m -- $@))
 	convert $< -resize 336x280\< -resize 336x280\> $$(readlink -m -- $@)
 png:
-	find ../site/static -name \*.png -exec ./png.sh {} +
+	find ../site/static -iname \*.png -printf 'processing %p\n' -execdir optipng -o7 {} \; -execdir advpng -z4 {} \; -execdir advpng -z4 {} \;
+jpg:
+	find ../site/static \( -iname \*.jpg -o -iname \*.jpeg \) -printf 'processing %p\n' -execdir jpegtran -copy none -optimize -progressive -outfile {} {} \;
 slow: main.js
 	curl -sd compilation_level=SIMPLE_OPTIMIZATIONS -d output_format=text -d output_info=compiled_code --data-urlencode 'js_code@main.js' http://closure-compiler.appspot.com/compile > ../site/static/js/main.js || grep -v '[^[:alnum:]]vim:' main.js > ../site/static/js/main.js
 fast: main.js
