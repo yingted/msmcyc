@@ -17,6 +17,15 @@ def validator(f):
 		if not f(val):
 			raise ValidationError("Invalid value")
 	return is_valid
+class Student(db.Model):
+	added=db.DateTimeProperty(auto_now_add=True)
+	first_name=db.StringProperty()
+	last_name=db.StringProperty()
+	school=db.StringProperty(verbose_name="School")
+	grade=db.IntegerProperty(validator=validator(lambda x:9<=x<=12))
+	gender=db.StringProperty(choices=("Male","Female"),required=True)
+	email=db.EmailProperty()
+	phone=db.PhoneNumberProperty()
 class VolleyballPlayer(db.Model):
 	added=db.DateTimeProperty(auto_now_add=True)
 	first_name=db.StringProperty()
@@ -55,6 +64,8 @@ def form_class(what):
 				"event":Event,
 				"update":Update,
 				"volleyball_player":VolleyballPlayer,
+				"mswalk":MsWalkVolunteer,
+				"msawareness":MsAwarenessVolunteer,
 			}[what]if is_str else what
 	AddEntityForm.__name__="Add%sForm"%(string.capwords(str(what),"_").replace("_"," ")if is_str else what.__name__)
 	return AddEntityForm
@@ -126,6 +137,20 @@ class BaseVolleyballFormSet(BaseFormSet):
 			i+=1
 		return event
 VolleyballFormSet=formset_factory(form_class(VolleyballPlayer),formset=BaseVolleyballFormSet,max_num=1)
+class VolleyballMatch(db.Model):
+	start=db.TimeProperty()
+	end=db.TimeProperty()
+	a=db.ReferenceProperty(VolleyballTeam)
+	b=db.StringProperty()
+	a_points=db.IntegerProperty()
+	b_points=db.IntegerProperty()
+class MsWalkVolunteer(Student):
+	pass
+class MsAwarenessVolunteer(Student):
+	postal_code=db.StringProperty()
+	may_9=db.BooleanProperty()
+	may_10=db.BooleanProperty()
+	may_11=db.BooleanProperty()
 def signup_conf(event):
 	return{
 		"volleyball":{
@@ -135,14 +160,23 @@ def signup_conf(event):
 			"children":VolleyballPlayer,
 			"order":"added",
 			"export":(
-				(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school",lambda ent:"%s (%d)"%(ent.parent().name,ent.parent().key().id())if ent.parent()else"")),
+				(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school")+(lambda ent:"%s (%d)"%(ent.parent().name,ent.parent().key().id())if ent.parent()else"",)),
+			),
+		},
+		"mswalk":{
+			"name":"MS Walk",
+			"form":form_class("mswalk"),
+			"model":MsWalkVolunteer,
+			"export":(
+				(MsWalkVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
+			),
+		},
+		"msawareness":{
+			"name":"MS Awareness",
+			"form":form_class("msawareness"),
+			"model":MsAwarenessVolunteer,
+			"export":(
+				(MsAwarenessVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
 			),
 		},
 	}[event]
-class VolleyballMatch(db.Model):
-	start=db.TimeProperty()
-	end=db.TimeProperty()
-	a=db.ReferenceProperty(VolleyballTeam)
-	b=db.StringProperty()
-	a_points=db.IntegerProperty()
-	b_points=db.IntegerProperty()
