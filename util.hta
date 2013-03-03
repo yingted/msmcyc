@@ -329,6 +329,37 @@
 					<dd>Play with autocrlf and your editor's line ending settings until stuff works, then use <code>dos2unix</code> and/or <code>unix2dos</code> to fix any messes.
 					<dt>There are two <code>util.hta</code>
 					<dd>Yes, the one inside msmcyc is the intended one and the one outside is for bootstrapping.
+					<dt><code>hover</code> class vs <code>:hover</code> pseudoclass?
+					<dd>msie6 is stupid, so any .ie6 gets .hover added dynamically
+					<dt>Why does html/body have so many classes?
+					<dd>You can write browser-specific rules like <code>.nojs .jsresize{overflow-y:scroll;}</code> or something
+					<dt>sass sucks
+					<dd>then do a 1-time conversion to CSS and remove sass from src/Makefile and .gitignore and re-add main.css to the repo
+				</dl>
+			</fieldset>
+			<fieldset style="display:none">
+				<legend>files</legend>
+				<dl>
+					<dt>src/
+					<dd>current working source code; convenience thing
+					<dt>src/Makefile
+					<dd>main targets
+					<dt>site/
+					<dd>GAE app root
+					<dt>site/app.yaml
+					<dd>YAML file where everything is declared; every file is referenced by a file which is referenced by a file ... which is referenced by app.yaml
+					<dt>.gitignore
+					<dd>list of redundant files; do <strong>not</strong> edit any of these files, as they are untracked <em>and</em> periodically overwritten
+					<dt>src/TODO
+					<dd>to-do list
+					<dt>src/main.sass
+					<dd>compiles to site/static/css/main.css
+					<dt>*/urls.py, */views.py, */models.py
+					<dd>MVC logic, plus constant strings ({% the "..." %} tag)
+					<dt>templates/
+					<dd>HTML-ish pages, base_*.html are private
+					<dt>*/base_home.html
+					<dd>template for all pages
 				</dl>
 			</fieldset>
 			<fieldset style="display:none">
