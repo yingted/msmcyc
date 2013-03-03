@@ -268,7 +268,7 @@
 							"chmod +x /usr/bin/js"
 						));
 						provide("cygwin");
-					},partial(download,"http://cygwin.com/setup.exe",partial(system,"setup.exe -MP git,ruby,js185,make,findutils,grep,curl,bash,coreutils,sed,tar,mintty,ImageMagick,libsasl2")));//-q is broken, so use -M
+					},partial(download,"http://cygwin.com/setup.exe",partial(system,"setup.exe -MP git,ruby,js185,make,findutils,grep,curl,bash,coreutils,sed,mintty,ImageMagick,libsasl2")));//-q is broken, so use -M
 					maybe("install gae sdk",file.folderexists("C:/Program Files/Google/google_appengine"),function(){
 						register("gae launcher",partial(system,'"C:/Program Files/Google/google_appengine/launcher/GoogleAppEngineLauncher.exe"'),"extra");
 						provide("gae");
