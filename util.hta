@@ -1,0 +1,357 @@
+<html>
+	<head>
+		<title>msmcyc windows compat launcher</title>
+		<script>
+			(function(){
+				var x=50,y=50,w=300,h=250,cookieExpiration=";expires="+new Date(2038,0,18).toUTCString();//defaults
+				moveTo(x,y);
+				resizeTo(w,h);
+				if(!Array.prototype.map){
+					Array.prototype.map=function(e,t){
+						var n,r,i;
+						if(this==null)
+							throw new TypeError("this is null or not defined");
+						var s=Object(this),o=s.length>>>0;
+						if(typeof e!=="function")
+							throw new TypeError(e+" is not a function");
+						if(t)
+							n=t;
+						r=new Array(o);
+						i=0;
+						while(i<o){
+							var u,a;
+							if(i in s){
+								u=s[i];
+								a=e.call(n,u,i,s);
+								r[i]=a;
+							}
+							i++;
+						}
+						return r;
+					};
+				}
+				if(!Array.prototype.filter){
+					Array.prototype.filter=function(e,i){
+						if(this==null)
+							throw new TypeError;
+						var t=Object(this);
+						var n=t.length>>>0;
+						if(typeof e!="function")
+							throw new TypeError;
+						var r=[];
+						for(var s=0;s<n;s++)
+							if(s in t){
+								var o=t[s];
+								if(e.call(i,o,s,t))
+									r.push(o);
+							}
+						return r;
+					}
+				}
+				onbeforeunload=function(){
+					document.cookie="pos="+screenLeft+"x"+screenTop+cookieExpiration;
+				};
+				onload=function(){
+					(function(){
+						var m=document.cookie.match(/\bpos=([0-9]+)x([0-9]+)\b/);
+						var dx=x-screenLeft,dy=y-screenTop;
+						if(m){
+							x=+m[1];
+							y=+m[2];
+						}
+						moveTo(x+dx,y+dy);
+						m=document.cookie.match(/\bsize=([0-9]+)x([0-9]+)\b/);
+						var dw=w-document.body.offsetWidth,dh=h-document.body.offsetHeight;
+						if(m){
+							w=+m[1];
+							h=+m[2];
+						}
+						resizeTo(w+dw,h+dh);
+						onresize=function(){
+							document.cookie="size="+document.body.offsetWidth+"x"+document.body.offsetHeight+cookieExpiration;
+						};
+					})();
+					Array.prototype.map.call(document.getElementsByTagName("legend"),bindLegend);
+					function slugify(str){
+						return str.replace(/\W+/g,"-").toLowerCase();
+					}
+					function bindLegend(e){
+						e.onclick=e.ondblclick=function(e){
+							Array.prototype.map.call(this.parentNode.children,function(e,i){
+								if(i)
+									e.style.display=({
+										"":"none",
+										"none":""
+									})[e.style.display];
+							});
+						};
+						e.onselectstart=function(){
+							return false;
+						};
+					}
+					var main=document.getElementById("main");
+					function partial(fn){
+						var args=Array.prototype.slice.call(arguments,1),ths=this;
+						return function(){
+							return fn(args[0],args[1],args[2],args[3],args[4]);
+							return fn.call(ths,args[0],args[1],args[2],args[3],args[4]);
+						};
+						return function(){
+							var arg=0;
+							for(var i=0;i<args.length&&arg<arguments.length;i++)
+								if(args[i]===undefined)
+									args[i]=arguments[arg++];
+							return Function.prototype.apply.call(fn,ths,args);
+						};
+					}
+					function register(name,cb,namespace){
+						cb=asFn(cb);
+						var btn=document.createElement("button");
+						btn.onclick=cb;
+						btn.innerText=name;
+						var slug=slugify(namespace=namespace||"buttons"),buttons=document.getElementById(slug);
+						if(!buttons){
+							buttons=document.createElement("div");
+							var legend=document.createElement("legend"),fieldset=document.createElement("fieldset");
+							legend.innerText=namespace;
+							buttons.id=slug;
+							fieldset.appendChild(legend);
+							fieldset.appendChild(buttons);
+							bindLegend(legend);
+							main.appendChild(fieldset);
+						}
+						buttons.appendChild(btn);
+					};
+					function maybe(name,tf,yes,fix){
+						yes=asFn(yes);
+						if(fix!==undefined)
+							fix=asFn(fix);
+						if(tf)
+							yes();
+						else
+							register(name,function(){
+								if(fix&&fix()){
+									this.disabled=true;
+									yes();
+								}
+							},"prereq");
+					}
+					function quote(str){
+						return'"'+str.replace(/["\\]/g,'\\$&')+'"';
+					}
+					var logs=document.getElementById("log");
+					function log(str,html){
+						var li=document.createElement("li");
+						li[html?"innerHTML":"innerText"]=str;
+						logs.appendChild(li);
+					}
+					function json(o){
+						if(typeof o=="string")
+							return'"'+o.replace(/[\\"]/g,"\\$&").replace(/\n/g,"\\n")+'"';
+						if(typeof o=="number"||o instanceof RegExp)
+							return o.toString();
+						if(o==null)
+							return o===null?"null":"undefined";
+						if(o instanceof Array)
+							return"["+o.map(json).join(",")+"]";
+						var out=["{"];
+						for(var p in o)
+							if(o.hasOwnProperty(p))
+								out.push(json(p),":",json(o[p]),",");
+						if(out.length>1)
+							out.pop();
+						out.push("}");
+						return out.join("");
+					}
+					var sh=new ActiveXObject("WScript.Shell"),file=new ActiveXObject("Scripting.FileSystemObject");
+					try{
+						log("cd "+(sh.currentDirectory=location.pathname.replace(/\//g,"\\").replace(/^(.*?)(?:\\msmcyc)?\\[^\\]+$/,"$1")));
+					}catch(e){
+						log("could not set wd: "+json(e));
+					}
+					function system(cmd,fg){
+						log(cmd);
+						try{
+							var rc=sh.run(cmd,fg?1:0,fg);//second 1 means to block
+						}catch(e){
+							rc=-1;
+						}
+						if(rc)
+							prompt("command "+cmd+" returned "+rc,cmd);
+						return!rc;
+					}
+					function bash(cmd){
+						return system("cmd /c set PATH=C:\\cygwin\\bin;%PATH% & bash -c "+quote(cmd)+" || ( echo error %errorlevel% & pause )",true);
+					}
+					function check_output(cmd){
+						log(cmd);
+						var proc=sh.exec("cmd /c set PATH=C:\\cygwin\\bin;%PATH% & bash -c "+quote(cmd)+" || ( echo error %errorlevel% & pause )");
+						return proc.stdOut.readAll();
+					}
+					function shquote(str){
+						return"'"+str.replace(/'/g,"'\\''")+"'";
+					}
+					function asFn(cmdOrFn){
+						return typeof cmdOrFn==="function"?cmdOrFn:partial(bash,cmdOrFn);
+					}
+					function download(setupUrl,success){
+						var savePath=setupUrl.substring(setupUrl.lastIndexOf("/")+1).replace(/\?.*$/,"");
+						if(!file.fileexists(savePath)){
+							var xhr=new ActiveXObject("MSXML2.ServerXMLHTTP.3.0");
+							xhr.open("GET",setupUrl,false);//TODO use true, bind the success callback, and draw progress bar; do not make this async until that is done
+							xhr.send();
+							if(xhr.status==200){
+								var os=new ActiveXObject("ADODB.Stream");
+								os.open();
+								os.type=1;
+								os.write(xhr.responseBody);
+								os.position=0;
+								os.saveToFile(savePath);
+								delete os,xhr;
+							}else{
+								alert("could not download "+setupUrl);
+								return;
+							}
+						}
+						if(success)
+							success();
+						return true;
+					}
+					function install(payload,postinst){
+						for(var i=0;i<payload.length;++i){
+							for(var parents=payload[i][0].match(/[^\/\\]*[\/\\]/g),cur=parents.shift(),dir;parents.length;file.folderExists(dir)||file.createFolder(dir))
+								dir=(cur+=parents.shift()).substring(0,cur.length-1);
+							var out=file.createTextFile(payload[i][0]);
+							out.write(payload[i][1].replace(/\r?\n/g,"\r\n"));//damn binary mode text file
+							out.close();
+						}
+						return!postinst||bash(postinst);
+					}
+					var have={},dependers=[];
+					function require(deps,fn){//TODO better algorithm
+						dependers.push([deps.split(",").filter(Boolean),fn]);
+						provide();
+					}
+					function provide(dep){
+						(dep||"").split(",").filter(Boolean).map(function(e){
+							have[e]=true;
+						});
+						for(var i=0;i<dependers.length;++i)
+							if(!dependers[i][0].filter(function(e){
+								return!have[e];
+							}).length)
+								dependers.splice(i,1)[0][1]();
+					}
+					function expanduser(path){
+						return path.replace(/^~/,sh.expandEnvironmentStrings("%USERPROFILE%"));
+					}
+					maybe("install cygwin packages",file.folderexists("C:/cygwin"),function(){
+						register("mintty",function(){
+							sh.run("C:\\cygwin\\bin\\mintty.exe -i /Cygwin-Terminal.ico -");//partial doesn't work
+						},"extra");
+						maybe("install sass",file.fileexists("C:/cygwin/bin/sass"),function(){},"gem install sass");
+						maybe("download code",file.fileexists("msmcyc.bundle"),function(){
+							maybe("extract code",file.folderexists("msmcyc"),function(){
+								var makefile=file.openTextFile("msmcyc/src/Makefile");
+								var contents=makefile.readAll();
+								contents.match(/^[^\t:#.]+:/gm).map(function(s){
+									s=s.substring(0,s.length-1).replace(/%/g,"*");
+									register(s,"cd msmcyc/src; make "+shquote(s));
+								});
+								makefile.close();
+							},"git clone msmcyc.bundle");
+						},partial(download,"https://www.dropbox.com/s/ubkvq2hrvps27la/msmcyc.bundle?dl=1"));
+						maybe("install js shim",file.folderexists("C:/cygwin/bin/js"),function(){},partial(install,[
+								["C:/cygwin/bin/js",'#!/bin/sh\nexec wscript "$(cygpath -w /usr/bin/js.js)" "$@"'],
+								["C:/cygwin/bin/js.js",'var readline,print,snarf,load,quit;\n(function(){\n var file=WScript.createObject("Scripting.FileSystemObject"),ws=WScript;\n delete WScript;\n readline=function readline(){\n  return ws.stdIn.readLine();\n };\n print=function print(){\n  return ws.stdOut.writeLine(Array.prototype.join.call(arguments," "));\n };\n snarf=function snarf(name){\n  var inp=file.openTextFile(name),ret=inp.readAll();\n  inp.close();\n  return ret;\n };\n load=function load(name){\n  eval(snarf(name));\n  return load;\n };\n quit=function quit(rc){\n  ws.quit(rc);\n };\n arguments=[];\n var q=[];\n for(var argc=ws.arguments.count(),i=0;i<argc;++i){\n  var arg=ws.arguments(i);\n  switch(arg){\n   case"-e":\n    q.push([eval,ws.arguments(++i)]);\n    break;\n   case"-f":\n    q.push([load,ws.arguments(++i)]);\n    break;\n   default:\n    arguments.push(arg);\n  }\n }\n var exec=argc?arguments.shift():undefined;\n for(var i=0;i<q.length;++i)\n  q[i][0](q[i][1]);\n if(!argc)\n  eval(ws.stdIn.readAll());\n else if(exec!==undefined)\n  load(exec);\n})();']
+							],
+							"chmod +x /usr/bin/js"
+						));
+						provide("cygwin");
+					},partial(download,"http://cygwin.com/setup.exe",partial(system,"setup.exe -MP git,ruby,js185,make,findutils,grep,curl,bash,coreutils,sed,tar,mintty,ImageMagick,libsasl2")));//-q is broken, so use -M
+					maybe("install gae sdk",file.folderexists("C:/Program Files/Google/google_appengine"),function(){
+						register("gae launcher",partial(system,'"C:/Program Files/Google/google_appengine/launcher/GoogleAppEngineLauncher.exe"'),"extra");
+						provide("gae");
+					},partial(download,"http://googleappengine.googlecode.com/files/GoogleAppEngine-1.7.5.msi",partial(system,"msiexec /passive /i GoogleAppEngine-1.7.5.msi")));
+					maybe("install python",file.folderexists("C:/Python27"),partial(provide,"python"),partial(download,"http://www.python.org/ftp/python/2.7.3/python-2.7.3.msi",partial(system,"msiexec /passive /i python-2.7.3.msi")));
+					maybe("install msysgit",file.folderexists("C:/Program Files/Git"),partial(register,"gitk",partial(system,"cmd /c set PATH=C:\\Program Files\\Git\\bin;%PATH% & cd msmcyc & bash -c gitk"),"extra"
+					),partial(download,"http://msysgit.googlecode.com/files/Git-1.8.1.2-preview20130201.exe",partial(system,"Git-1.8.1.2-preview20130201.exe")));
+					require("gae,python",partial(register,"default gae sdk prefs",function(){
+						install([
+							[expanduser("~/Google/google_appengine_launcher.ini"),"# Google App Engine Launcher preferences\n# https://developers.google.com/appengine\n[preferences]\npython = C:\\Python27\\python.exe\nmainwindowrect = 100 100 640 456\n\n"],
+							[expanduser("~/Google/google_appengine_projects.ini"),"# Gogle App Engine Launcher Project File\n# https://developers.google.com/appengine\n[0]\npath = "+check_output("cygpath -aw msmcyc/site").replace(/\n*$/,"")+"\nname = msyouthmississauga\nport = 8080\n\n"]
+						]);
+					},"extra"));
+				};
+			})();
+		</script>
+		<style>
+			.code{
+				font-family:monospace;
+				background-color:#eee;
+			}
+			#log{
+				list-style-type:none;
+				padding:0;
+				margin:0;
+				font-family:monospace;
+				font-size:10pt;
+				background-color:#000;
+				color:#0f0;
+			}
+		</style>
+	</head>
+	<body>
+		<form id="main">
+			<fieldset>
+				<legend>imported <span class="code">make</span> targets</legend>
+				<div id="buttons"></div>
+			</fieldset>
+		</form>
+		<fieldset>
+			<legend>log</legend>
+			<ul id="log"></ul>
+		</fieldset>
+		<fieldset>
+			<legend>help</legend>
+			<fieldset style="display:none">
+				<legend>intro</legend>
+				<dl>
+					<dt>GAE
+					<dd>the cross-platform PaaS we use
+					<dt><code>make</code> targets
+					<dd>the targets I originally used, which may not be Windows-friendly
+					<dt>Cygwin
+					<dd>something that provides support for the build tools
+					<dt>Why doesn't X work?
+					<dd>Try it on linux. (for example, <code>make watch</code> requires some OS-level feature)
+					<dt>Git/Cygwin hate my line endings!
+					<dd>Play with autocrlf and your editor's line ending settings until stuff works, then use <code>dos2unix</code> and/or <code>unix2dos</code> to fix any messes.
+					<dt>There are two <code>util.hta</code>
+					<dd>Yes, the one inside msmcyc is the intended one and the one outside is for bootstrapping.
+				</dl>
+			</fieldset>
+			<fieldset style="display:none">
+				<legend>about</legend>
+				This is my HTA wrapper for Windows. It wraps the GNU Make targets as well as some common commands.
+				Unlike the (much easier to write) shell scripts, this file is accessible to web developers.
+				It's really just an HTML file.
+			</fieldset>
+			<fieldset style="display:none">
+				<legend>tl;dr/cheat sheet</legend>
+				<dl>
+					<dt><code>make all</code>
+					<dd>generate the code
+					<dt>default gae prefs
+					<dd>load working GAE settings (<strong>will</strong> overwrite old settings)
+					<dt>gae launcher
+					<dd>launch GAE for Windows (the make targets are not for Windows)
+					<dt><code>make copyfast fast</code>
+					<dd>build without using Google Closure Compiler API (aka Internet)
+					<dt>gitk
+					<dd>version control (code history)
+				</dl>
+			</fieldset>
+		</fieldset>
+	</body>
+</html>
