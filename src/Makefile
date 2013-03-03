@@ -1,4 +1,4 @@
-.PHONY: all copy watch slow fast png jpg
+.PHONY: all test copy watch deploy commit slow fast copyfast png jpg
 all: copy
 test: copy
 	[ "$(TERM)" = "screen" ] && echo -en '\ekgae\e\\' || :
