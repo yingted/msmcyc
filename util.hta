@@ -249,7 +249,7 @@
 						register("mintty",function(){
 							sh.run("C:\\cygwin\\bin\\mintty.exe -i /Cygwin-Terminal.ico -");//partial doesn't work
 						},"extra");
-						maybe("install sass",file.fileexists("C:/cygwin/bin/sass"),function(){},"gem install sass");
+						maybe("install compass/sass",file.fileexists("C:/cygwin/bin/sass"),function(){},"gem install compass");
 						maybe("download code",file.fileexists("msmcyc.bundle"),function(){
 							maybe("extract code",file.folderexists("msmcyc"),function(){
 								var makefile=file.openTextFile("msmcyc/src/Makefile");
@@ -333,7 +333,7 @@
 					<dd>msie6 is stupid, so any .ie6 gets .hover added dynamically
 					<dt>Why does html/body have so many classes?
 					<dd>You can write browser-specific rules like <code>.nojs .jsresize{overflow-y:scroll;}</code> or something
-					<dt>sass sucks
+					<dt>compass/sass sucks
 					<dd>then do a 1-time conversion to CSS and remove sass from src/Makefile and .gitignore and re-add main.css to the repo
 				</dl>
 			</fieldset>
