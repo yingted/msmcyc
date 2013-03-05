@@ -61,7 +61,7 @@ body
 	background: none
 a
 	&.external
-		background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=") no-repeat scroll right center transparent
+		background: inline-image("external.png") no-repeat scroll right center transparent
 		/*Copyright mediawiki TODO replace
 		padding-right: 13px
 	&:link
@@ -172,6 +172,18 @@ div
 \:target>.event-heading
 	border: 1px solid #005106
 	border-radius: .3em
+.copy
+	background: inline-image("copy.png") no-repeat scroll right center transparent
+	border: 1px solid #ccf
+	border-radius: 3px
+	padding-right: 13px
+.copy.hover,.copy.hover.copied
+	border-color: #77f
+.copy.active,.copy.active.copied
+	background-color: #eef
+.copied.copy
+	background-image: inline-image("copied.png") !important
+	background-color: #efe
 @media only screen and (max-width: 964px)
 	div
 		&.sponsor-panel

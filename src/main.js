@@ -59,5 +59,20 @@ $(function(){
 		},function(){
 			$(this).removeClass("hover");
 		});
+	if($.fn.zclip){
+		$(".copy").zclip({
+			path:"/static/js/vendor/ZeroClipboard.swf",
+			copy:function(){
+				return $(this).text();
+			},
+			afterCopy:function(){
+				var $this=$(this).addClass("copied");
+				setTimeout(function(){
+					$this.removeClass("copied");
+				},1000);
+			}
+		});
+		$(".zclip").children("embed").attr("align","top");
+	}
 });
 /* vim: set ts=4 sw=4: */
