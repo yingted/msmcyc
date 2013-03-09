@@ -58,3 +58,22 @@ def matches():
 		"matches":map(clean,VolleyballMatch.all()
 			.order("start"))
 	}
+
+from google.appengine.api import users
+from django.template import Node
+class IfAdminNode(Node):
+	def __init__(self,nodelist):
+		self.nodelist=nodelist
+	def render(self,context):
+		return self.nodelist.render(context)if users.is_current_user_admin()else""
+@register.tag
+def ifadmin(parser,token):
+	nodelist=parser.parse(("endifadmin",))
+	parser.delete_first_token()
+	return IfAdminNode(nodelist)
+class LogoutNode(Node):
+	def render(self,context):
+		return users.create_logout_url("/")if users.is_current_user_admin()else""
+@register.tag
+def logout(parser,token):
+	return LogoutNode()

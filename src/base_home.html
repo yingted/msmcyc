@@ -81,6 +81,9 @@
 					{% block footer %}
 						<small>&copy; 2012 Multiple Sclerosis Mississauga Youth Committee</small>
 					{% endblock %}
+					{% ifadmin %}
+						<small><a href="{% logout %}">Logout</a></small>
+					{% endifadmin %}
 				</div>
 			</footer>
 		</div>
