@@ -65,7 +65,7 @@ def form_class(what):
 				"update":Update,
 				"volleyball_player":VolleyballPlayer,
 				"mswalk":MsWalkVolunteer,
-				"msawareness":MsAwarenessVolunteer,
+				"carnations":MsAwarenessVolunteer,
 			}[what]if is_str else what
 	AddEntityForm.__name__="Add%sForm"%(string.capwords(str(what),"_").replace("_"," ")if is_str else what.__name__)
 	return AddEntityForm
@@ -151,6 +151,11 @@ class MsAwarenessVolunteer(Student):
 	may_9=db.BooleanProperty()
 	may_10=db.BooleanProperty()
 	may_11=db.BooleanProperty()
+	face_painting=db.BooleanProperty(verbose_name="Face-painting")
+	making_balloon_animals=db.BooleanProperty()
+	route_marshall=db.BooleanProperty()
+	registration_helper=db.BooleanProperty()
+	food_helper=db.BooleanProperty()
 def signup_conf(event):
 	return{
 		"volleyball":{
@@ -171,9 +176,9 @@ def signup_conf(event):
 				(MsWalkVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
 			),
 		},
-		"msawareness":{
+		"carnations":{
 			"name":"Carnations Campaign",
-			"form":form_class("msawareness"),
+			"form":form_class("carnations"),
 			"model":MsAwarenessVolunteer,
 			"export":(
 				(MsAwarenessVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
