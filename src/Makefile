@@ -36,4 +36,3 @@ copyfast: *.min.js images/*-scaled.jpg main.sass
 	grep -v '[^[:alnum:]]vim:' ambassadors.html > ../site/msmcyc/templates/ambassadors.html
 	grep -v '[^[:alnum:]]vim:' execs.html > ../site/msmcyc/templates/execs.html
 	grep -v '[^[:alnum:]]vim:' apply.html > ../site/msmcyc/templates/apply.html
-	grep -v '[^[:alnum:]]vim:' medichair.html > ../site/msmcyc/templates/medichair.html
