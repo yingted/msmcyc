@@ -172,7 +172,7 @@ def signup_conf(event):
 			),
 		},
 		"msawareness":{
-			"name":"MS Awareness",
+			"name":"Carnations Campaign",
 			"form":form_class("msawareness"),
 			"model":MsAwarenessVolunteer,
 			"export":(
