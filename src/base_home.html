@@ -15,6 +15,7 @@
 		{% block inhead %}{% endblock %}
 
 		<script src="/static/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+		<script>Modernizr.postScripts=[];</script>
 
 		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/static/img/apple-touch-icon-57.png">
@@ -91,7 +92,10 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
 
-		<script src="/static/js/main.js"></script>
+		<script>
+			Modernizr.postScripts.push(["/static/js/main.js"]);
+			Modernizr.load(Modernizr.postScripts);
+		</script>
 		{% block postscript %}{% endblock %}
 		{% comment %}
 			<script>
