@@ -26,7 +26,7 @@
 {% block postscript %}
 	{% include "base_validation.html" %}
 	{% ifequal event "volleyball" %}
-		<script type="text/javascript">
+		<script>
 			$("label").each(function(i,e){
 				var html=$(e).html(),m=html.match(/ \([^()]*\):$/);
 				if(m)

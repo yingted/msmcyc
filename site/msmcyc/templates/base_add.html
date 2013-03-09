@@ -7,9 +7,9 @@
 {% block submit_text %}Save{% endblock %}
 {% block postscript %}
 	{% include "base_validation.html" %}
-	<script src="/static/js/vendor/jHtmlArea-0.7.5.min.js" type="text/javascript"></script>
+	<script src="/static/js/vendor/jHtmlArea-0.7.5.min.js"></script>
 	<link rel="stylesheet" href="/static/css/jHtmlArea.css">
-	<script type="text/javascript">
+	<script>
 		$(function(){
 			$("label").filter(function(i,e){
 				return!$(e).text().lastIndexOf("[html]",0);
