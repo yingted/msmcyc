@@ -99,7 +99,6 @@ def add_entity(request,what):
 		return render(request,"base_add.html",{
 			"what":what,
 			"form":form,
-			"logout":users.create_logout_url("/"),
 		})
 	else:
 		return redirect(users.create_login_url(request.path))

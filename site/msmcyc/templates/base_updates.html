@@ -1,6 +1,10 @@
+{% load extras %}
 <aside>
 	<h3>Updates</h3>
 	{% for update in updates %}
+		{% ifadmin %}
+			<a href="/add_update/{{ update.key.id }}" class="editlink">Edit</a>
+		{% endifadmin %}
 		<h2>{{ update.title }}</h2>
 		<p>{{ update.html|safe }}</p>
 	{% endfor %}
