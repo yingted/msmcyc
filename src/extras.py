@@ -30,9 +30,18 @@ CONSTS={
 	"name":mark_safe("<abbr title=\"Multiple Sclerosis Mississauga Youth Committee\">MSMYC</abbr>"),
 	"MS":mark_safe("<abbr title=\"multiple sclerosis\">MS</abbr>"),
 }
-@register.simple_tag
-def the(what):
-	return CONSTS[what]if what in CONSTS else""
+from msmcyc.settings import TEMPLATE_DEBUG as DEBUG
+if DEBUG:
+        @register.simple_tag
+        def the(what):
+                if what in CONSTS:
+                        return CONSTS[what]
+                logging.warning("{% the '%s' %}"%what.encode("string_escape"))
+                return""
+else:
+        @register.simple_tag
+        def the(what):
+                return CONSTS[what]if what in CONSTS else""
 
 from datetime import datetime,tzinfo,timedelta
 from time import localtime
