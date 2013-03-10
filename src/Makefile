@@ -1,5 +1,5 @@
 .PHONY: all test copy watch deploy commit slow fast copyfast png jpg symlinks rebuild
-all: copy
+all: png jpg copy
 rebuild: symlinks all
 test: copy
 	[ "$(TERM)" = "screen" ] && echo -en '\ekgae\e\\' || :
