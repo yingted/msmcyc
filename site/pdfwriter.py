@@ -17,7 +17,7 @@ def psify(o,ml=(),wrap=880,measure=MEASURE["arial"][14]):
 		width=0
 		row=0
 		fold=0
-		for c in o.pop(p):
+		for c in o.pop(p)or"":
 			w=measure[ord(c)]
 			width+=w
 			if width>wrap:
@@ -31,7 +31,7 @@ def psify(o,ml=(),wrap=880,measure=MEASURE["arial"][14]):
 			if c in breakable:
 				fold=len(line)
 		o["%s_%d"%(p,row)]="".join(line)
-	return defaultdict(str,((k,"<"+"".join("%02x"%ord(c)for c in(('X'if v else"")if type(v)is bool else str(v)))+">Tj")for k,v in o.iteritems()))#render bool using " X"
+	return defaultdict(str,((k,"<"+"".join("%02x"%ord(c)for c in(('X'if v else"")if type(v)is bool else""if v is None else str(v)))+">Tj")for k,v in o.iteritems()))#render bool using " X"
 def obj(data,id1,id2=None):
 	if id2 is None:
 		id2=id1+1

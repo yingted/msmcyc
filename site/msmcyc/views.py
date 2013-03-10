@@ -367,7 +367,6 @@ def export(request,event,kind):
 		writer.writerow(map(lambda field:field(ent)if hasattr(field,"__call__")else getattr(ent,field),fields))
 	return response
 
-from collections import defaultdict
 def download(request,filetype,event,uid,random=None):
 	conf=signup_conf(event)
 	if"print"not in conf or filetype not in conf["print"]:
@@ -384,5 +383,5 @@ def download(request,filetype,event,uid,random=None):
 	ret=HttpResponse(content_type={
 		"pdf":"application/pdf",
 	}[filetype])
-	conf["print"][filetype](ret.write,defaultdict(str,to_pretty_dict(ent)))
+	conf["print"][filetype](ret.write,ent)
 	return ret
