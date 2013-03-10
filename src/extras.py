@@ -27,16 +27,17 @@ def email(addr):
 
 CONSTS={
 	"email":email("info@msyouthmississauga.org"),
-	"name":mark_safe("<abbr title=\"Multiple Sclerosis Mississauga Youth Committee\">MSMYC</abbr>"),
+	"MSMYC":mark_safe("<abbr title=\"Multiple Sclerosis Mississauga Youth Committee\">MSMYC</abbr>"),
 	"MS":mark_safe("<abbr title=\"multiple sclerosis\">MS</abbr>"),
 }
 from msmcyc.settings import TEMPLATE_DEBUG as DEBUG
+import logging
 if DEBUG:
         @register.simple_tag
         def the(what):
                 if what in CONSTS:
                         return CONSTS[what]
-                logging.warning("{% the '%s' %}"%what.encode("string_escape"))
+                logging.warning("{%% the '%s' %%} unresolved"%str(what).encode("string_escape"))
                 return""
 else:
         @register.simple_tag
