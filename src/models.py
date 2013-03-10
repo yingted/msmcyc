@@ -19,12 +19,12 @@ def validator(f):
 	return is_valid
 class Student(db.Model):
 	added=db.DateTimeProperty(auto_now_add=True)
-	first_name=db.StringProperty()
-	last_name=db.StringProperty()
+	first_name=db.StringProperty(required=True)
+	last_name=db.StringProperty(required=True)
 	school=db.StringProperty(verbose_name="School")
-	grade=db.IntegerProperty(validator=validator(lambda x:9<=x<=12))
+	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12),choices=xrange(9,13))
 	gender=db.StringProperty(choices=("Male","Female"),required=True)
-	email=db.EmailProperty()
+	email=db.EmailProperty(required=True)
 	phone=db.PhoneNumberProperty()
 class VolleyballPlayer(db.Model):
 	added=db.DateTimeProperty(auto_now_add=True)
@@ -67,6 +67,7 @@ def form_class(what):
 				"mswalk":MsWalkVolunteer,
 				"carnations":MsAwarenessVolunteer,
 			}[what]if is_str else what
+			exclude=_exclude
 	AddEntityForm.__name__="Add%sForm"%(string.capwords(str(what),"_").replace("_"," ")if is_str else what.__name__)
 	return AddEntityForm
 from django.forms.formsets import BaseFormSet,ManagementForm,formset_factory,TOTAL_FORM_COUNT,INITIAL_FORM_COUNT,MAX_NUM_FORM_COUNT
@@ -85,7 +86,7 @@ def to_dict(ent):#dereferences keys
 	return dict((k,v.__get__(ent,klass))for k,v in klass.properties().iteritems())
 def to_pretty_dict(ent):
 	klass=ent.__class__
-	props=klass.__dict__
+	props=klass._properties
 	return dict((props[k].verbose_name or string.capwords(k.replace("_"," ")),v)for k,v in to_dict(ent).iteritems()if k not in _exclude)
 def team_by_name(name):
 	res=VolleyballTeam.all().filter("index_key",name).fetch(2)
@@ -146,8 +147,7 @@ class VolleyballMatch(db.Model):
 	b_points=db.IntegerProperty()
 class MsWalkVolunteer(Student):
 	pass
-class MsAwarenessVolunteer(Student):
-	postal=db.StringProperty(verbose_name="Postal code")
+class MsAwarenessVolunteer(Student,HasRandom):
 	may_9=db.BooleanProperty()
 	may_10=db.BooleanProperty()
 	may_11=db.BooleanProperty()
@@ -159,30 +159,29 @@ class MsAwarenessVolunteer(Student):
 	@property
 	def name(self):
 		return self.first_name+" "+self.last_name
-	address=db.StringProperty()
-	city=db.StringProperty()
-	province=db.StringProperty()
-	cell=db.StringProperty()
-	business=db.StringProperty()
-	home=db.StringProperty()
-	email=db.StringProperty()
-	perm=db.BooleanProperty()
+	address=db.StringProperty(required=True)
+	postal=db.StringProperty(verbose_name="Postal Code")
+	city=db.StringProperty(required=True)
+	province=db.StringProperty(required=True)
+	cell=db.StringProperty(verbose_name="Cell Phone")
+	business=db.StringProperty(verbose_name="Business Phone")
+	perm=db.BooleanProperty(verbose_name="I give permission to be emailed")
 	contact=db.StringProperty()
-	contacthome=db.StringProperty()
+	contactphone=db.StringProperty()
 	contactbusiness=db.StringProperty()
 	rationale=db.StringProperty()
-	fund=db.BooleanProperty()
-	out=db.BooleanProperty()
-	adm=db.BooleanProperty()
-	com=db.BooleanProperty()
-	board=db.BooleanProperty()
-	msam=db.BooleanProperty()
+	fund=db.BooleanProperty(verbose_name="Fundraising")
+	out=db.BooleanProperty(verbose_name="Outreach")
+	adm=db.BooleanProperty(verbose_name="Administrative")
+	com=db.BooleanProperty(verbose_name="Committee")
+	board=db.BooleanProperty(verbose_name="Board Member")
+	msam=db.BooleanProperty(verbose_name="MS Ambassador")
 	other=db.BooleanProperty()
-	length=db.StringProperty()
-	adv=db.BooleanProperty()
+	length=db.StringProperty(verbose_name="I plan to commit for (preferably 1 year)")
+	adv=db.BooleanProperty(verbose_name="Advertisement")
 	friend=db.BooleanProperty()
 	mssoc=db.BooleanProperty()
-	vc=db.BooleanProperty()
+	vc=db.BooleanProperty(verbose_name="Volunteer Centre")
 	other2=db.BooleanProperty()
 	hear=db.StringProperty()
 	inst1=db.StringProperty()
@@ -198,14 +197,15 @@ class MsAwarenessVolunteer(Student):
 	skills=db.StringProperty(multiline=True)
 	experience=db.StringProperty(multiline=True)
 	ref1name=db.StringProperty()
-	ref1home=db.StringProperty()
+	ref1phone=db.StringProperty()
 	ref1bus=db.StringProperty()
 	ref1rel=db.StringProperty()
 	ref2name=db.StringProperty()
-	ref2home=db.StringProperty()
+	ref2phone=db.StringProperty()
 	ref2bus=db.StringProperty()
 	ref2rel=db.StringProperty()
-	iagree=db.BooleanProperty()
+	iagree=db.BooleanProperty(required=True)
+import carnations
 def signup_conf(event):
 	return{
 		"volleyball":{
@@ -233,5 +233,9 @@ def signup_conf(event):
 			"export":(
 				(MsAwarenessVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
 			),
+			"view_postheader":"base_carnations_pdf.html",
+			"print":{
+				"pdf":carnations.dump,
+			},
 		},
 	}[event]

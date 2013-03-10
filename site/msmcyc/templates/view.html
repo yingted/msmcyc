@@ -6,8 +6,11 @@
 		<header>
 			<h1>Information for {{ ent.name }} at the {{ name }}</h1>
 		</header>
+		{% if postheader %}
+			{% include postheader %}
+		{% endif %}
 		<section class="view-parent">
-			{% include "base_dict.html" with data=ent %}
+			{% include "base_dict.html" %}
 		</section>
 		{% if children %}
 			{% for child in children %}

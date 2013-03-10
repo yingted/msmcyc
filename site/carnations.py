@@ -1,58 +1,8 @@
 #!/usr/bin/python
 from pdfwriter import *
-data=psify({
-	"name":"Ted Ying",
-	"address":"123 Marshmallow Lane",
-	"postal":"H0H 0H0",
-	"city":"Mississauga",
-	"province":"Ontario",
-	"cell":"(123)-TED-CELL",
-	"business":"1-800-BUY-FOOD",
-	"home":"0",
-	"email":"john.doe@example.com",
-	"perm":True,
-	"contact":"God",
-	"contacthome":"911",
-	"contactbusiness":"112",
-	"rationale":"I want to.",
-	"fund":True,
-	"out":False,
-	"adm":True,
-	"com":False,
-	"board":True,
-	"msam":False,
-	"other":True,
-	"length":"1 ms",
-	"adv":False,
-	"friend":True,
-	"mssoc":False,
-	"vc":True,
-	"other2":False,
-	"hear":"using my ears",
-	"inst1":"i1",
-	"inst2":"i2",
-	"inst3":"i3",
-	"course1":"c1",
-	"course2":"c2",
-	"course3":"c3",
-	"date1":"d1",
-	"date2":"d2",
-	"date3":"d3",
-	"job":"job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job job",
-	"skills":"magicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagicmagic",
-	"experience":"none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever none-whatsoever",
-	"ref1name":"me",
-	"ref1home":"123",
-	"ref1bus":"wtf is this?",
-	"ref1rel":"stranger",
-	"ref2name":"myself",
-	"ref2home":"456",
-	"ref2bus":"wtf is this? (again)",
-	"ref2rel":"neighbour",
-	"iagree":True,
-},("job","skills","experience"),870)
 from time import strftime,localtime
-write(???,"""%PDF-1.4
+def dump(writer,data):
+	write(writer,"""%PDF-1.4
 %\xe2\xe3\xcf\xd3
 1 0 obj
 <<
@@ -103,7 +53,7 @@ BT
 2.322412 -2.621028 Td
 %(business)s
 -22.290998 0.0529438 Td
-%(home)s
+%(phone)s
 -3.004956 -2.775912 Td
 %(email)s
 -2.531868 -2.108411 Td
@@ -111,7 +61,7 @@ BT
 2.419505 -4.595963 Td
 %(contact)s
 3.170332 -2.430278 Td
-%(contacthome)s
+%(contactphone)s
 21.558293 0 Td
 %(contactbusiness)s
 -28.348077 -4.659746 Td
@@ -227,7 +177,7 @@ BT
 5.120971 -4.717545 Td
 %(ref1name)s
 3.220982 -1.948661 Td
-%(ref1home)s
+%(ref1phone)s
 22.174107 0 Td
 %(ref1bus)s
 -18.801339 -1.872768 Td
@@ -235,7 +185,7 @@ BT
 -6.353011 -1.959059 Td
 %(ref2name)s
 3.220982 -1.948661 Td
-%(ref2home)s
+%(ref2phone)s
 22.174107 0 Td
 %(ref2bus)s
 -18.801339 -1.872768 Td

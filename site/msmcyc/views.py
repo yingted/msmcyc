@@ -110,6 +110,8 @@ def signup(request,event):
 		if form.is_valid():
 			ent=form.save()
 			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
+			if hasattr(ent,"random"):
+				uri+="/"+ent.random
 			if event=="volleyball":
 				player=next(form for form in form if form.is_valid()).cleaned_data
 				EmailMessage(
@@ -332,9 +334,12 @@ def team_prefix(request,prefix):
 	return HttpResponse(str(int(lst[0].team_type=="Competitive"))+lst[0].name if lst else"",content_type="text/plain")
 
 from itertools import imap
-def view(request,event,uid):
+from django.http import HttpResponseForbidden
+def view(request,event,uid,random=None):
 	conf=signup_conf(event)
 	ent=conf["model"].get_by_id(long(uid))
+	if hasattr(ent,"random")and ent.random!=random:
+		return HttpResponseForbidden()
 	children=None
 	if"children"in conf:
 		children=conf["children"].all().ancestor(ent)
@@ -344,8 +349,10 @@ def view(request,event,uid):
 	return render(request,"view.html",{
 		"event":event,
 		"name":conf["name"],
-		"ent":to_pretty_dict(ent),
+		"ent":ent,
+		"data":to_pretty_dict(ent),
 		"children":children,
+		"postheader":conf.get("view_postheader",None),
 	})
 
 import csv
@@ -359,3 +366,23 @@ def export(request,event,kind):
 	for ent in model.all().order(conf["order"]).run():
 		writer.writerow(map(lambda field:field(ent)if hasattr(field,"__call__")else getattr(ent,field),fields))
 	return response
+
+from collections import defaultdict
+def download(request,filetype,event,uid,random=None):
+	conf=signup_conf(event)
+	if"print"not in conf or filetype not in conf["print"]:
+		return HttpResponse(status=415)
+	ent=conf["model"].get_by_id(long(uid))
+	if hasattr(ent,"random")and ent.random!=random:
+		return HttpResponseForbidden()
+	children=None
+	if"children"in conf:
+		children=conf["children"].all().ancestor(ent)
+		if"order"in conf and conf["order"]:
+			children=children.order(conf["order"])
+		children=imap(to_pretty_dict,children.run())
+	ret=HttpResponse(content_type={
+		"pdf":"application/pdf",
+	}[filetype])
+	conf["print"][filetype](ret.write,defaultdict(str,to_pretty_dict(ent)))
+	return ret
