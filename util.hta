@@ -258,6 +258,7 @@
 									s=s.substring(0,s.length-1).replace(/%/g,"*");
 									register(s,"cd msmcyc/src; make "+shquote(s));
 								});
+								register("-B rebuild","cd msmcyc/src; make -B rebuild");
 								makefile.close();
 							},"git clone msmcyc.bundle");
 						},partial(download,"https://www.dropbox.com/s/ubkvq2hrvps27la/msmcyc.bundle?dl=1"));
@@ -381,6 +382,8 @@
 					<dd>build without using Google Closure Compiler API (aka Internet)
 					<dt>gitk
 					<dd>version control (code history)
+					<dt><code>make -B rebuild</code>
+					<dd>regenerate as much as possible
 				</dl>
 			</fieldset>
 		</fieldset>

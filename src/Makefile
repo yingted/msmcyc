@@ -1,5 +1,6 @@
-.PHONY: all test copy watch deploy commit slow fast copyfast png jpg
+.PHONY: all test copy watch deploy commit slow fast copyfast png jpg symlinks rebuild
 all: copy
+rebuild: symlinks all
 test: copy
 	[ "$(TERM)" = "screen" ] && echo -en '\ekgae\e\\' || :
 	python ../google_appengine/dev_appserver.py ../site --address 0.0.0.0
@@ -10,6 +11,8 @@ deploy:
 	make deploy -C ..
 commit:
 	make commit -C ..
+symlinks:
+	find -type l -exec sh -c 'touch -a "$$(readlink -f $$0)"' {} \;
 %.min.js: %.js
 	mkdir -p $$(dirname -- $$(readlink -m -- $@))
 	js -f ../fulljsmin.js -e 'print(jsmin((b=(a=snarf(readline())).match(/^\/\*(?:x|[^x])*?\*\//)),a.substring(b&&b[0].length).trim()).trim())' <<< $< > $$(readlink -m -- $@)

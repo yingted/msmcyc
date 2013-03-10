@@ -27,7 +27,7 @@
 		];
 		for(var i=0;i<forms.length;++i)
 			$("form").validation(forms[i],{
-				//add_required_indicators:true,
+				add_required_indicators:true,
 			});
 	});
 	$("form input:not(:hidden)").attr("aria-required",true).each(function(e){
