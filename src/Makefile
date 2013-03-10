@@ -29,10 +29,6 @@ copy: copyfast slow
 copyfast: *.min.js images/*-scaled.jpg main.sass
 	css="$$(tr '>' ' ' < main.sass | sed 's/^\(\t*\) /\1/' | sass --compass -Ct compressed)" && echo "$$css" > ../site/static/css/main.css
 	grep -v '[^[:alnum:]]vim:' base_home.html > ../site/msmcyc/templates/base_home.html
-	grep -v '[^[:alnum:]]vim:' index.html > ../site/msmcyc/templates/index.html
 	grep -v '[^[:alnum:]]vim:' models.py > ../site/msmcyc/models.py
 	grep -v '[^[:alnum:]]vim:' extras.py > ../site/msmcyc/templatetags/extras.py
-	grep -v '[^[:alnum:]]vim:' sponsors.html > ../site/msmcyc/templates/sponsors.html
-	grep -v '[^[:alnum:]]vim:' ambassadors.html > ../site/msmcyc/templates/ambassadors.html
-	grep -v '[^[:alnum:]]vim:' execs.html > ../site/msmcyc/templates/execs.html
-	grep -v '[^[:alnum:]]vim:' apply.html > ../site/msmcyc/templates/apply.html
+	grep -v '[^[:alnum:]]vim:' views.py > ../site/msmcyc/views.py

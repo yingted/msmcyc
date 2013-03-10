@@ -5,14 +5,10 @@ google_appengine*
 site/index.yaml
 site/msmcyc/templates/base_home.html
 site/static/css/main.css
-site/msmcyc/templates/index.html
 site/static/js/main.js
 site/msmcyc/models.py
 site/msmcyc/templatetags/extras.py
-site/msmcyc/templates/sponsors.html
 site/static/img/sponsors/Katie_Mahoney-scaled.jpg
 site/static/img/sponsors/Pat_Saito-scaled.jpg
 site/static/img/sponsors/PUBLICITE_CONVERSE_2012,13-scaled.jpg
-site/msmcyc/templates/ambassadors.html
-site/msmcyc/templates/execs.html
-site/msmcyc/templates/apply.html
+site/msmcyc/views.py
