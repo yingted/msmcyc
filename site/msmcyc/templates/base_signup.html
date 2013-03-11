@@ -1,9 +1,9 @@
 {# {% load extras %} #}
 <div class="signup" id="signup-{{ event }}">
-	{% if form.management_form %}
-		<form action="/signup/{{ event }}" method="post">
-			{% csrf_token %}
-			{{ form.non_field_errors }}
+	<form action="/signup/{{ event }}" method="post">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		{% if form.management_form %}
 			{{ form.non_form_errors }}
 			<table>
 				{{ form.management_form.as_table }}
@@ -13,16 +13,12 @@
 				{% endfor %}
 				<tr><td></td><td><input type="submit" value="{{ existing|yesno:"Save,Sign up" }}" /></td></tr>
 			</table>
-		</form>
-	{% else %}
-		<form action="/signup/{{ event }}" method="post">
-			{% csrf_token %}
-			{{ form.non_field_errors }}
+		{% else %}
 			<table>
 				{{ form.as_table }}
 				<tr><td></td><td><input type="submit" value="{{ existing|yesno:"Save,Sign up" }}" /></td></tr>
 			</table>
-		</form>
-	{% endif %}
+		{% endif %}
+	</form>
 </div>
 {# vim: set ts=4 sw=4: #}

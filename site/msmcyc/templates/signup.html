@@ -8,7 +8,9 @@
 			<h1>{{ name|capfirst }} &#8212; Signup</h1>
 		</header>
 		<section>
-			{% if form.management_form %}
+			{% if template %}
+				{% include template %}
+			{% elif form.management_form %}
 				{% include "base_signup.html" %}
 			{% else %}
 				<form action="" method="post">

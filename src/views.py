@@ -303,6 +303,7 @@ to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bo
 	return render(request,"signup.html",{
 		"event":event,
 		"name":conf["name"],
+		"template":conf["template"],
 		"form":form,
 	})
 
