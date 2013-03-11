@@ -2,7 +2,7 @@ application: msyouthmississauga
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: false
+threadsafe: true
 
 env_variables:
   DJANGO_SETTINGS_MODULE: "msmcyc.settings"
@@ -21,4 +21,4 @@ handlers:
   static_files: static/\1 #sync those alternations
   upload: static/(favicon\.ico|apple-touch-icon-(?:(?:-114x114|-144x144|-57x57|-72x72)?(?:-precomposed)?)?\.png|robots\.txt)
 - url: .*
-  script: main.py
+  script: main.app
