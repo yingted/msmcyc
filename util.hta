@@ -250,19 +250,23 @@
 							sh.run("C:\\cygwin\\bin\\mintty.exe -i /Cygwin-Terminal.ico -");//partial doesn't work
 						},"extra");
 						maybe("install compass/sass",file.fileexists("C:/cygwin/bin/sass"),function(){},"gem install compass");
-						maybe("download code",file.fileexists("msmcyc.bundle"),function(){
-							maybe("extract code",file.folderexists("msmcyc"),function(){
-								var makefile=file.openTextFile("msmcyc/src/Makefile");
-								var contents=makefile.readAll();
-								contents.match(/^[^\t:#.]+:/gm).map(function(s){
-									s=s.substring(0,s.length-1).replace(/%/g,"*");
-									register(s,"cd msmcyc/src; make "+shquote(s));
-								});
-								register("-B rebuild","cd msmcyc/src; make -B rebuild");
-								makefile.close();
-							},"git clone msmcyc.bundle");
-						},partial(download,"https://www.dropbox.com/s/ubkvq2hrvps27la/msmcyc.bundle?dl=1"));
-						maybe("install js shim",file.folderexists("C:/cygwin/bin/js"),function(){},partial(install,[
+						function hasSrc(){
+							var makefile=file.openTextFile("msmcyc/src/Makefile");
+							var contents=makefile.readAll();
+							contents.match(/^[^\t:#.]+:/gm).map(function(s){
+								s=s.substring(0,s.length-1).replace(/%/g,"*");
+								register(s,"cd msmcyc/src; make "+shquote(s));
+							});
+							register("-B rebuild","cd msmcyc/src; make -B rebuild");
+							makefile.close();
+						}
+						if(file.folderexists("msmcyc"))
+							hasSrc();
+						else
+							maybe("download code",file.fileexists("msmcyc.bundle"),function(){
+								maybe("extract code",file.folderexists("msmcyc"),hasSrc,"git clone msmcyc.bundle");
+							},partial(download,"https://www.dropbox.com/s/ubkvq2hrvps27la/msmcyc.bundle?dl=1"));
+						maybe("install js shim",file.fileexists("C:/cygwin/bin/js"),function(){},partial(install,[
 								["C:/cygwin/bin/js",'#!/bin/sh\nexec wscript "$(cygpath -w /usr/bin/js.js)" "$@"'],
 								["C:/cygwin/bin/js.js",'var readline,print,snarf,load,quit;\n(function(){\n var file=WScript.createObject("Scripting.FileSystemObject"),ws=WScript;\n delete WScript;\n readline=function readline(){\n  return ws.stdIn.readLine();\n };\n print=function print(){\n  return ws.stdOut.writeLine(Array.prototype.join.call(arguments," "));\n };\n snarf=function snarf(name){\n  var inp=file.openTextFile(name),ret=inp.readAll();\n  inp.close();\n  return ret;\n };\n load=function load(name){\n  eval(snarf(name));\n  return load;\n };\n quit=function quit(rc){\n  ws.quit(rc);\n };\n arguments=[];\n var q=[];\n for(var argc=ws.arguments.count(),i=0;i<argc;++i){\n  var arg=ws.arguments(i);\n  switch(arg){\n   case"-e":\n    q.push([eval,ws.arguments(++i)]);\n    break;\n   case"-f":\n    q.push([load,ws.arguments(++i)]);\n    break;\n   default:\n    arguments.push(arg);\n  }\n }\n var exec=argc?arguments.shift():undefined;\n for(var i=0;i<q.length;++i)\n  q[i][0](q[i][1]);\n if(!argc)\n  eval(ws.stdIn.readAll());\n else if(exec!==undefined)\n  load(exec);\n})();']
 							],
@@ -270,12 +274,19 @@
 						));
 						provide("cygwin");
 					},partial(download,"http://cygwin.com/setup.exe",partial(system,"setup.exe -MP git,ruby,js185,make,findutils,grep,curl,bash,coreutils,sed,mintty,ImageMagick,libsasl2")));//-q is broken, so use -M
-					maybe("install gae sdk",file.folderexists("C:/Program Files/Google/google_appengine"),function(){
-						register("gae launcher",partial(system,'"C:/Program Files/Google/google_appengine/launcher/GoogleAppEngineLauncher.exe"'),"extra");
+					function exists64(suffix){
+						return file.folderexists("C:/Program Files/"+suffix)||file.folderexists("C:/Program Files (x86)/"+suffix);
+					}
+					function path64(suffix){
+						return'"C:/Program Files'+(file.folderexists("C:/Program Files/"+suffix)?"":" (x86)")+"/"+suffix+'"';
+					}
+					maybe("install gae sdk",exists64("Google/google_appengine"),function(){
+						register("gae launcher",partial(system,path64('Google/google_appengine/launcher/GoogleAppEngineLauncher.exe')),"extra");
 						provide("gae");
 					},partial(download,"http://googleappengine.googlecode.com/files/GoogleAppEngine-1.7.5.msi",partial(system,"msiexec /passive /i GoogleAppEngine-1.7.5.msi")));
 					maybe("install python",file.folderexists("C:/Python27"),partial(provide,"python"),partial(download,"http://www.python.org/ftp/python/2.7.3/python-2.7.3.msi",partial(system,"msiexec /passive /i python-2.7.3.msi")));
-					maybe("install msysgit",file.folderexists("C:/Program Files/Git"),partial(register,"gitk",partial(system,"cmd /c set PATH=C:\\Program Files\\Git\\bin;%PATH% & cd msmcyc & bash -c gitk"),"extra"
+					maybe("install msysgit",exists64("Git"),partial(register,"gitk",partial(system,["cmd /c cd msmcyc & ",'"/wish.exe" ','"/gitk"']
+					.join(path64("Git/bin")).replace(/""/g,"")),"extra"
 					),partial(download,"http://msysgit.googlecode.com/files/Git-1.8.1.2-preview20130201.exe",partial(system,"Git-1.8.1.2-preview20130201.exe")));
 					require("gae,python",partial(register,"default gae sdk prefs",function(){
 						install([
