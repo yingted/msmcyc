@@ -1,4 +1,0 @@
-memcache pages
-html and plain string resources in datastore
-move static content (photos, documents) to dropbox
-possibly move to django-nonrel
