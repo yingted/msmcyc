@@ -3,9 +3,10 @@ from pdfwriter import *
 from time import strftime,localtime
 from msmcyc.models import to_dict
 from collections import defaultdict
-def dump(writer,ent):
+def respond(resp,ent):
 	data=psify(to_dict(ent),("job","skills","experience"),870)
-	write(writer,"""%PDF-1.4
+	resp["Content-Disposition"]='attachment; filename="MS Volunteer Application Form.pdf"' 
+	write(resp.write,"""%PDF-1.4
 %\xe2\xe3\xcf\xd3
 1 0 obj
 <<

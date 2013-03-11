@@ -83,7 +83,7 @@ class VolleyballManagementForm(ManagementForm,ModelForm):
 	__metaclass__=classmaker()
 def to_dict(ent):#dereferences keys
 	klass=ent.__class__
-	return dict((k,v.__get__(ent,klass))for k,v in klass.properties().iteritems())
+	return dict([(k,v.__get__(ent,klass))for k,v in klass.properties().iteritems()]+[(k,getattr(ent,k))for k in klass.__dict__ if not k.startswith("_")])
 def to_pretty_dict(ent):
 	klass=ent.__class__
 	props=klass._properties
@@ -235,7 +235,7 @@ def signup_conf(event):
 			),
 			"view_postheader":"base_carnations_pdf.html",
 			"print":{
-				"pdf":carnations.dump,
+				"pdf":carnations.respond,
 			},
 		},
 	}[event]

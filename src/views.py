@@ -384,5 +384,4 @@ def download(request,filetype,event,uid,random=None):
 	ret=HttpResponse(content_type={
 		"pdf":"application/pdf",
 	}[filetype])
-	conf["print"][filetype](ret.write,ent)
-	return ret
+	return conf["print"][filetype](ret,ent)or ret
