@@ -14,7 +14,7 @@ commit:
 symlinks:
 	find -type l -exec sh -c 'touch -a "$$(readlink -f $$0)"' {} \;
 %.min.js: %.js
-	mkdir -p $$(dirname -- $$(readlink -m -- $@))
+	mkdir -p "$$(dirname -- "$$(readlink -m -- $@)")"
 	js -f ../fulljsmin.js -e 'print(jsmin((b=(a=snarf(readline())).match(/^\/\*(?:x|[^x])*?\*\//)),a.substring(b&&b[0].length).trim()).trim())' <<< $< > $$(readlink -m -- $@)
 images/%-scaled.jpg: images/%-orig.jpg
 	mkdir -p $$(dirname -- $$(readlink -m -- $@))
