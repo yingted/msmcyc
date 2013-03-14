@@ -145,7 +145,11 @@ class VolleyballMatch(db.Model):
 	a_points=db.IntegerProperty()
 	b_points=db.IntegerProperty()
 class MsWalkVolunteer(Student):
-	pass
+	face_painting=db.BooleanProperty(verbose_name="Face-painting")
+	making_balloon_animals=db.BooleanProperty()
+	route_marshall=db.BooleanProperty()
+	registration_helper=db.BooleanProperty()
+	food_helper=db.BooleanProperty()
 class MsAwarenessVolunteer(HasRandom):
 	added=db.DateTimeProperty(auto_now_add=True)
 	first_name=db.StringProperty(required=True)
@@ -160,12 +164,6 @@ class MsAwarenessVolunteer(HasRandom):
 	may_10=db.BooleanProperty()
 	may_11=db.BooleanProperty()
 	available="may_9","may_10","may_11"
-	face_painting=db.BooleanProperty(verbose_name="Face-painting")
-	making_balloon_animals=db.BooleanProperty()
-	route_marshall=db.BooleanProperty()
-	registration_helper=db.BooleanProperty()
-	food_helper=db.BooleanProperty()
-	interest="face_painting","making_balloon_animals","route_marshall","registration_helper","food_helper"
 	address=db.StringProperty(required=True)
 	postal=db.StringProperty(verbose_name="Postal Code")
 	city=db.StringProperty(required=True)
@@ -242,7 +240,7 @@ def signup_conf(event):
 			"model":MsAwarenessVolunteer,
 			"order":"added",
 			"export":(
-				(MsAwarenessVolunteer,("name","phone","email")+MsAwarenessVolunteer.interest+MsAwarenessVolunteer.available+("comments","address","city","province","postal")),
+				(MsAwarenessVolunteer,("name","phone","email")+MsAwarenessVolunteer.available+("comments","address","city","province","postal")),
 			),
 			"view_postheader":"base_carnations_pdf.html",
 			"print":{
