@@ -185,7 +185,7 @@ class Property(db.Property):
     """
     defaults = {'required': self.required}
     if self.verbose_name:
-      defaults['label'] = self.verbose_name.capitalize().replace('_', ' ')
+      defaults['label'] = self.verbose_name.replace('_', ' ')
     if self.choices:
       choices = []
       if ("dashes" in kwargs and kwargs["dashes"]) and (not self.required or (self.default is None and

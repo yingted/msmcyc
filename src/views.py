@@ -112,8 +112,8 @@ def signup(request,event):
 			uri=request.build_absolute_uri("/view/%s/%s"%(event,ent.key().id()))
 			if hasattr(ent,"random"):
 				uri+="/"+ent.random
+			next_steps=None
 			if event=="volleyball":
-				player=next(form for form in form if form.is_valid()).cleaned_data
 				EmailMessage(
 					sender="MS Youth Committee <info@msyouthmississauga.org>",
 					subject="MS Volleyball Tournament Confirmation",
@@ -291,19 +291,84 @@ to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bo
 						("Release_of_Liability.pdf",file("att/Release_of_Liability.pdf").read()),
 						("Volleyball Pledge Form.doc",file("att/Volleyball Pledge Form.doc").read()),
 					),
-					to="%s %s <%s>"%(player["first_name"],player["last_name"],player["email"]),
+					to="%(first_name)s %(last_name)s <%(email)s>"%next(form for form in form if form.is_valid()).cleaned_data,
+				).send()
+			elif event=="carnations":
+				pdfuri="/download/pdf/%s/%s/%s"%(event,ent.key().id(),ent.random)
+				next_steps='<p>Please print out <a href="%s">this form</a>, have it signed by someone 18 or older, and send it to us.</p>'%pdfuri
+				EmailMessage(
+					sender="MS Youth Committee <info@msyouthmississauga.org>",
+					subject="MS Carnations Campaign Confirmation",
+					body="""Dear Interested Volunteer:
+
+Thank you for your interest in volunteering with the Mississauga Chapter of the MS Society of Canada. Volunteers are the key to the success of our organization. Without volunteer support we would not be able to provide the services and supports our clients rely on. 
+
+You have indicated an interest in our Carnation Campaign Sales opportunity. Please find attached a volunteer application form as well as a general volunteer information package related to this event and position.  Please review it as it will provide you with additional details. Upon review, please reply to confirm your interest and identify your availability and preferred sales location. Your completed volunteer application form will be required prior to your scheduled volunteer shift. You can download it here: %s
+
+Please don\u2019t hesitate to contact me if you should have any questions, concerns or request. 
+
+I look forward to hearing from you!
+
+With appreciations of your support,
+
+Cassandra Flores
+
+--------------------
+View your information at %s
+"""%(pdfuri,uri),
+					html="""<style type="text/css">P { margin-bottom: 0.08in; direction: ltr; color: rgb(0, 0, 0); widows: 2; orphans: 2; }</style>
+
+
+<p style="margin-bottom: 0in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">Dear
+Interested Volunteer:</span></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%%"><font color="#000000">
+</font><br>
+</p>
+<p style="margin-bottom: 0.14in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">Thank
+you for your interest in volunteering with the Mississauga Chapter of
+the MS Society of Canada. Volunteers are the key to the success of
+our organization. Without volunteer support we would not be able to
+provide the services and supports our clients rely on.&nbsp;<br><br>You
+have indicated an interest in our </span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA"><b>Carnation
+Campaign Sales </b></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">opportunity.
+Please find attached a volunteer application form as well as a
+general volunteer information package related to this event and
+position.&nbsp; Please review it as it will provide you with
+additional details.</span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA"><u>
+Upon review, please reply to confirm your interest and identify your
+availability and preferred sales location</u></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">.&nbsp;Your
+completed <a href="%s">volunteer application form</a> will be required prior to your
+scheduled&nbsp;volunteer shift.&nbsp;&nbsp;<br></span></font></font></font><font color="#000000"><font face="Tahoma, serif"><font size="3"><span lang="en-CA"><br></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">Please
+don&rsquo;t hesitate to contact me if you should have any questions,
+concerns or request.&nbsp; </span></font></font></font>
+</p>
+<p style="margin-bottom: 0.14in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">I
+look forward to hearing from you!</span></font></font></font></p>
+<p style="margin-bottom: 0.14in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">With
+appreciations of your support,</span></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%%"><font color="#000000"><font face="Arial, serif"><font size="3"><b>Cassandra
+Flores</b></font></font></font></p>
+<br>
+<hr>
+View your information <a href="%s">here</a>.
+"""%(pdfuri,uri),
+					attachments=(
+						("Volunteer Information Package.pdf",file("att/Volunteer Information Package.pdf").read()),
+					),
+					to="%(first_name)s %(last_name)s <%(email)s>"%form.cleaned_data,
 				).send()
 			return render(request,"signup_success.html",{
 				"event":event,
 				"name":conf["name"],
 				"uri":uri,
+				"next_steps":next_steps,
 			})
 	else:
 		form=conf["form"]()
 	return render(request,"signup.html",{
 		"event":event,
 		"name":conf["name"],
-		"template":conf["template"],
+		"template":conf.get("template",None),
 		"form":form,
 	})
 
