@@ -226,7 +226,7 @@ def signup_conf(event):
 			"model":MsAwarenessVolunteer,
 			"order":"added",
 			"export":(
-				(MsAwarenessVolunteer,("name","phone","email","address","postal_code",lambda ent:formatters["shifts"](ent.shifts,"; ","-"))),#excel hates utf-8, so no \u2012
+				(MsAwarenessVolunteer,("name","phone","email","address","postal_code","location",lambda ent:formatters["shifts"](ent.shifts,"; ","-"))),#excel hates utf-8, so no \u2012
 			),
 			"view_postheader":"base_carnations_pdf.html",
 			"print":{
