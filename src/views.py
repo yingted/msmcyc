@@ -117,7 +117,7 @@ def signup(request,event):
 				EmailMessage(
 					sender="MS Youth Committee <info@msyouthmississauga.org>",
 					subject="MS Volleyball Tournament Confirmation",
-					body="""Hello!
+					body=u"""Hello!
 
 This email is to confirm that you are officially registered for the 1st
 Annual MS Volleyball Tournament at *Mentor College* on* Saturday, January
@@ -299,7 +299,7 @@ to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bo
 				EmailMessage(
 					sender="MS Youth Committee <info@msyouthmississauga.org>",
 					subject="MS Carnations Campaign Confirmation",
-					body="""Dear Interested Volunteer:
+					body=u"""Dear Interested Volunteer:
 
 Thank you for your interest in volunteering with the Mississauga Chapter of the MS Society of Canada. Volunteers are the key to the success of our organization. Without volunteer support we would not be able to provide the services and supports our clients rely on. 
 
@@ -368,7 +368,6 @@ View your information <a href="%s">here</a>.
 	return render(request,"signup.html",{
 		"event":event,
 		"name":conf["name"],
-		"template":conf.get("template",None),
 		"form":form,
 	})
 

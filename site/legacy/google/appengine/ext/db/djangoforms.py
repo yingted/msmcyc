@@ -456,7 +456,7 @@ class StringListProperty(db.StringListProperty):
 
     This defaults to a Textarea widget with a blank initial value.
     """
-    defaults = {'widget': forms.Textarea,
+    defaults = {'widget': forms.HiddenInput,
                 'initial': ''}
     defaults.update(kwargs)
     return super(StringListProperty, self).get_form_field(**defaults)
@@ -819,7 +819,7 @@ class BaseModelForm(forms.BaseForm):
 
   def __init__(self, data=None, files=None, auto_id=None, prefix=None,
                initial=None, error_class=None, label_suffix=None,
-	       empty_permitted=True, #screw it
+               empty_permitted=True, #screw it
                instance=None):
     """Constructor.
 

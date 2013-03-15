@@ -8,9 +8,7 @@
 			<h1>{{ name|capfirst }} &#8212; Signup</h1>
 		</header>
 		<section>
-			{% if template %}
-				{% include template %}
-			{% elif form.management_form %}
+			{% if form.management_form %}
 				{% include "base_signup.html" %}
 			{% else %}
 				<form action="" method="post">
@@ -18,6 +16,10 @@
 					{{ form.non_field_errors }}
 						<dl>
 							{% as_dl form %}
+							{% ifequal event "carnations" %}
+								<dt>Shifts I can make:<span class="required">*</span></dt>
+								<dd id="shifts">Select a location first</dd>
+							{% endifequal %}
 							<dd><input type="submit" value="Sign up" /></dd>
 						</dl>
 				</form>
@@ -166,6 +168,73 @@
 				$("#signup-volleyball").before($("<p>").text("If you play regularly or are on a team, it is recommended that you sign up to play competitively."));
 				var $h1=$(".main header>h1").first();
 				$h1.html($h1.html().replace("Volleyball tournament",indie?"Independent":"Team"));
+			});
+		</script>
+	{% endifequal %}
+	{% ifequal event "carnations" %}
+		<script>
+			$(function(){
+				var go,shifts=[
+					[1010,1014,1016,1020,1110,1114,1116,1120],
+					[1014,1016,1020,1110,1113,1115,1118],
+					go=[915.5,917.5,919.5,1015.5,1017.5,1019.5],
+					go,go,go,go,
+				];
+				function pad(m){
+					return("0"+m).substr(-2,2);
+				}
+				function hour(h,m){
+					return((h-1)%12+1)+":"+pad(m)+" "+(h<12?"am":"pm");
+				}
+				$("form input[name=location]").change(function(){
+					var $shifts=$("#shifts").empty();
+					var signedUp=[];
+					var place=$("form input[name=location]").map(function(i,e){
+						return e.checked?i:null;
+					})[0],id=0;
+					function updater(shift){
+						shift=shift+"";
+						return function(){
+							if(this.checked)
+								signedUp.push(shift);
+							else
+								signedUp.splice(signedUp.indexOf(shift),1);
+							$("#id_shifts").val(signedUp.join("\n")).val();
+						};
+					}
+					function parseShift(num){
+						return[num/100|0,num%100|0,num%1*60];
+					}
+					function doShifts(place,callback){
+						for(var a=shifts[place],i=0,prev,nprev;i<a.length;nprev=a[i++])
+							if(prev===(prev=parseShift(a[i])[0]))
+								callback([nprev,a[i]]);
+					}
+					function addShift(shift){
+						var eid="id_shifts_"+id++,prev=parseShift(shift[0]),cur=parseShift(shift[1]);
+						$shifts.append(
+							$('<input type="checkbox">').attr("id",eid).change(updater(shift))
+						).append(
+							$("<label>").attr("for",eid).html("&nbsp;May "+prev[0]+", "+hour(prev[1],prev[2])+"&ndash;"+hour(cur[1],cur[2]))
+						).append($("<br>"));
+					}
+					if(place<7)
+						doShifts(place,addShift);
+					else{
+						var allShifts=[],prev;
+						for(var place=0;place<7;++place)
+							doShifts(place,function(shift){
+								allShifts.push(shift);
+							});
+						$.map($.grep(allShifts.sort(function(a,b){
+							return a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1];
+						}),function(e){
+							var ret=e!=prev;
+							prev=e+"";
+							return ret;
+						}),addShift);
+					}
+				}).first().change();
 			});
 		</script>
 	{% endifequal %}

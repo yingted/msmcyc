@@ -84,9 +84,40 @@ class VolleyballManagementForm(ManagementForm,ModelForm):
 def to_dict(ent):#dereferences keys
 	klass=ent.__class__
 	return dict([(k,v.__get__(ent,klass))for k,v in klass.properties().iteritems()]+[(k,getattr(ent,k))for k in klass.__dict__ if not k.startswith("_")])
+from django.conf import settings
+from django.utils import dateformat
+from datetime import datetime
+from django.utils.safestring import mark_safe,SafeData
+def pretty(elt):
+	if isinstance(elt,list):
+		return"; ".join(map(pretty,elt))
+	if isinstance(elt,datetime):
+		return dateformat.format(elt,settings.DATETIME_FORMAT)
+	if isinstance(elt,(basestring,SafeData)):
+		return elt
+	return str(elt)
+formatters={
+		"shifts":lambda data,sep="<br>",dash="&ndash;":mark_safe(sep.join("May "+str(int(shift.split(",")[0])//100)+", "+dash.join("%d:%02d %sm"%((int(when)%100-1)%12+1,int(float(when)%1*60),"a"if int(when)%100<12 else"p")for when in shift.split(","))for shift in data)),
+}
 def to_pretty_dict(ent):
 	klass=ent.__class__
-	return dict([(klass._properties[k].verbose_name or string.capwords(k.replace("_"," ")),v.__get__(ent,klass))for k,v in klass.properties().iteritems()]+[(string.capwords(k.replace("_"," ")),getattr(ent,k))for k in klass.__dict__ if not k.startswith("_")])
+	props=klass._properties
+	title={}
+	ret={}
+	for k,v in klass.properties().iteritems():
+		if k not in _exclude:
+			title[k]=props[k].verbose_name or string.capwords(k.replace("_"," "))
+			assert title[k]not in ret
+			ret[title[k]]=v.__get__(ent,klass)
+	for k in klass.__dict__:
+		if not k.startswith("_")and k not in props and k not in _exclude:
+			title[k]=string.capwords(k.replace("_"," "))
+			assert title[k]not in ret
+			ret[title[k]]=getattr(ent,k)
+	for k,f in formatters.iteritems():
+		if k in title:
+			ret[title[k]]=f(ret[title[k]])
+	return dict((k,pretty(v))for k,v in ret.iteritems())
 def team_by_name(name):
 	res=VolleyballTeam.all().filter("index_key",name).fetch(2)
 	if len(res)==1:
@@ -157,62 +188,17 @@ class MsAwarenessVolunteer(HasRandom):
 	@property
 	def name(self):
 		return self.first_name+" "+self.last_name
-	school=db.StringProperty(verbose_name="School")
-	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12),choices=xrange(9,13))
+	name_of_parent=db.StringProperty()
 	gender=db.StringProperty(choices=("Male","Female"),required=True)
-	may_9=db.BooleanProperty()
-	may_10=db.BooleanProperty()
-	may_11=db.BooleanProperty()
-	available="may_9","may_10","may_11"
-	address=db.StringProperty(required=True)
-	postal=db.StringProperty(verbose_name="Postal Code")
-	city=db.StringProperty(required=True)
-	province=db.StringProperty(required=True)
-	cell=db.StringProperty(verbose_name="Cell Phone")
-	phone=db.PhoneNumberProperty(required=True)
-	business=db.StringProperty(verbose_name="Business Phone")
+	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12),choices=xrange(9,13))
+	school=db.StringProperty(verbose_name="School")
+	address=db.PostalAddressProperty()
+	postal_code=db.StringProperty()
 	email=db.EmailProperty(required=True)
-	perm=db.BooleanProperty(verbose_name="I give permission to be emailed")
-	contact=db.StringProperty(verbose_name="Emergency contact name")
-	contactphone=db.StringProperty(verbose_name="Emergency contact home phone")
-	contactbusiness=db.StringProperty(verbose_name="Emergency contact business phone")
-	rationale=db.StringProperty(verbose_name="Why are you interested? What do you hope to accomplish?")
-	fund=db.BooleanProperty(verbose_name="Fundraising")
-	out=db.BooleanProperty(verbose_name="Outreach")
-	adm=db.BooleanProperty(verbose_name="Administrative")
-	com=db.BooleanProperty(verbose_name="Committee")
-	board=db.BooleanProperty(verbose_name="Board Member")
-	msam=db.BooleanProperty(verbose_name="MS Ambassador")
-	other=db.BooleanProperty()
-	length=db.StringProperty(verbose_name="I plan to commit for this long")
-	adv=db.BooleanProperty(verbose_name="Advertisement brought me here")
-	friend=db.BooleanProperty(verbose_name="A friend brought me here")
-	mssoc=db.BooleanProperty(verbose_name="MS Society brought me here")
-	vc=db.BooleanProperty(verbose_name="A volunteer centre brought me here")
-	other2=db.BooleanProperty(verbose_name="I heard about this from somewhere else")
-	hear=db.StringProperty(verbose_name="Where else did you hear about this?")
-	inst1=db.StringProperty(verbose_name="Institution 1")
-	course1=db.StringProperty(verbose_name="Course/Degree/Diploma 1")
-	date1=db.StringProperty(verbose_name="Date of Study 1")
-	inst2=db.StringProperty(verbose_name="Institution 2")
-	course2=db.StringProperty(verbose_name="Course/Degree/Diploma 2")
-	date2=db.StringProperty(verbose_name="Date of Study 2")
-	inst3=db.StringProperty(verbose_name="Institution 3")
-	course3=db.StringProperty(verbose_name="Course/Degree/Diploma 3")
-	date3=db.StringProperty(verbose_name="Date of Study 3")
-	job=db.StringProperty(multiline=True,validator=validator(lambda s:not s or len(s)<201),verbose_name="Prior jobs (max 200 chars)")
-	skills=db.StringProperty(multiline=True,validator=validator(lambda s:not s or len(s)<201),verbose_name="Relevant skills (max 200 chars)")
-	experience=db.StringProperty(multiline=True,validator=validator(lambda s:not s or len(s)<201),verbose_name="Other experience (max 200 chars)")
-	ref1name=db.StringProperty(verbose_name="Reference 1")
-	ref1phone=db.StringProperty(verbose_name="Reference 1 home phone")
-	ref1bus=db.StringProperty(verbose_name="Reference 1 bus phone")
-	ref1rel=db.StringProperty(verbose_name="Reference 1 relationship to you")
-	ref2name=db.StringProperty(verbose_name="Reference 2")
-	ref2phone=db.StringProperty(verbose_name="Reference 2 home phone")
-	ref2bus=db.StringProperty(verbose_name="Reference 2 bus phone")
-	ref2rel=db.StringProperty(verbose_name="Reference 2 relationship to you")
-	comments=db.StringProperty(multiline=True)
-	iagree=db.BooleanProperty(required=True,verbose_name="By checking this box, I authorize MS Society of Canada to obtain references from the individuals listed above, and I certify that the information I have provided is true and complete to the best of my knowledge.")
+	phone=db.PhoneNumberProperty(required=True)
+	location=db.StringProperty(choices=("Erin Mills Town Centre","Dixie Value Mall","Clarkson GO","Cooksville GO","Meadowvale GO","Port Credit GO","Streetsville GO","No preference"),required=True)
+	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True)
+	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Max shifts I can have")
 import carnations
 def signup_conf(event):
 	return{
@@ -240,7 +226,7 @@ def signup_conf(event):
 			"model":MsAwarenessVolunteer,
 			"order":"added",
 			"export":(
-				(MsAwarenessVolunteer,("name","phone","email")+MsAwarenessVolunteer.available+("comments","address","city","province","postal")),
+				(MsAwarenessVolunteer,("name","phone","email","address","postal_code",lambda ent:formatters["shifts"](ent.shifts,"; ","-"))),#excel hates utf-8, so no \u2012
 			),
 			"view_postheader":"base_carnations_pdf.html",
 			"print":{
