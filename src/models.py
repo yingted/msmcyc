@@ -12,10 +12,10 @@ class Update(db.Model):
 	title=db.StringProperty()
 	html=db.TextProperty(verbose_name="[HTML] body")
 from django.forms.util import ValidationError
-def validator(f):
+def validator(f,required=True):
 	def is_valid(val):
-		if not f(val):
-			raise ValidationError("Invalid value")
+		if(val is not None or required)and not f(val):
+			raise ValidationError("Invalid value: "+str(val))
 	return is_valid
 class Student(db.Model):
 	added=db.DateTimeProperty(auto_now_add=True)
@@ -31,7 +31,7 @@ class VolleyballPlayer(db.Model):
 	first_name=db.StringProperty()
 	last_name=db.StringProperty()
 	school=db.StringProperty(verbose_name="School")
-	grade=db.IntegerProperty(validator=validator(lambda x:9<=x<=12))
+	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12))
 	gender=db.StringProperty(choices=("Male","Female"),required=True,verbose_name="Gender (min. 2 girls at any time)")
 	email=db.EmailProperty()
 	phone=db.PhoneNumberProperty()
@@ -181,6 +181,7 @@ class MsWalkVolunteer(Student):
 	route_marshall=db.BooleanProperty()
 	registration_helper=db.BooleanProperty()
 	food_helper=db.BooleanProperty()
+shift=re.compile(r"[0-9]*(?:\.[0-9]+)?,[0-9]*(?:\.[0-9]+)?")
 class MsAwarenessVolunteer(HasRandom):
 	added=db.DateTimeProperty(auto_now_add=True)
 	first_name=db.StringProperty(required=True)
@@ -193,11 +194,11 @@ class MsAwarenessVolunteer(HasRandom):
 	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12),choices=xrange(9,13))
 	school=db.StringProperty(verbose_name="School")
 	address=db.PostalAddressProperty()
-	postal_code=db.StringProperty()
+	postal_code=db.StringProperty(validator=validator(re.compile(r"[a-z][0-9][a-z] ?[0-9][a-z][0-9]",re.I).match,required=False))
 	email=db.EmailProperty(required=True)
 	phone=db.PhoneNumberProperty(required=True)
 	location=db.StringProperty(choices=("Erin Mills Town Centre","Dixie Value Mall","Clarkson GO","Cooksville GO","Meadowvale GO","Port Credit GO","Streetsville GO","No preference"),required=True)
-	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True)
+	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True,validator=validator(lambda x:x and all(shift.match(x)for x in x)))
 	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Max shifts I can have")
 import carnations
 def signup_conf(event):

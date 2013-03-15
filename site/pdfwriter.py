@@ -49,7 +49,7 @@ endobj
 """%(id1,id2,data,id2,len(data))
 import re
 objstart=re.compile(r"^([0-9]+) 0 obj$",re.MULTILINE)
-def write(cb,data):
+def write(cb,data,root=1,info=2):
 	oid,ofs=zip(*[(int(m.group(1)),m.start())for m in objstart.finditer(data)])
 	xref=[None]*max(oid)
 	for i in xrange(len(oid)):
@@ -66,13 +66,20 @@ xref
 			cb("0000000000 00000 f \n")
 		else:
 			cb("%010d 00000 n \n"%x)
+	if isinstance(root,(int,long)):
+		root="%d 0 R"%root
+	if isinstance(info,(int,long)):
+		info="%d 0 R"%info
 	cb("""trailer
 <<
 /Size %d
-/Root 2 0 R
-/Info 1 0 R
+/Root %s
+/Info %s
 >>
 startxref
 %d
 %%%%EOF
-"""%(size,len(data)))
+"""%(size,root,info,len(data)))
+from time import strftime,localtime
+def moddate():
+	strftime("%Y%m%d%H%M%S",localtime())

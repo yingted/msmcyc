@@ -173,6 +173,7 @@
 	{% endifequal %}
 	{% ifequal event "carnations" %}
 		<script>
+			$("");
 			$(function(){
 				var go,shifts=[
 					[1010,1014,1016,1020,1110,1114,1116,1120],
@@ -187,11 +188,28 @@
 					return((h-1)%12+1)+":"+pad(m)+" "+(h<12?"am":"pm");
 				}
 				$("form input[name=location]").change(function(){
-					var $shifts=$("#shifts").empty();
-					var signedUp=[];
 					var place=$("form input[name=location]").map(function(i,e){
 						return e.checked?i:null;
-					})[0],id=0;
+					})[0],id=0,$id_shifts=$("#id_shifts").val("");
+					if(place===undefined)
+						return;
+					var $shifts=$("#shifts").empty(),signedUp=[];
+					if(place<7)
+						doShifts(place,addShift);
+					else{
+						var allShifts=[],prev;
+						for(var place=0;place<7;++place)
+							doShifts(place,function(shift){
+								allShifts.push(shift);
+							});
+						$.map($.grep(allShifts.sort(function(a,b){
+							return a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1];
+						}),function(e){
+							var ret=e!=prev;
+							prev=e+"";
+							return ret;
+						}),addShift);
+					}
 					function updater(shift){
 						shift=shift+"";
 						return function(){
@@ -199,7 +217,7 @@
 								signedUp.push(shift);
 							else
 								signedUp.splice(signedUp.indexOf(shift),1);
-							$("#id_shifts").val(signedUp.join("\n")).val();
+							$id_shifts.val(signedUp.join("\n")).val();
 						};
 					}
 					function parseShift(num){
@@ -217,22 +235,6 @@
 						).append(
 							$("<label>").attr("for",eid).html("&nbsp;May "+prev[0]+", "+hour(prev[1],prev[2])+"&ndash;"+hour(cur[1],cur[2]))
 						).append($("<br>"));
-					}
-					if(place<7)
-						doShifts(place,addShift);
-					else{
-						var allShifts=[],prev;
-						for(var place=0;place<7;++place)
-							doShifts(place,function(shift){
-								allShifts.push(shift);
-							});
-						$.map($.grep(allShifts.sort(function(a,b){
-							return a[0]<b[0]?-1:a[0]>b[0]?1:a[1]-b[1];
-						}),function(e){
-							var ret=e!=prev;
-							prev=e+"";
-							return ret;
-						}),addShift);
 					}
 				}).first().change();
 			});
