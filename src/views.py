@@ -104,7 +104,7 @@ def add_entity(request,what):
 		return redirect(users.create_login_url(request.path))
 from django.core.exceptions import PermissionDenied
 def signup(request,event):
-	conf=signup_conf(event)
+	conf=signup_conf[event]
 	if request.method=="POST":
 		form=conf["form"](request.POST)
 		if form.is_valid():
@@ -369,6 +369,8 @@ View your information <a href="%s">here</a>.
 		"event":event,
 		"name":conf["name"],
 		"form":form,
+		"description":conf.get("description",None),
+		"template":conf.get("template",None),
 	})
 
 from creepy import first_signups,first_signups_fields
@@ -401,7 +403,7 @@ def team_prefix(request,prefix):
 from itertools import imap
 from django.http import HttpResponseForbidden
 def view(request,event,uid,random=None):
-	conf=signup_conf(event)
+	conf=signup_conf[event]
 	ent=conf["model"].get_by_id(long(uid))
 	if hasattr(ent,"random")and ent.random!=random:
 		return HttpResponseForbidden()
@@ -423,7 +425,7 @@ def view(request,event,uid,random=None):
 import csv
 from datetime import datetime
 def export(request,event,kind):
-	conf=signup_conf(event)
+	conf=signup_conf[event]
 	model,fields=conf["export"][int(kind)-1]
 	response=HttpResponse(mimetype="text/csv")
 	response['Content-Disposition']='attachment; filename="export-%s_%s-%s.csv"'%(event,kind,datetime.now().strftime("%y-%m-%d-%H-%M-%S"))
@@ -433,7 +435,7 @@ def export(request,event,kind):
 	return response
 
 def download(request,filetype,event,uid,random=None):
-	conf=signup_conf(event)
+	conf=signup_conf[event]
 	if"print"not in conf or filetype not in conf["print"]:
 		return HttpResponse(status=415)
 	ent=conf["model"].get_by_id(long(uid))

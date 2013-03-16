@@ -22,7 +22,7 @@ class Student(db.Model):
 	first_name=db.StringProperty(required=True)
 	last_name=db.StringProperty(required=True)
 	school=db.StringProperty(verbose_name="School")
-	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12),choices=xrange(9,13))
+	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12))
 	gender=db.StringProperty(choices=("Male","Female"),required=True)
 	email=db.EmailProperty(required=True)
 	phone=db.PhoneNumberProperty()
@@ -181,6 +181,7 @@ class MsWalkVolunteer(Student):
 	route_marshall=db.BooleanProperty()
 	registration_helper=db.BooleanProperty()
 	food_helper=db.BooleanProperty()
+	iagree=db.BooleanProperty(required=True,verbose_name="By checking this box, I hereby waive MS Society of Canada and its members from any liability of injury, loss or damage to personal property associated with activities participated in this event.")
 shift=re.compile(r"[0-9]*(?:\.[0-9]+)?,[0-9]*(?:\.[0-9]+)?")
 class MsAwarenessVolunteer(HasRandom):
 	added=db.DateTimeProperty(auto_now_add=True)
@@ -191,7 +192,7 @@ class MsAwarenessVolunteer(HasRandom):
 		return self.first_name+" "+self.last_name
 	name_of_parent=db.StringProperty()
 	gender=db.StringProperty(choices=("Male","Female"),required=True)
-	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12),choices=xrange(9,13))
+	grade=db.IntegerProperty(required=True,validator=validator(lambda x:9<=x<=12))
 	school=db.StringProperty(verbose_name="School")
 	address=db.PostalAddressProperty()
 	postal_code=db.StringProperty(validator=validator(re.compile(r"[a-z][0-9][a-z] ?[0-9][a-z][0-9]",re.I).match,required=False))
@@ -200,38 +201,41 @@ class MsAwarenessVolunteer(HasRandom):
 	location=db.StringProperty(choices=("Erin Mills Town Centre","Dixie Value Mall","Clarkson GO","Cooksville GO","Meadowvale GO","Port Credit GO","Streetsville GO","No preference"),required=True)
 	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True,validator=validator(lambda x:x and all(shift.match(x)for x in x)))
 	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Max shifts I can have")
+	iagree=db.BooleanProperty(required=True,verbose_name="By checking this box, I hereby waive MS Society of Canada and its members from any liability of injury, loss or damage to personal property associated with activities participated in this event.")
 import carnations
-def signup_conf(event):
-	return{
-		"volleyball":{
-			"name":"volleyball tournament",
-			"form":VolleyballFormSet,
-			"model":VolleyballTeam,
-			"children":VolleyballPlayer,
-			"order":"added",
-			"export":(
-				(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school")+(lambda ent:"%s (%d)"%(ent.parent().name,ent.parent().key().id())if ent.parent()else"",)),
-			),
+signup_conf={
+	"volleyball":{
+		"name":"volleyball tournament",
+		"form":VolleyballFormSet,
+		"model":VolleyballTeam,
+		"children":VolleyballPlayer,
+		"description":"<p>If you play regularly or are on a team, it is recommended that you sign up to play competitively.</p>",
+		"order":"added",
+		"export":(
+			(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school")+(lambda ent:"%s (%d)"%(ent.parent().name,ent.parent().key().id())if ent.parent()else"",)),
+		),
+	},
+	"mswalk":{
+		"name":"MS Walk",
+		"form":form_class("mswalk"),
+		"template":"base_mswalk.html",
+		"model":MsWalkVolunteer,
+		"description":"<p>The Annual MS Walk is happening on May 26<sup>th</sup> at Celebration Square this year from 7am to 4pm. We are looking for eager, willing and enthusiastic volunteers to help out with this year's MS Walk. Volunteer responsibilities are listed below; please make sure you are available before signing up.<br>Together, we can improve the life-enriching programs and services available to MS patients in Mississauga.</p>",
+		"export":(
+			(MsWalkVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
+		),
+	},
+	"carnations":{
+		"name":"Carnations Campaign",
+		"form":form_class("carnations"),
+		"model":MsAwarenessVolunteer,
+		"order":"added",
+		"export":(
+			(MsAwarenessVolunteer,("name","phone","email","address","postal_code","location",lambda ent:formatters["shifts"](ent.shifts,"; ","-"))),#excel hates utf-8, so no \u2012
+		),
+		"view_postheader":"base_carnations_pdf.html",
+		"print":{
+			"pdf":carnations.respond,
 		},
-		"mswalk":{
-			"name":"MS Walk",
-			"form":form_class("mswalk"),
-			"model":MsWalkVolunteer,
-			"export":(
-				(MsWalkVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
-			),
-		},
-		"carnations":{
-			"name":"Carnations Campaign",
-			"form":form_class("carnations"),
-			"model":MsAwarenessVolunteer,
-			"order":"added",
-			"export":(
-				(MsAwarenessVolunteer,("name","phone","email","address","postal_code","location",lambda ent:formatters["shifts"](ent.shifts,"; ","-"))),#excel hates utf-8, so no \u2012
-			),
-			"view_postheader":"base_carnations_pdf.html",
-			"print":{
-				"pdf":carnations.respond,
-			},
-		},
-	}[event]
+	},
+}

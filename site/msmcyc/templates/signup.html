@@ -8,9 +8,10 @@
 			<h1>{{ name|capfirst }} &#8212; Signup</h1>
 		</header>
 		<section>
-			{% if form.management_form %}
+			{% if template or form.management_form %}
 				{% include "base_signup.html" %}
 			{% else %}
+				{{ description|safe }}
 				<form action="" method="post">
 					{% csrf_token %}
 					{{ form.non_field_errors }}
@@ -165,7 +166,6 @@
 					var $label=$("label[for=id_form-team_type_0]").first();
 					$label.html($label.html().replace("Team","Player"));
 				}
-				$("#signup-volleyball").before($("<p>").text("If you play regularly or are on a team, it is recommended that you sign up to play competitively."));
 				var $h1=$(".main header>h1").first();
 				$h1.html($h1.html().replace("Volleyball tournament",indie?"Independent":"Team"));
 			});

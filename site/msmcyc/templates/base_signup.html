@@ -1,9 +1,12 @@
 {# {% load extras %} #}
+{{ description|safe }}
 <div class="signup" id="signup-{{ event }}">
 	<form action="/signup/{{ event }}" method="post">
 		{% csrf_token %}
 		{{ form.non_field_errors }}
-		{% if form.management_form %}
+		{% if template %}
+			{% include template %}
+		{% elif form.management_form %}
 			{{ form.non_form_errors }}
 			<table>
 				{{ form.management_form.as_table }}

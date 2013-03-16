@@ -12,9 +12,12 @@ def updates(count):
 	
 @register.inclusion_tag("base_signup.html")
 def signup(event):
+	conf=signup_conf[event]
 	return{
 		"event":event,
-		"form":signup_conf(event)["form"](),
+		"form":conf["form"](),
+		"description":conf.get("description",None),
+		"template":conf.get("template",None),
 	}
 
 from django.template.defaultfilters import stringfilter
