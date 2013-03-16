@@ -97,7 +97,7 @@ def pretty(elt):
 		return elt
 	return str(elt)
 formatters={
-		"shifts":lambda data,sep="<br>",dash="&ndash;":mark_safe(sep.join("May "+str(int(shift.split(",")[0])//100)+", "+dash.join("%d:%02d %sm"%((int(when)%100-1)%12+1,int(float(when)%1*60),"a"if int(when)%100<12 else"p")for when in shift.split(","))for shift in data)),
+		"shifts":lambda data,sep="<br>",dash="&ndash;":mark_safe(sep.join("May "+str(int(float(shift.split(",")[0]))//100)+", "+dash.join("%d:%02d %sm"%((int(when)%100-1)%12+1,int(when%1*60),"a"if int(when)%100<12 else"p")for when in map(float,shift.split(",")))for shift in data)),
 }
 def to_pretty_dict(ent):
 	klass=ent.__class__
