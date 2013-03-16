@@ -86,7 +86,7 @@ def ifadmin(parser,token):
 	return IfAdminNode(nodelist)
 class LogoutNode(Node):
 	def render(self,context):
-		return users.create_logout_url("/")if users.is_current_user_admin()else""
+		return users.create_logout_url("/")if users.get_current_user()else""
 @register.tag
 def logout(parser,token):
 	return LogoutNode()
