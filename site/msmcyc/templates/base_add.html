@@ -13,7 +13,7 @@
 	<script>
 		$(function(){
 			$("label").filter(function(i,e){
-				return!$(e).text().lastIndexOf("[html]",0);
+				return!$(e).text().lastIndexOf("[HTML]",0);
 			}).parent().next().children().htmlarea();
 		});
 	</script>
