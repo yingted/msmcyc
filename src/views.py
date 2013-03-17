@@ -369,7 +369,7 @@ View your information <a href="%s">here</a>.
 		"event":event,
 		"name":conf["name"],
 		"form":form,
-		"description":conf.get("description",None),
+		"description":conf.get("description",""),
 		"template":conf.get("template",None),
 	})
 
