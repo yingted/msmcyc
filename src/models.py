@@ -175,13 +175,14 @@ class VolleyballMatch(db.Model):
 	b=db.StringProperty()
 	a_points=db.IntegerProperty()
 	b_points=db.IntegerProperty()
+waiver=db.BooleanProperty(required=True,verbose_name="By checking this box, I hereby waive MS Society of Canada, MS Mississauga Youth Committee and their respective members from any liability of injury, loss or damage to personal property associated with activities participated in this event.")
 class MsWalkVolunteer(Student):
 	face_painting=db.BooleanProperty(verbose_name="Face-painting")
 	making_balloon_animals=db.BooleanProperty()
 	route_marshall=db.BooleanProperty()
 	registration_helper=db.BooleanProperty()
 	food_helper=db.BooleanProperty()
-	iagree=db.BooleanProperty(required=True,verbose_name="By checking this box, I hereby waive MS Society of Canada and its members from any liability of injury, loss or damage to personal property associated with activities participated in this event.")
+	iagree=waiver
 shift=re.compile(r"[0-9]*(?:\.[0-9]+)?,[0-9]*(?:\.[0-9]+)?")
 class MsAwarenessVolunteer(HasRandom):
 	added=db.DateTimeProperty(auto_now_add=True)
@@ -201,7 +202,7 @@ class MsAwarenessVolunteer(HasRandom):
 	location=db.StringProperty(choices=("Erin Mills Town Centre","Dixie Value Mall","Clarkson GO","Cooksville GO","Meadowvale GO","Port Credit GO","Streetsville GO","No preference"),required=True)
 	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True,validator=validator(lambda x:x and all(shift.match(x)for x in x)))
 	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Max shifts I can have")
-	iagree=db.BooleanProperty(required=True,verbose_name="By checking this box, I hereby waive MS Society of Canada and its members from any liability of injury, loss or damage to personal property associated with activities participated in this event.")
+	iagree=waiver
 import carnations
 signup_conf={
 	"volleyball":{
