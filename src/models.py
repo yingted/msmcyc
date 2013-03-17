@@ -201,7 +201,7 @@ class MsAwarenessVolunteer(HasRandom):
 	phone=db.PhoneNumberProperty(required=True)
 	location=db.StringProperty(choices=("Erin Mills Town Centre","Dixie Value Mall","Clarkson GO","Cooksville GO","Meadowvale GO","Port Credit GO","Streetsville GO","No preference"),required=True)
 	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True,validator=validator(lambda x:x and all(shift.match(x)for x in x)))
-	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Max shifts I can have")
+	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Maximum number of shifts I would like to attend")
 	iagree=waiver()
 import carnations
 signup_conf={
