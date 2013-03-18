@@ -6,7 +6,7 @@
 			<a href="/add_update/{{ update.key.id }}" class="editlink">Edit</a>
 		{% endifadmin %}
 		<h2>{{ update.title }}</h2>
-		<p>{{ update.html|safe }}</p>
+		<p>{{ update.html|safe }}{# </p> validator hates us #}
 	{% endfor %}
 </aside>
 {# vim: set ts=4 sw=4: #}
