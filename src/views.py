@@ -1,5 +1,6 @@
 #!/usr/bin/python
 from django.views.generic.simple import direct_to_template
+from django.views.decorators.cache import cache_page
 from django.shortcuts import render
 import logging
 logging.getLogger().setLevel(logging.NOTSET)
@@ -10,6 +11,7 @@ from django.template import TemplateDoesNotExist
 from django.shortcuts import redirect
 import re
 useful=re.compile(r'^/(?!base_)([^\.]*?)(?:\.html)?$')
+@cache_page(10)
 def index(request):
 	match=useful.match(request.path)
 	if match:
@@ -365,11 +367,14 @@ View your information <a href="%s">here</a>.
 			})
 	else:
 		form=conf["form"]()
+	description=""
+	if"description"in conf:
+		description=conf["description"].render(RequestContext(request))
 	return render(request,"signup.html",{
 		"event":event,
 		"name":conf["name"],
 		"form":form,
-		"description":conf.get("description",""),
+		"description":description,
 		"template":conf.get("template",None),
 	})
 

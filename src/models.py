@@ -203,6 +203,7 @@ class MsAwarenessVolunteer(HasRandom):
 	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True,validator=validator(lambda x:x and all(shift.match(x)for x in x)))
 	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Maximum number of shifts I would like to attend")
 	iagree=waiver()
+
 import carnations
 signup_conf={
 	"volleyball":{
@@ -231,6 +232,10 @@ signup_conf={
 		"name":"Carnations Campaign",
 		"form":form_class("carnations"),
 		"model":MsAwarenessVolunteer,
+		"description":"""{% load extras %}<p>The carnation. It's more than just a yellow flower, it's Canada's oldest and most recognized symbol of hope in the quest to end multiple sclerosis.</p>
+		<p>Many Canadians living with multiple sclerosis are mothers. Others, either children or adults, have mothers affected by this disease, because women are diagnosed with MS three times as often as men. That's why every year the MS Carnation Campaign takes place over Mother's Day weekend</p>
+		<p>From <strong>May 9-11, 2013</strong>, the {% the "MSMYC" %} will be proud to join the thousands of volunteers in more than 280 communities across Canada and show our dedication to finding a cure to this disease. By selling carnations on street corners, malls and other public spaces, the youths of Mississauga will not only take leadership role by actively engaging with members of the communities, but also raise awareness and funds for Multiple Sclerosis. We are seeking passionate and friendly volunteers to help us out.</p>
+		<p>Sound like something your interested in? Sign up today!</p>""",
 		"order":"added",
 		"export":(
 			(MsAwarenessVolunteer,("name","phone","email","address","postal_code","location",lambda ent:formatters["shifts"](ent.shifts,"; ","-"))),#excel hates utf-8, so no \u2012
@@ -241,3 +246,7 @@ signup_conf={
 		},
 	},
 }
+from django.template import Template
+for conf in signup_conf.itervalues():
+	if"description"in conf:
+		conf["description"]=Template(conf["description"])
