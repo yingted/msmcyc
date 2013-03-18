@@ -3,6 +3,11 @@
 {% block description %}Event listings for MSMYC{% endblock %}
 {% load extras %}
 {% block content %}
+	<style>
+		section{
+			border-top: 1px solid #ccc;
+		}
+	</style>
 	<article>
 		{% for event in events %}
 			<section
