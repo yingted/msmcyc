@@ -305,15 +305,13 @@ to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bo
 
 Thank you for your interest in volunteering with the Mississauga Chapter of the MS Society of Canada. Volunteers are the key to the success of our organization. Without volunteer support we would not be able to provide the services and supports our clients rely on. 
 
-You have indicated an interest in our Carnation Campaign Sales opportunity. Please find attached a volunteer application form as well as a general volunteer information package related to this event and position.  Please review it as it will provide you with additional details. Upon review, please reply to confirm your interest and identify your availability and preferred sales location. Your completed volunteer application form will be required prior to your scheduled volunteer shift. You can download it here: %s
+You have indicated an interest in our Carnation Campaign Sales opportunity. Please find attached a parental consent form (to be completed for those persons under 18 years of age) as well as a general volunteer information package related to this event and position. Please review it as it will provide you with additional details. Upon review, please reply to confirm your interest and identify your availability and preferred sales location. If applicable, your completed parental consent form, MUST also be emailed back to us to confirmed your scheduled volunteer shift. You can download it at %s
 
-Please don\u2019t hesitate to contact me if you should have any questions, concerns or request. 
+Please don\u2019t hesitate to contact us if you should have any questions, concerns or request.
 
-I look forward to hearing from you!
-
+We look forward to hearing from you!
 With appreciations of your support,
-
-Cassandra Flores
+MSMYC
 
 --------------------
 View your information at %s
@@ -333,23 +331,18 @@ our organization. Without volunteer support we would not be able to
 provide the services and supports our clients rely on.&nbsp;<br><br>You
 have indicated an interest in our </span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA"><b>Carnation
 Campaign Sales </b></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">opportunity.
-Please find attached a volunteer application form as well as a
-general volunteer information package related to this event and
-position.&nbsp; Please review it as it will provide you with
-additional details.</span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA"><u>
+Please find attached a parental consent form (to be completed for those persons under 18 years of age) as well as a general volunteer information package related to this event and position. Please review it as it will provide you with additional details.</span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA"><u>
 Upon review, please reply to confirm your interest and identify your
-availability and preferred sales location</u></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">.&nbsp;Your
-completed <a href="%s">volunteer application form</a> will be required prior to your
-scheduled&nbsp;volunteer shift.&nbsp;&nbsp;<br></span></font></font></font><font color="#000000"><font face="Tahoma, serif"><font size="3"><span lang="en-CA"><br></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">Please
-don&rsquo;t hesitate to contact me if you should have any questions,
-concerns or request.&nbsp; </span></font></font></font>
+availability and preferred sales location</u></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">.&nbsp;If applicable, your 
+completed <a href="%s">parental consent form</a> MUST also be emailed back to us to confirmed your scheduled volunteer shift.&nbsp;&nbsp;<br></span></font></font></font><font color="#000000"><font face="Tahoma, serif"><font size="3"><span lang="en-CA"><br></span></font></font></font><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">Please
+don&rsquo;t hesitate to contact us if you should have any questions,
+concerns or requests.&nbsp; </span></font></font></font>
 </p>
-<p style="margin-bottom: 0.14in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">I
+<p style="margin-bottom: 0.14in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">We
 look forward to hearing from you!</span></font></font></font></p>
 <p style="margin-bottom: 0.14in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">With
 appreciations of your support,</span></font></font></font></p>
-<p style="margin-bottom: 0in; line-height: 100%%"><font color="#000000"><font face="Arial, serif"><font size="3"><b>Cassandra
-Flores</b></font></font></font></p>
+<p style="margin-bottom: 0in; line-height: 100%%"><font color="#000000"><font face="Arial, serif"><font size="3"><b>MSMYC</b></font></font></font></p>
 <br>
 <hr>
 View your information <a href="%s">here</a>.
