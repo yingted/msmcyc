@@ -90,8 +90,12 @@ def add_entity(request,what):
 		if request.method=="POST":
 			form=form_class(what)(request.POST,instance=ent)
 			if form.is_valid():
+				message=""
+				if what=="api_key":
+					message='Api key: <script>Modernizr.postScripts.push("/static/js/vendor/jquery.zclip.min.js")</script><span class="copy">%s</span>'%ent.random
 				return render(request,"base_admin_success.html",{
 					"success":"Saved %s"%what,
+					"message":message,
 					"form":form,
 					"what":what,
 					"ent":form.save(),
@@ -422,7 +426,9 @@ def view(request,event,uid,random=None):
 
 import csv
 from datetime import datetime
-def export(request,event,kind):
+def export(request,event,kind,api_key_id,api_key):
+	if ApiKey.get_by_id(long(api_key_id)).random!=api_key:
+		return PermissionDenied()
 	conf=signup_conf[event]
 	model,fields=conf["export"][int(kind)-1]
 	response=HttpResponse(mimetype="text/csv")

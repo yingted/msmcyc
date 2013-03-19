@@ -66,6 +66,7 @@ def form_class(what):
 				"volleyball_player":VolleyballPlayer,
 				"mswalk":MsWalkVolunteer,
 				"carnations":MsAwarenessVolunteer,
+				"api_key":ApiKey,
 			}[what]if is_str else what
 			exclude=_exclude
 	AddEntityForm.__name__="Add%sForm"%(string.capwords(str(what),"_").replace("_"," ")if is_str else what.__name__)
@@ -203,6 +204,8 @@ class MsAwarenessVolunteer(HasRandom):
 	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True,validator=validator(lambda x:x and all(shift.match(x)for x in x)))
 	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Maximum number of shifts I would like to attend")
 	iagree=waiver()
+class ApiKey(HasRandom):
+	pass
 
 import carnations
 signup_conf={
