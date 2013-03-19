@@ -326,8 +326,7 @@ View your information at %s
 <p style="margin-bottom: 0in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">Dear
 Interested Volunteer:</span></font></font></font></p>
 <p style="margin-bottom: 0in; line-height: 100%%"><font color="#000000">
-</font><br>
-</p>
+</font></p>
 <p style="margin-bottom: 0.14in; line-height: 100%%"><font color="#000000"><font face="Calibri, serif"><font size="3"><span lang="en-CA">Thank
 you for your interest in volunteering with the Mississauga Chapter of
 the MS Society of Canada. Volunteers are the key to the success of
@@ -350,7 +349,8 @@ appreciations of your support,</span></font></font></font></p>
 <br>
 <hr>
 View your information <a href="%s">here</a>.
-"""%(pdfuri,uri),
+Parental consent form at <a href="%s">%s</a>.
+"""%(pdfuri,uri,pdfuri,pdfuri),
 					attachments=(
 						("Volunteer Information Package.pdf",file("att/Volunteer Information Package.pdf").read()),
 					),
