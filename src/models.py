@@ -227,6 +227,7 @@ signup_conf={
 		"model":MsWalkVolunteer,
 		"description":"""<p>The Annual MS Walk is happening at Celebration Square on <strong>Sunday, May 26<sup>th</sup> from 7am to 4pm</strong>. We are looking for eager, willing and enthusiastic volunteers to help out with this year's MS Walk. Volunteer responsibilities are listed below; please make sure you are available before signing up.<br>Together, we can improve the life-enriching programs and services available to MS patients in Mississauga.</p>
 		<p>Please make sure you are available on May 26<sup>th</sup> from 7am to 4pm before signing up.</p>""",
+		"order":"added",
 		"export":(
 			(MsWalkVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
 		),
