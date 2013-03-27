@@ -93,7 +93,7 @@ def add_entity(request,what):
 				message=""
 				ent=form.save()
 				if what=="api_key":
-					message='Api key: <script>Modernizr.postScripts.push("/static/js/vendor/jquery.zclip.min.js")</script><span class="copy">%s</span>'%ent.random
+					message='Api key: <script>Modernizr.postScripts.push("/static/js/vendor/jquery.zclip.min.js")</script><span class="copy">%s/%s</span>'%(ent.key().id(),ent.random)
 				return render(request,"base_admin_success.html",{
 					"success":"Saved %s"%what,
 					"message":message,
