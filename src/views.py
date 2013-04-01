@@ -303,6 +303,7 @@ to seeing you on the court! <br></span></p><p class="MsoNormal" style="margin-bo
 			elif event=="carnations":
 				pdfuri="/download/pdf/%s/%s/%s"%(event,ent.key().id(),ent.random)
 				next_steps='<p>Please print out <a href="%s">this form</a>, have it signed by a legal parent or guardian, and send it to us.</p>'%pdfuri
+				pdfuri="http://www.msyouthmississauga.org"+pdfuri
 				EmailMessage(
 					sender="MS Youth Committee <info@msyouthmississauga.org>",
 					subject="MS Carnations Campaign Confirmation",
