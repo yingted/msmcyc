@@ -358,6 +358,26 @@ Parental consent form at <a href="%s">%s</a>.
 					),
 					to="%(first_name)s %(last_name)s <%(email)s>"%form.cleaned_data,
 				).send()
+			elif event=="mswalk":
+				EmailMessage(
+					sender="MS Youth Committee <info@msyouthmississauga.org>",
+					subject="MS Walk Confirmation",
+					body=u"""Thank you for your interest in being a volunteer at the 2013 MS Walk. Your efforts to create an MS-free world are much appreciated and we will contact you at a later date to confirm your attendance.
+
+Sincerely,
+The MSMYC Executives
+--------------------
+View your information at %s
+"""%uri,
+					html="""<p>Thank you for your interest in being a volunteer at the 2013 MS Walk. Your efforts to create an MS-free world are much appreciated and we will contact you at a later date to confirm your attendance.</p>
+<br>
+<p>Sincerely,<br>
+The MSMYC Executives</p>
+<hr>
+View your information <a href="%s">here</a>.
+"""%uri,
+					to="%(first_name)s %(last_name)s <%(email)s>"%form.cleaned_data,
+				).send()
 			return render(request,"signup_success.html",{
 				"event":event,
 				"name":conf["name"],
