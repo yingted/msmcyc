@@ -200,7 +200,7 @@ class MsAwarenessVolunteer(HasRandom):
 	postal_code=db.StringProperty(validator=validator(re.compile(r"[a-z][0-9][a-z] ?[0-9][a-z][0-9]",re.I).match,required=False))
 	email=db.EmailProperty(required=True)
 	phone=db.PhoneNumberProperty(required=True)
-	location=db.StringProperty(choices=("Erin Mills Town Centre","Dixie Value Mall","Clarkson GO","Cooksville GO","Meadowvale GO","Port Credit GO","Streetsville GO","No preference"),required=True)
+	location=db.StringProperty(choices=("Dixie Value Mall","Clarkson GO","Cooksville GO","Meadowvale GO","Port Credit GO","Streetsville GO","No preference"),required=True)
 	shifts=db.StringListProperty(verbose_name="Shifts I can make",required=True,validator=validator(lambda x:x and all(shift.match(x)for x in x)))
 	max_shifts=db.IntegerProperty(required=True,validator=validator(lambda x:1<=x<=15),verbose_name="Maximum number of shifts I would like to attend")
 	iagree=waiver()
