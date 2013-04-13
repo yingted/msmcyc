@@ -174,7 +174,7 @@
 	{% endifequal %}
 	{% ifequal event "carnations" %}
 		<script>
-			$("");
+			$("#id_location_0").parent().parent().remove();
 			$(function(){
 				var shifts=[
 					[1014,1016,1020,1110,1113,1115,1118],
