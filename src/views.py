@@ -112,7 +112,9 @@ def add_entity(request,what):
 from django.core.exceptions import PermissionDenied
 def signup(request,event):
 	conf=signup_conf[event]
-	if request.method=="POST":
+	ent=Event.all().filter("id",event).get()
+	is_open=not ent or ent.open
+	if is_open and request.method=="POST":
 		form=conf["form"](request.POST)
 		if form.is_valid():
 			ent=form.save()
@@ -386,14 +388,18 @@ View your information <a href="%s">here</a>.
 			})
 	else:
 		form=conf["form"]()
-	description=""
-	if"description"in conf:
-		description=conf["description"].render(RequestContext(request))
+		if not is_open:
+			for field in form.fields.itervalues():
+				field.widget.attrs["readonly"]=True
+	summary=""
+	if"summary"in conf:
+		summary=conf["summary"].render(RequestContext(request))
 	return render(request,"signup.html",{
 		"event":event,
+		"ent":ent,
 		"name":conf["name"],
 		"form":form,
-		"description":description,
+		"summary":summary,
 		"template":conf.get("template",None),
 	})
 

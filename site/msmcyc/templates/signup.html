@@ -3,7 +3,13 @@
 {% block title %}{{ name|capfirst }} &#8212; Signup{% endblock %}
 {% block description %}Signup for the {{ name }}{% endblock %}
 {% block content %}
-	<article>
+	<article class="
+		{% if ent and not ent.open %}
+			closed
+		{% else %}
+			open
+		{% endif %}
+	">
 		<header>
 			<h1>{{ name|capfirst }} &#8212; Signup</h1>
 		</header>
@@ -12,6 +18,9 @@
 				{% include "base_signup.html" %}
 			{% else %}
 				{{ description|safe }}
+				{% if ent and not ent.open %}
+					<p><strong>Sign ups are closed</strong></p>
+				{% endif %}
 				<form action="" method="post">
 					{% csrf_token %}
 					{{ form.non_field_errors }}
@@ -22,7 +31,15 @@
 								<dt>Shifts I can make:<span class="required">*</span></dt>
 								<dd id="shifts">Select a location first</dd>
 							{% endifequal %}
-							<dd><input type="submit" value="Sign up" /></dd>
+							<dd><input type="submit" value="Sign up"
+									{% if ent and not ent.open %}
+										disabled="disabled"
+									{% endif %}
+								/>
+								{% if ent and not ent.open %}
+									<strong>Sign ups are closed</strong>
+								{% endif %}
+							</dd>
 						</dl>
 				</form>
 			{% endif %}

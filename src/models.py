@@ -7,6 +7,7 @@ class Event(db.Model):
 	link=db.LinkProperty(verbose_name="Title link")
 	name=db.StringProperty(verbose_name="Event name",required=True)
 	html=db.TextProperty(verbose_name="[HTML] body")
+	open=db.BooleanProperty()
 class Update(db.Model):
 	added=db.DateTimeProperty(auto_now_add=True)
 	title=db.StringProperty()
@@ -214,7 +215,7 @@ signup_conf={
 		"form":VolleyballFormSet,
 		"model":VolleyballTeam,
 		"children":VolleyballPlayer,
-		"description":"<p>If you play regularly or are on a team, it is recommended that you sign up to play competitively.</p>",
+		"summary":"<p>If you play regularly or are on a team, it is recommended that you sign up to play competitively.</p>",
 		"order":"added",
 		"export":(
 			(VolleyballPlayer,("email","first_name","last_name","gender","grade","phone","school")+(lambda ent:"%s (%d)"%(ent.parent().name,ent.parent().key().id())if ent.parent()else"",)),
@@ -225,7 +226,7 @@ signup_conf={
 		"form":form_class("mswalk"),
 		"template":"base_mswalk.html",
 		"model":MsWalkVolunteer,
-		"description":"""<p>The Annual MS Walk is happening at Celebration Square on <strong>Sunday, May 26<sup>th</sup> from 7am to 4pm</strong>. We are looking for eager, willing and enthusiastic volunteers to help out with this year's MS Walk. Volunteer responsibilities are listed below; please make sure you are available before signing up.<br>Together, we can improve the life-enriching programs and services available to MS patients in Mississauga.</p>
+		"summary":"""<p>The Annual MS Walk is happening at Celebration Square on <strong>Sunday, May 26<sup>th</sup> from 7am to 4pm</strong>. We are looking for eager, willing and enthusiastic volunteers to help out with this year's MS Walk. Volunteer responsibilities are listed below; please make sure you are available before signing up.<br>Together, we can improve the life-enriching programs and services available to MS patients in Mississauga.</p>
 		<p>Please make sure you are available on May 26<sup>th</sup> from 7am to 4pm before signing up.</p>""",
 		"order":"added",
 		"export":(
@@ -236,7 +237,7 @@ signup_conf={
 		"name":"Carnations Campaign",
 		"form":form_class("carnations"),
 		"model":MsAwarenessVolunteer,
-		"description":"""{% load extras %}<p>The carnation. It's more than just a yellow flower, it's Canada's oldest and most recognized symbol of hope in the quest to end multiple sclerosis.</p>
+		"summary":"""{% load extras %}<p>The carnation. It's more than just a yellow flower, it's Canada's oldest and most recognized symbol of hope in the quest to end multiple sclerosis.</p>
 		<p>Many Canadians living with multiple sclerosis are mothers. Others, either children or adults, have mothers affected by this disease, because women are diagnosed with MS three times as often as men. That's why every year the MS Carnation Campaign takes place over Mother's Day weekend</p>
 		<p>From <strong>May 9-11, 2013</strong>, the {% the "MSMYC" %} will be proud to join the thousands of volunteers in more than 280 communities across Canada and show our dedication to finding a cure to this disease. By selling carnations on street corners, malls and other public spaces, the youths of Mississauga will not only take leadership role by actively engaging with members of the communities, but also raise awareness and funds for Multiple Sclerosis. We are seeking passionate and friendly volunteers to help us out.</p>
 		<p>Sound like something your interested in? Sign up today!</p>""",
@@ -252,5 +253,5 @@ signup_conf={
 }
 from django.template import Template
 for conf in signup_conf.itervalues():
-	if"description"in conf:
-		conf["description"]=Template(conf["description"])
+	if"summary"in conf:
+		conf["summary"]=Template(conf["summary"])

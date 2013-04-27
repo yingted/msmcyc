@@ -1,3 +1,4 @@
+<strong>Note: sign ups are closed</strong>
 <table>
 	{# {{ form.as_table }} #}
 	<tr><th><label for="id_first_name">First name:</label></th><td><input type="text" name="first_name" id="id_first_name" /></td></tr>
@@ -31,5 +32,5 @@
 <input type="checkbox" name="iagree" id="id_iagree" />
 <label for="id_iagree">By checking this box, I hereby waive MS Society of Canada and its members from any liability of injury, loss or damage to personal property associated with activities participated in this event.</label>
 <br>
-<input type="submit" value="{{ existing|yesno:"Save,Sign up" }}" />
+<input type="submit" value="{{ existing|yesno:"Save,Sign up" }}" disabled="disabled" />&nbsp;<strong>Sign ups are closed</strong>
 {# vim: set ts=4 sw=4: #}

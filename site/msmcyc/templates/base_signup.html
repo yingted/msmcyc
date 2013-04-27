@@ -1,25 +1,35 @@
 {# {% load extras %} #}
 {{ description|safe }}
 <div class="signup" id="signup-{{ event }}">
+	{% if ent and not ent.open %}
+		<p><strong>Sign ups are closed</strong></p>
+	{% endif %}
 	<form action="/signup/{{ event }}" method="post">
 		{% csrf_token %}
 		{{ form.non_field_errors }}
 		{% if template %}
 			{% include template %}
-		{% elif form.management_form %}
+		{% else %}
 			{{ form.non_form_errors }}
 			<table>
-				{{ form.management_form.as_table }}
-				{% for form in form %}
-					<tr style="border-top:1px dotted black"><th></th><td><span class="signup-me">Participant</span> information</td></tr>
+				{% if form.management_form %}
+					{{ form.management_form.as_table }}
+					{% for form in form %}
+						<tr style="border-top:1px dotted black"><th></th><td><span class="signup-me">Participant</span> information</td></tr>
+						{{ form.as_table }}
+					{% endfor %}
+				{% else %}
 					{{ form.as_table }}
-				{% endfor %}
-				<tr><td></td><td><input type="submit" value="{{ existing|yesno:"Save,Sign up" }}" /></td></tr>
-			</table>
-		{% else %}
-			<table>
-				{{ form.as_table }}
-				<tr><td></td><td><input type="submit" value="{{ existing|yesno:"Save,Sign up" }}" /></td></tr>
+				{% endif %}
+				<tr><td></td><td><input type="submit" value="{{ existing|yesno:"Save,Sign up" }}"
+						{% if ent and not ent.open %}
+							disabled="disabled"
+						{% endif %}
+					/>
+					{% if ent and not ent.open %}
+						<strong>Sign ups are closed</strong>
+					{% endif %}
+				</td></tr>
 			</table>
 		{% endif %}
 	</form>

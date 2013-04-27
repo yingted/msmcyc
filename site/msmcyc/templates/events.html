@@ -14,6 +14,13 @@
 				{% if event.id %}
 					id="{{ event.id }}"
 				{% endif %}
+				class="
+					{% if event.open %}
+						open
+					{% else %}
+						closed
+					{% endif %}
+				"
 				>
 				{% ifadmin %}
 					<a href="/add_event/{{ event.key.id }}" class="editlink">Edit</a>

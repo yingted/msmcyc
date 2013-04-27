@@ -13,10 +13,16 @@ def updates(count):
 @register.inclusion_tag("base_signup.html")
 def signup(event):
 	conf=signup_conf[event]
+	ent=Event.all().filter("id",str(event)).get()
+	form=conf["form"]()
+	if ent and not ent.open:
+		for field in form.fields.itervalues():
+			field.widget.attrs["readonly"]=True
 	return{
 		"event":event,
-		"form":conf["form"](),
-		"description":conf.get("description",None),
+		"ent":ent,
+		"form":form,
+		"summary":conf.get("summary",None),
 		"template":conf.get("template",None),
 	}
 
