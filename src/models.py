@@ -229,7 +229,7 @@ signup_conf={
 		<p>Please make sure you are available on May 26<sup>th</sup> from 7am to 4pm before signing up.</p>""",
 		"order":"added",
 		"export":(
-			(MsWalkVolunteer,("email","first_name","last_name","gender","grade","phone","school")),
+			(MsWalkVolunteer,("email","first_name","last_name","gender","grade","phone","school","face_painting","making_balloon_animals","route_marshall","registration_helper","food_helper")),
 		),
 	},
 	"carnations":{
