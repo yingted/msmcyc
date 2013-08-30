@@ -278,7 +278,7 @@
 						return file.folderexists("C:/Program Files/"+suffix)||file.folderexists("C:/Program Files (x86)/"+suffix);
 					}
 					function path64(suffix){
-						return'"C:/Program Files'+(file.folderexists("C:/Program Files/"+suffix)?"":" (x86)")+"/"+suffix+'"';
+						return'"C:/Program Files'+(file.folderexists("C:/Program Files/"+suffix)||file.fileexists("C:/Program Files/"+suffix)?"":" (x86)")+"/"+suffix+'"';
 					}
 					maybe("install gae sdk",exists64("Google/google_appengine"),function(){
 						register("gae launcher",partial(system,path64('Google/google_appengine/launcher/GoogleAppEngineLauncher.exe')),"extra");
