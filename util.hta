@@ -249,7 +249,7 @@
 						register("mintty",function(){
 							sh.run("C:\\cygwin\\bin\\mintty.exe -i /Cygwin-Terminal.ico -");//partial doesn't work
 						},"extra");
-						maybe("install compass/sass",file.fileexists("C:/cygwin/bin/sass"),function(){},"gem install compass");
+						maybe("install compass/sass",file.fileexists("C:/cygwin/bin/compass"),function(){},"gem install compass");
 						function hasSrc(){
 							var makefile=file.openTextFile("msmcyc/src/Makefile");
 							var contents=makefile.readAll();
