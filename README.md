@@ -1,5 +1,6 @@
 # msmcyc
 Source for http://www.msyouthmississauga.org/.
+I am no longer the webmaster, so the this repo is out of date.
 ## Dependencies
 `git`, `ruby`, `sass`, `js`, `make`, `ImageMagick`, and the GAE SDK
 ## Linux setup
